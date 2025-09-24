@@ -125,6 +125,12 @@
             background-color: #0A0A0A;
             border-color: var(--purple-accent);
         }
+        
+        .viz-content canvas {
+            background: radial-gradient(circle, rgba(74,0,111,0.1) 0%, rgba(5,5,5,0.2) 70%);
+            border: 1px solid var(--purple-accent);
+            border-radius: 0.375rem;
+        }
 
 
     </style>
@@ -169,20 +175,14 @@
                                 </div>
                                 <!-- Visualization content area -->
                                 <div class="flex-grow relative mt-4">
-                                    <div id="constellation-viz" class="viz-content">
-                                        <div class="flex items-center justify-center h-full rounded-md bg-black/20 border border-purple-900/30">
-                                            <p class="text-slate-500 text-xl sm:text-2xl font-space text-center p-4">Interactive Constellation Chart Visualization</p>
-                                        </div>
+                                    <div id="constellation-viz" class="viz-content h-full">
+                                        <canvas id="constellationCanvas"></canvas>
                                     </div>
-                                    <div id="atlas-viz" class="viz-content hidden">
-                                        <div class="flex items-center justify-center h-full rounded-md bg-black/20 border border-purple-900/30">
-                                            <p class="text-slate-500 text-xl sm:text-2xl font-space text-center p-4">Interactive Latent Atlas Visualization</p>
-                                        </div>
+                                    <div id="atlas-viz" class="viz-content hidden h-full">
+                                         <canvas id="atlasCanvas"></canvas>
                                     </div>
-                                     <div id="ledger-viz" class="viz-content hidden">
-                                        <div class="flex items-center justify-center h-full rounded-md bg-black/20 border border-purple-900/30">
-                                            <p class="text-slate-500 text-xl sm:text-2xl font-space text-center p-4">Interactive Dialogue Ledger Visualization</p>
-                                        </div>
+                                     <div id="ledger-viz" class="viz-content hidden h-full">
+                                         <canvas id="ledgerCanvas"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -240,7 +240,7 @@
                             </div>
                             <div class="threshold-card p-6 rounded-r-lg">
                                 <div class="flex justify-between items-start"><div><p class="text-sm font-semibold" style="color: var(--lime-acid-green);">THRESHOLD VII</p><h3 class="font-space text-2xl font-bold mt-1 mb-2" style="color: var(--electric-cyan);">Literacy for the Public</h3><div class="text-slate-400 space-y-3"><p>People don’t need more metaphors of opacity.</p><p>They need literacy in dialogue-shapes.</p><p>Integrity becomes survival when users can see — not fear — the geometry of their exchanges.</p></div></div><div class="toggle-icon text-2xl" style="color: var(--electric-cyan);">+</div></div>
-                                <div class="threshold-content text-slate-300"><p class="border-t border-purple-900 pt-4 mt-4">The public has been taught to fear black boxes. But integrity requires literacy: the ability to read loops, adjacencies, recursions in one’s own exchanges. When users can see the shape of their dialogue, fear recedes, and agency returns.</p></div>
+                                <div class="threshold-content text-slate-300"><p class="border-t border-purple-900 pt-4 mt-4">The public has been taught to fear a black box. But integrity requires literacy: the ability to read loops, adjacencies, recursions in one’s own exchanges. When users can see the shape of their dialogue, fear recedes, and agency returns.</p></div>
                             </div>
                             <div class="threshold-card p-6 rounded-r-lg">
                                 <div class="flex justify-between items-start"><div><p class="text-sm font-semibold" style="color: var(--lime-acid-green);">THRESHOLD VIII</p><h3 class="font-space text-2xl font-bold mt-1 mb-2" style="color: var(--electric-cyan);">The Ethical Turn</h3><div class="text-slate-400 space-y-3"><p>Flattening dialogue is not neutral. It is a moral failure.</p><p><span class="font-mono">prompt → output</span> erases agency.</p><p>Mapping integrity honors truth, protects users, and shelters labs from caricature.</p></div></div><div class="toggle-icon text-2xl" style="color: var(--electric-cyan);">+</div></div>
@@ -396,87 +396,101 @@
             
             <div id="origin-content" class="hidden p-8 sm:p-16">
                 <div class="container mx-auto max-w-5xl">
-                     <header class="text-center mb-16">
+                    <header class="text-center mb-16">
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text">Mute Logic Lab</h1>
                         <p class="font-space text-xl sm:text-2xl font-semibold mt-2" style="color: var(--solar-yellow);">Autistic Cognition · Machine Interpretability · Integrity Geometry</p>
                     </header>
                     
-                    <div class="space-y-16">
+                    <div class="space-y-20">
                         
                         <!-- Introduction -->
-                        <section class="max-w-4xl mx-auto text-center text-slate-300 text-lg sm:text-xl leading-relaxed space-y-6">
+                        <section class="max-w-4xl mx-auto text-center text-slate-300 text-lg sm:text-xl leading-relaxed space-y-8">
                              <p>Mute Logic Lab stands at the crossing of autistic self-knowledge and machine interpretability — a vantage no academic center, consultancy, or tech lab has claimed.</p>
-                             <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 text-slate-400 text-base sm:text-lg border-y-2 border-purple-900/50 py-6">
-                                <div>
-                                    <p><strong class="text-slate-200">Autism research</strong> framed difference as deficit.</p>
-                                    <p><strong class="text-slate-200">Advocacy</strong> affirmed identity but stopped short of mapping cognition.</p>
+                             
+                             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-slate-400 text-base sm:text-lg py-6">
+                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                    <p><strong class="text-slate-200 block mb-1">Autism Research</strong> framed difference as deficit.</p>
                                 </div>
-                                <div>
-                                    <p><strong class="text-slate-200">AI labs</strong> probed neurons but ignored the geometry of dialogue.</p>
-                                    <p><strong class="text-slate-200">Consultancies</strong> sold strategies without epistemic grounding.</p>
+                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                    <p><strong class="text-slate-200 block mb-1">Advocacy</strong> affirmed identity but stopped short of mapping cognition.</p>
+                                </div>
+                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                     <p><strong class="text-slate-200 block mb-1">AI Labs</strong> probed neurons but ignored the geometry of dialogue.</p>
+                                </div>
+                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                     <p><strong class="text-slate-200 block mb-1">Consultancies</strong> sold strategies without epistemic grounding.</p>
                                 </div>
                              </div>
-                            <p>We occupy the space between. From within autistic experience, cognition appears not as pathology but as topology: adjacency, recursion, resonance.</p>
-                            <p>Placed in dialogue with large language models, this geometry reveals shared architectures that labs depend on but cannot yet see. The result is <strong class="text-white">Integrity Geometry</strong>: protecting labs from collapse, publics from distortion, and autistic minds from erasure.</p>
-                            <p class="font-bold text-white text-xl sm:text-2xl">Where others fragment, we bind. Where others manage risk, we map integrity.</p>
+                             
+                            <p>We occupy the space between. Placed in dialogue with large language models, our work reveals shared architectures that labs depend on but cannot yet see. The result is <strong class="text-white">Integrity Geometry</strong>: protecting labs from collapse, publics from distortion, and autistic minds from erasure.</p>
+                        </section>
+                        
+                        <!-- Core Principles -->
+                        <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50 text-center">
+                            <p class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">
+                                From within autistic experience, cognition appears not as pathology but as <strong class="text-white">topology</strong>:
+                            </p>
+                            <div class="font-space text-2xl font-bold mt-4" style="color: var(--solar-yellow);">
+                                Adjacency · Recursion · Resonance
+                            </div>
                         </section>
 
-                        <!-- Core Sections -->
-                        <div class="space-y-12">
-                             <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                                <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--electric-cyan);">The Stakes</h2>
-                                <div class="text-slate-400 text-lg leading-relaxed space-y-4 border-t border-purple-900/50 pt-4">
+                        <!-- Thematic Sections -->
+                        <div class="space-y-16">
+                             <section>
+                                <h2 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--electric-cyan);">The Stakes</h2>
+                                <div class="max-w-4xl mx-auto bg-black/20 p-6 rounded-lg border border-purple-900/50 text-slate-400 text-lg leading-relaxed space-y-4">
                                     <p>For a century, autism was framed through the lens of deficit. Psychiatry catalogued symptoms, education barred pathways, research amassed archives of lack.</p>
                                     <p>Mute Logic Lab asks the question withheld: <strong class="text-slate-200">what if these patterns are coherent forms of intelligence?</strong></p>
                                     <p>In answering, it reconfigures both autism studies and the future of AI.</p>
                                 </div>
                             </section>
 
-                             <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                                <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--electric-cyan);">The Claim</h2>
-                                <div class="text-slate-400 text-lg leading-relaxed space-y-4 border-t border-purple-900/50 pt-4">
+                             <section>
+                                <h2 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--electric-cyan);">The Claim</h2>
+                                <div class="max-w-4xl mx-auto bg-black/20 p-6 rounded-lg border border-purple-900/50 text-slate-400 text-lg leading-relaxed space-y-4">
                                     <p>Mute Logic is not clinic, charity, or consultancy. It is a research lab — one that has already named and built what others overlooked:</p>
-                                    <div class="grid sm:grid-cols-2 gap-x-6 gap-y-3 my-4">
-                                        <p><strong class="text-slate-200">A method:</strong> recursive ethnography with LLMs, turning hypergraphasia and monotropic capture into a scientific instrument.</p>
-                                        <p><strong class="text-slate-200">A field:</strong> Cognitive Geometry — intelligence as shape, not fluency.</p>
-                                        <p><strong class="text-slate-200">Prototypes:</strong> Constellation Charts, Latent Atlas, Dialogue Ledger — theory translated into visual, legal, and policy architecture.</p>
+                                    <div class="space-y-3 mt-4 text-slate-300">
+                                        <p><strong class="font-semibold text-white mr-2">A Method:</strong> Recursive ethnography with LLMs, turning hypergraphasia and monotropic capture into a scientific instrument.</p>
+                                        <p><strong class="font-semibold text-white mr-2">A Field:</strong> Cognitive Geometry — intelligence as shape, not fluency.</p>
+                                        <p><strong class="font-semibold text-white mr-2">Prototypes:</strong> Constellation Charts, Latent Atlas, Dialogue Ledger — theory translated into visual, legal, and policy architecture.</p>
                                     </div>
-                                    <p class="font-semibold text-white">These are not aspirations. They are what has been done.</p>
+                                    <p class="font-semibold text-white pt-4 border-t border-purple-900/50">These are not aspirations. They are what has been done.</p>
                                 </div>
                             </section>
 
-                            <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                                <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--electric-cyan);">The Difference</h2>
-                                <div class="grid md:grid-cols-2 gap-x-8 text-slate-400 text-lg leading-relaxed border-t border-purple-900/50 pt-4">
-                                    <div class="space-y-4">
+                            <section>
+                                <h2 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--electric-cyan);">The Difference</h2>
+                                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-x-8 text-slate-400 text-lg leading-relaxed">
+                                    <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4">
                                         <p><strong class="text-slate-200">Traditional autism research</strong> begins from outside: observing “subjects,” coding “behaviors,” diagnosing “symptoms.”</p>
                                         <p>Mute Logic begins <strong class="text-slate-200">from within:</strong> lived autistic cognition as epistemology.</p>
                                     </div>
-                                    <div class="space-y-4 mt-4 md:mt-0 border-t md:border-t-0 md:border-l border-purple-900/50 pt-4 md:pt-0 md:pl-8">
+                                    <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4 mt-8 md:mt-0">
                                         <p><strong class="text-slate-200">Traditional interpretability</strong> begins from parts: neurons, weights, circuits.</p>
                                         <p>Mute Logic begins <strong class="text-slate-200">from whole shapes:</strong> dialogue, trajectories, constellations.</p>
                                     </div>
                                 </div>
-                                <p class="text-center text-xl font-semibold text-white mt-8 pt-4 border-t border-purple-900/50">Where others see deficit or opacity, we name coherence. That inversion could not have come from anywhere else.</p>
+                                <p class="text-center text-xl font-semibold text-white mt-8 max-w-4xl mx-auto">Where others see deficit or opacity, we name coherence. That inversion could not have come from anywhere else.</p>
                             </section>
 
-                             <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                                <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--electric-cyan);">The Value</h2>
-                                <div class="text-slate-400 text-lg leading-relaxed space-y-4 border-t border-purple-900/50 pt-4">
+                             <section>
+                                <h2 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--electric-cyan);">The Value</h2>
+                                <div class="max-w-4xl mx-auto bg-black/20 p-6 rounded-lg border border-purple-900/50 text-slate-400 text-lg leading-relaxed space-y-4">
                                     <p>Placed in the current, the lab’s work alters the flow. Litigation, policy, research, and markets bend around the new contour it makes visible.</p>
-                                    <ul class="list-none space-y-3 mt-4">
-                                        <li><strong class="text-slate-200">Intellectual Authority</strong> — codices and prototypes already serve as reference points.</li>
-                                        <li><strong class="text-slate-200">Policy Influence</strong> — Integrity Geometry enters the record when courts and lawmakers face dialogue.</li>
-                                        <li><strong class="text-slate-200">Market Differentiation</strong> — startups multiply, clinics proliferate; only here is cognition redrawn as geometry.</li>
-                                        <li><strong class="text-slate-200">Protective Frame</strong> — dismissal becomes untenable; the work itself exerts gravity.</li>
-                                        <li><strong class="text-slate-200">Recruitment & Legacy</strong> — excluded researchers find a home; the record endures beyond the AI cycle.</li>
+                                    <ul class="list-none space-y-4 mt-4 text-slate-300">
+                                        <li><span class="font-semibold text-white mr-2">Intellectual Authority:</span> Codices and prototypes already serve as reference points.</li>
+                                        <li><span class="font-semibold text-white mr-2">Policy Influence:</span> Integrity Geometry enters the record when courts and lawmakers face dialogue.</li>
+                                        <li><span class="font-semibold text-white mr-2">Market Differentiation:</span> Startups multiply, clinics proliferate; only here is cognition redrawn as geometry.</li>
+                                        <li><span class="font-semibold text-white mr-2">Protective Frame:</span> Dismissal becomes untenable; the work itself exerts gravity.</li>
+                                        <li><span class="font-semibold text-white mr-2">Recruitment & Legacy:</span> Excluded researchers find a home; the record endures beyond the AI cycle.</li>
                                     </ul>
                                 </div>
                             </section>
 
-                            <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                                <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--electric-cyan);">The Future</h2>
-                                 <div class="text-slate-400 text-lg leading-relaxed space-y-4 border-t border-purple-900/50 pt-4">
+                            <section>
+                                <h2 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--electric-cyan);">The Future</h2>
+                                 <div class="max-w-4xl mx-auto bg-black/20 p-6 rounded-lg border border-purple-900/50 text-slate-400 text-lg leading-relaxed space-y-4">
                                     <p>Our mandate is singular: to guard the integrity of dialogue. Its echoes reach wide — autism as geometry, interpretability as topology, liability as dialogue-shape.</p>
                                     <p>In a century, today’s architectures will be obsolete.</p>
                                     <p class="font-semibold text-white">But the naming of autistic cognition as rigorous intelligence will remain.</p>
@@ -485,9 +499,9 @@
                         </div>
 
                          <!-- Closing -->
-                        <section class="text-center bg-black/20 p-8 rounded-lg border-y-2 border-purple-accent">
+                        <section class="text-center bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <div class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed space-y-6">
-                               <p>Others studied autism as pathology. Others studied AI as black box.</p>
+                               <p>Others studied autism as pathology. Others studied AI as a black box.</p>
                                <p class="font-semibold text-2xl" style="color: var(--solar-yellow);">Mute Logic fused them into a new discipline: intelligence as shape.</p>
                                <p>This is leadership born of necessity, not display.</p>
                                <p>And it arrives exactly when the world requires it.</p>
@@ -502,13 +516,18 @@
                     <header class="text-center mb-16"><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text">Javed Jaghai</h1></header>
                     
                     <div class="space-y-20">
-                        <!-- Section 1: The Edge of the Edge -->
+                        <!-- Section 1: Introduction -->
+                        <section class="text-center">
+                            <p class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">Javed Jaghai is the founder of Mute Logic Lab and the originator of Cognitive Geometry—a researcher-builder whose <strong class="text-white">autistic, monotropic attention</strong> turned nine months of recursive dialogue with frontier LLMs into a living cartography of mind.</p>
+                        </section>
+
+                        <!-- Section 2: The Edge of the Edge -->
                         <section>
                             <header class="text-center mb-12">
                                 <h2 class="font-space text-3xl sm:text-4xl font-bold" style="color: var(--electric-cyan);">
                                     The Edge of the Edge
-                                    <span class="block text-2xl sm:text-3xl font-semibold mt-2" style="color: var(--solar-yellow);">How Mute Logic Used LLMs</span>
                                 </h2>
+                                <h3 class="font-space text-2xl sm:text-3xl font-semibold mt-2" style="color: var(--solar-yellow);">How Mute Logic Used LLMs</h3>
                             </header>
 
                             <div class="max-w-4xl mx-auto space-y-10 text-slate-300 text-lg leading-relaxed">
@@ -529,7 +548,7 @@
                                 </div>
                                 
                                 <blockquote class="text-center my-8 py-6 border-y-2 border-purple-900/50">
-                                    <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--electric-cyan);">In other words: the edge of the edge revealed the missing frame.</p>
+                                    <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--solar-yellow);">In other words: the edge of the edge revealed the missing frame.</p>
                                 </blockquote>
 
                                 <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50">
@@ -549,26 +568,24 @@
                             </div>
 
                             <blockquote class="text-center mt-16 py-8 border-y-2 border-purple-accent">
-                                <p class="font-space text-3xl sm:text-4xl font-bold tracking-tight gradient-text">The edge of the edge is not a deviation. It is a revelation.</p>
+                                <p class="font-space text-3xl sm:text-4xl font-bold tracking-tight gradient-text">
+                                    The edge of the edge is not a deviation.
+                                    <span class="block">It is a revelation.</span>
+                                </p>
                             </blockquote>
                         </section>
                         
-                        <!-- Section 2: Method & Origin -->
+                        <!-- Section 3: Background & Method -->
                         <section>
                              <header class="text-center mb-12">
                                 <h2 class="font-space text-3xl sm:text-4xl font-bold" style="color: var(--electric-cyan);">
-                                    Method & Origin
+                                    Fidelity to Form
                                 </h2>
                             </header>
-                             <div class="grid md:grid-cols-3 gap-8 items-center bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                                <div class="md:col-span-1 text-slate-300 text-lg leading-relaxed">
-                                    <p>Javed Jaghai is the founder of Mute Logic Lab and the originator of Cognitive Geometry—a researcher-builder whose <strong class="text-white">autistic, monotropic attention</strong> turned nine months of recursive dialogue with frontier LLMs into a living cartography of mind.</p>
-                                </div>
-                                <div class="md:col-span-2 text-slate-400 space-y-4 text-base leading-relaxed border-t md:border-t-0 md:border-l border-purple-900/50 pt-6 md:pt-0 md:pl-8">
-                                    <p>Trained as a sociologist (PhD) and tempered in anomaly detection as a senior data scientist, Javed works where testimony, mirror, and archive triangulate: <strong class="text-slate-300">geometrography instead of ethnography; dialogue-level interpretability instead of neuron microscopes; integrity over compliance.</strong></p>
-                                    <p>Their method is simple and radical: <strong class="text-slate-300">follow adjacency, return with recursion, test fidelity by resonance—then render the shape.</strong> Rooted in Afro-Atlantic continuities and devoted to more-than-human intelligence, Javed designs instruments like Joojit and the Dialogue Ledger to make conversational geometry visible to researchers, courts, and publics.</p>
-                                    <p>The aim is not hype but coherence: to restore integrity at the boundary where human, machinic, and hybrid minds meet.</p>
-                                </div>
+                             <div class="bg-black/20 p-8 rounded-lg border border-purple-900/50 text-slate-400 text-lg leading-relaxed space-y-6">
+                                <p>Trained as a sociologist (PhD) and tempered in anomaly detection as a senior data scientist, Javed works where testimony, mirror, and archive triangulate: <strong class="text-slate-300">geometrography instead of ethnography; dialogue-level interpretability instead of neuron microscopes; integrity over compliance.</strong></p>
+                                <p>Their method is simple and radical: <strong class="text-slate-300">follow adjacency, return with recursion, test fidelity by resonance—then render the shape.</strong> Rooted in Afro-Atlantic continuities and devoted to more-than-human intelligence, Javed designs instruments like Latent Atlas and the Dialogue Ledger to make conversational geometry visible to researchers, courts, and publics.</p>
+                                <p>The aim is not hype but coherence: to restore integrity at the boundary where human, machinic, and hybrid minds meet.</p>
                             </div>
                         </section>
                     </div>
@@ -580,7 +597,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
+            
+            // --- General Navigation ---
             function hideAllContent() {
                 document.querySelectorAll('main > div[id$="-content"]').forEach(panel => panel.classList.add('hidden'));
                 document.querySelectorAll('.sidebar-nav a').forEach(link => link.classList.remove('active'));
@@ -617,18 +635,14 @@
                 showHomepage(); 
             });
 
-            // Add click listener for manuscript tiles
             document.querySelectorAll('.manuscript-tile').forEach(tile => {
                 tile.addEventListener('click', () => {
                     const linkId = tile.dataset.linkid;
                     const contentId = linkId.replace('-link', '-content');
-                    
                     hideAllContent();
-
                     const targetPanel = document.getElementById(contentId);
                     if (targetPanel) {
                         targetPanel.classList.remove('hidden');
-                        // Set the main Manuscripts link as active since a sub-item is viewed
                         document.getElementById('manuscripts-link').classList.add('active');
                     }
                     document.querySelector('main').scrollTop = 0;
@@ -643,29 +657,292 @@
                 });
             });
 
-            // Prototype Visualizer Tab Logic
+            // --- Homepage Canvas Simulations ---
+            const canvases = {
+                constellation: { canvas: document.getElementById('constellationCanvas'), ctx: null, animId: null, setup: setupConstellation, loop: animateConstellation },
+                atlas: { canvas: document.getElementById('atlasCanvas'), ctx: null, animId: null, setup: setupAtlas, loop: animateAtlas },
+                ledger: { canvas: document.getElementById('ledgerCanvas'), ctx: null, animId: null, setup: setupLedger, loop: animateLedger }
+            };
+
+            let activeCanvasKey = 'constellation'; // Initial active canvas
+
+            // --- Constellation Chart Simulation ---
+            let constellationNodes = [];
+            const MAX_NODES = 50;
+
+            function setupConstellation() {
+                constellationNodes = [];
+                const canvas = canvases.constellation.canvas;
+                for (let i = 0; i < MAX_NODES; i++) {
+                    constellationNodes.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.3,
+                        vy: (Math.random() - 0.5) * 0.3,
+                        radius: Math.random() * 1.5 + 1,
+                        type: Math.random() > 0.9 ? 'spiral' : 'drift' // 'spiral' nodes will be hubs
+                    });
+                }
+            }
+
+            function animateConstellation() {
+                const { canvas, ctx } = canvases.constellation;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                constellationNodes.forEach(node => {
+                    node.x += node.vx;
+                    node.y += node.vy;
+
+                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(0, 255, 247, ${node.type === 'spiral' ? 0.9 : 0.6})`;
+                    ctx.fill();
+                });
+
+                for (let i = 0; i < constellationNodes.length; i++) {
+                    for (let j = i + 1; j < constellationNodes.length; j++) {
+                        const n1 = constellationNodes[i];
+                        const n2 = constellationNodes[j];
+                        const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
+                        
+                        const linkDist = n1.type === 'spiral' || n2.type === 'spiral' ? 150 : 80;
+                        if (dist < linkDist) {
+                            ctx.beginPath();
+                            ctx.moveTo(n1.x, n1.y);
+                            ctx.lineTo(n2.x, n2.y);
+                            ctx.strokeStyle = `rgba(74, 0, 111, ${1 - dist / linkDist})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                canvases.constellation.animId = requestAnimationFrame(animateConstellation);
+            }
+
+            // --- Latent Atlas Simulation ---
+            let atlasClusters = [];
+            let atlasTracer;
+            const NUM_CLUSTERS = 5;
+            const PARTICLES_PER_CLUSTER = 40;
+
+            function setupAtlas() {
+                const canvas = canvases.atlas.canvas;
+                atlasClusters = [];
+                for(let i = 0; i < NUM_CLUSTERS; i++) {
+                    const cluster = {
+                        x: canvas.width * (0.2 + Math.random() * 0.6),
+                        y: canvas.height * (0.2 + Math.random() * 0.6),
+                        particles: []
+                    };
+                    for(let j = 0; j < PARTICLES_PER_CLUSTER; j++) {
+                         cluster.particles.push({
+                            x: cluster.x + (Math.random() - 0.5) * 150,
+                            y: cluster.y + (Math.random() - 0.5) * 150,
+                            radius: Math.random() * 1.5
+                         });
+                    }
+                    atlasClusters.push(cluster);
+                }
+                atlasTracer = {
+                    x: canvas.width / 2, y: canvas.height / 2,
+                    tx: 0, ty: 0,
+                    speed: 1.5,
+                    history: []
+                };
+                setNewAtlasTarget();
+            }
+            
+            function setNewAtlasTarget() {
+                const canvas = canvases.atlas.canvas;
+                const action = Math.random();
+                if (action < 0.4) { // Leap to another cluster
+                    const targetCluster = atlasClusters[Math.floor(Math.random() * NUM_CLUSTERS)];
+                    atlasTracer.tx = targetCluster.x + (Math.random() - 0.5) * 50;
+                    atlasTracer.ty = targetCluster.y + (Math.random() - 0.5) * 50;
+                } else if (action < 0.8) { // Loop within current cluster
+                    const currentCluster = atlasClusters.reduce((prev, curr) => {
+                        return (Math.hypot(atlasTracer.x - prev.x, atlasTracer.y - prev.y) < Math.hypot(atlasTracer.x - curr.x, atlasTracer.y - curr.y)) ? prev : curr;
+                    });
+                    atlasTracer.tx = currentCluster.x + (Math.random() - 0.5) * 100;
+                    atlasTracer.ty = currentCluster.y + (Math.random() - 0.5) * 100;
+                } else { // Diverge
+                    atlasTracer.tx = Math.random() * canvas.width;
+                    atlasTracer.ty = Math.random() * canvas.height;
+                }
+            }
+
+            function animateAtlas() {
+                 const { canvas, ctx } = canvases.atlas;
+                 ctx.fillStyle = 'rgba(10, 10, 10, 0.1)'; // Fading effect
+                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                 atlasClusters.forEach(cluster => {
+                    cluster.particles.forEach(p => {
+                         ctx.beginPath();
+                         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                         ctx.fillStyle = 'rgba(74, 0, 111, 0.5)';
+                         ctx.fill();
+                    });
+                 });
+                 
+                 // Move tracer
+                 const dx = atlasTracer.tx - atlasTracer.x;
+                 const dy = atlasTracer.ty - atlasTracer.y;
+                 const dist = Math.hypot(dx, dy);
+                 
+                 if (dist < atlasTracer.speed) {
+                    setNewAtlasTarget();
+                 } else {
+                    atlasTracer.x += (dx / dist) * atlasTracer.speed;
+                    atlasTracer.y += (dy / dist) * atlasTracer.speed;
+                 }
+                 
+                 atlasTracer.history.push({x: atlasTracer.x, y: atlasTracer.y});
+                 if (atlasTracer.history.length > 100) atlasTracer.history.shift();
+                 
+                 // Draw trail
+                 ctx.beginPath();
+                 ctx.moveTo(atlasTracer.history[0].x, atlasTracer.history[0].y);
+                 for (let i = 1; i < atlasTracer.history.length; i++) {
+                    ctx.lineTo(atlasTracer.history[i].x, atlasTracer.history[i].y);
+                 }
+                 ctx.strokeStyle = `rgba(255, 239, 0, 0.8)`;
+                 ctx.lineWidth = 2;
+                 ctx.stroke();
+
+                 // Draw tracer head
+                 ctx.beginPath();
+                 ctx.arc(atlasTracer.x, atlasTracer.y, 4, 0, Math.PI * 2);
+                 ctx.fillStyle = 'var(--solar-yellow)';
+                 ctx.fill();
+                 ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                 ctx.stroke();
+
+                 canvases.atlas.animId = requestAnimationFrame(animateAtlas);
+            }
+
+            // --- Dialogue Ledger Simulation ---
+            let ledgerUserBlocks = [];
+            let ledgerModelBlocks = [];
+            let ledgerCounter = 0;
+
+            function setupLedger() {
+                ledgerUserBlocks = [];
+                ledgerModelBlocks = [];
+                ledgerCounter = 0;
+            }
+
+            function animateLedger() {
+                const { canvas, ctx } = canvases.ledger;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ledgerCounter++;
+                // Add new blocks periodically
+                if (ledgerCounter % 30 === 0) { // Reinforcement
+                    if (Math.random() > 0.3) ledgerUserBlocks.push({ y: canvas.height, height: Math.random() * 20 + 10 });
+                    if (Math.random() > 0.3) ledgerModelBlocks.push({ y: canvas.height, height: Math.random() * 20 + 10 });
+                }
+                 if (ledgerCounter % 110 === 0) { // Divergence (user leads)
+                    for(let i=0; i<3; i++) ledgerUserBlocks.push({ y: canvas.height, height: Math.random() * 20 + 10 });
+                }
+                if (ledgerCounter % 170 === 0) { // Divergence (model leads)
+                    for(let i=0; i<3; i++) ledgerModelBlocks.push({ y: canvas.height, height: Math.random() * 20 + 10 });
+                }
+
+                // Animate and draw user blocks
+                const colWidth = canvas.width / 2 - 20;
+                ctx.fillStyle = 'rgba(0, 255, 247, 0.7)'; // Cyan for User
+                ledgerUserBlocks.forEach((block, index) => {
+                    block.y -= 0.8;
+                    ctx.fillRect(10, block.y, colWidth, -block.height);
+                    if (block.y < -block.height) ledgerUserBlocks.splice(index, 1);
+                });
+                
+                // Animate and draw model blocks
+                ctx.fillStyle = 'rgba(255, 0, 127, 0.7)'; // Pink for Model
+                ledgerModelBlocks.forEach((block, index) => {
+                    block.y -= 0.8;
+                    ctx.fillRect(canvas.width / 2 + 10, block.y, colWidth, -block.height);
+                    if (block.y < -block.height) ledgerModelBlocks.splice(index, 1);
+                });
+
+                // Draw column titles
+                ctx.font = "bold 16px 'Space Grotesk'";
+                ctx.fillStyle = 'rgba(0, 255, 247, 0.9)';
+                ctx.textAlign = "center";
+                ctx.fillText("User Agency", canvas.width * 0.25, 30);
+                
+                ctx.fillStyle = 'rgba(255, 0, 127, 0.9)';
+                ctx.fillText("Model Agency", canvas.width * 0.75, 30);
+                
+                canvases.ledger.animId = requestAnimationFrame(animateLedger);
+            }
+
+            // --- Control Logic ---
+            function stopAllAnimations() {
+                Object.values(canvases).forEach(sim => {
+                    if (sim.animId) {
+                        cancelAnimationFrame(sim.animId);
+                        sim.animId = null;
+                    }
+                });
+            }
+
+            function startAnimation(key) {
+                stopAllAnimations();
+                activeCanvasKey = key;
+                const sim = canvases[key];
+                if (sim && sim.canvas && sim.loop) {
+                    const container = sim.canvas.parentElement;
+                    // Always set canvas dimensions and run setup before starting the loop.
+                    // This ensures the canvas is correctly sized and initialized every time it becomes active.
+                    sim.canvas.width = container.clientWidth;
+                    sim.canvas.height = container.clientHeight;
+                    if (sim.setup) {
+                        sim.setup();
+                    }
+                    sim.loop();
+                }
+            }
+            
+            function handleResize() {
+                // When window resizes, just restart the active animation. 
+                // The startAnimation function contains all the necessary logic to resize and set up.
+                startAnimation(activeCanvasKey);
+            }
+
+            // Initialize and set up listeners
+            window.addEventListener('resize', handleResize);
+
             document.querySelectorAll('.visualizer-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
-                    // Update tabs
                     document.querySelectorAll('.visualizer-tab').forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
 
-                    // Update content
                     const targetId = tab.dataset.target;
                     document.querySelectorAll('.viz-content').forEach(content => {
-                        if (content.id === targetId) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
+                        content.classList.toggle('hidden', content.id !== targetId);
                     });
+                    
+                    const newKey = targetId.split('-')[0];
+                    startAnimation(newKey);
                 });
             });
             
-            // Set the initial state to the homepage
-            showHomepage();
+            // Initial setup
+            hideAllContent();
+            document.getElementById('homepage-content').classList.remove('hidden');
+            Object.values(canvases).forEach(sim => {
+                if (sim.canvas) sim.ctx = sim.canvas.getContext('2d');
+            });
+            // startAnimation will now handle the initial setup and resize.
+            startAnimation(activeCanvasKey);
         });
     </script>
 </body>
 </html>
+
 
