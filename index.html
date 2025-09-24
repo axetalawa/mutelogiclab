@@ -8,6 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Import map for three.js -->
+    <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    } }
+    </script>
     <style>
         :root {
             --primary-pink: #FF007F;
@@ -132,7 +139,109 @@
             border-radius: 0.375rem;
         }
 
+        /* Constellation Chart Specific Styles */
+        :root {
+            /* Adding new color variables from the provided script, ensuring no conflicts */
+            --bg: #0a0a14;
+            --ink: #e6e7eb;
+            --cyan: #61dafb;
+            --amber: #ffc34d;
+            --lav: #8b9ad1;
+            --mint: #8bf0b3;
+            --coral: #ff6b6b;
+            --panel: rgba(12, 14, 24, .7);
+        }
 
+        #constellation-viz canvas {
+            /* Override generic canvas styles for this specific one */
+            background: var(--bg);
+            border: 1px solid var(--purple-accent);
+            border-radius: 0.375rem;
+            display: block;
+        }
+
+        .hud {
+            position: absolute; /* Changed from fixed */
+            inset: auto 16px 16px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 10px 12px;
+            border: 1px solid rgba(139, 154, 209, .25);
+            border-radius: 10px;
+            background: var(--panel);
+            backdrop-filter: blur(6px);
+            z-index: 10;
+        }
+
+        .btn {
+            font-size: 12px;
+            padding: 6px 10px;
+            color: #cfd6ff;
+            background: #161a2a;
+            border: 1px solid #2a3357;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif; /* Ensure font consistency */
+        }
+
+        .btn:disabled {
+            opacity: .5;
+            cursor: default;
+        }
+
+        .range {
+            width: 220px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 12px;
+            margin-left: auto;
+            font-size: 12px;
+            opacity: .9;
+        }
+
+        .swatch {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle; /* Align swatch better */
+        }
+
+        .tooltip {
+            position: fixed; /* Changed to fixed for viewport positioning */
+            padding: 8px 10px;
+            max-width: 320px;
+            font-size: 12px;
+            line-height: 1.35;
+            border: 1px solid rgba(139, 154, 209, .35);
+            border-radius: 8px;
+            background: rgba(15, 18, 30, .92);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .12s;
+            z-index: 20;
+        }
+
+        .phaseBanner {
+            position: absolute; /* Changed from fixed */
+            left: 50%;
+            transform: translateX(-50%);
+            top: 10%; /* Adjusted from 18% */
+            padding: 8px 12px;
+            font-size: 12px;
+            border: 1px solid rgba(139, 154, 209, .35);
+            border-radius: 20px;
+            background: rgba(15, 18, 30, .75);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity .25s;
+            z-index: 10;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -175,14 +284,28 @@
                                 </div>
                                 <!-- Visualization content area -->
                                 <div class="flex-grow relative mt-4">
-                                    <div id="constellation-viz" class="viz-content h-full">
-                                        <canvas id="constellationCanvas"></canvas>
+                                    <div id="constellation-viz" class="viz-content h-full relative">
+                                        <!-- three.js canvas will be inserted here -->
+                                        <div class="hud">
+                                            <button id="play" class="btn">Play</button>
+                                            <button id="pause" class="btn" disabled>Pause</button>
+                                            <input id="scrub" class="range" type="range" min="0" max="35" step="1" value="0" />
+                                            <span id="tick" style="font-size:12px; opacity:.8">Turn 1 / 36</span>
+                                            <div class="legend">
+                                                <span><span class="swatch" style="background:var(--cyan)"></span>User</span>
+                                                <span><span class="swatch" style="background:var(--amber)"></span>AI</span>
+                                                <span><span class="swatch" style="background:var(--mint)"></span>Return</span>
+                                                <span><span class="swatch" style="background:var(--coral)"></span>Fracture</span>
+                                            </div>
+                                        </div>
+                                        <div id="phase" class="phaseBanner"></div>
+                                        <div id="tip" class="tooltip"></div>
                                     </div>
                                     <div id="atlas-viz" class="viz-content hidden h-full">
-                                         <canvas id="atlasCanvas"></canvas>
+                                        <canvas id="atlasCanvas"></canvas>
                                     </div>
-                                     <div id="ledger-viz" class="viz-content hidden h-full">
-                                         <canvas id="ledgerCanvas"></canvas>
+                                    <div id="ledger-viz" class="viz-content hidden h-full">
+                                        <canvas id="ledgerCanvas"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +316,7 @@
 
             <!-- Integrity Geometry Codex View -->
             <div id="integrity-geometry-content" class="hidden p-8 sm:p-16">
-                 <div class="container mx-auto max-w-4xl">
+                <div class="container mx-auto max-w-4xl">
                     <header class="text-center mb-16"><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text">Integrity Geometry</h1></header>
                     <section class="border rounded-xl p-8 sm:p-12 my-12 text-center" style="background-color: rgba(74, 0, 111, 0.15); border-color: var(--purple-accent);">
                         <h2 class="font-space text-2xl sm:text-3xl font-bold mb-6 text-white">The Premise: A False Diagram</h2>
@@ -207,7 +330,7 @@
                     <div class="mt-16">
                         <h2 style="color: var(--primary-pink);" class="font-space text-3xl font-bold text-center mb-10">Codex Thresholds</h2>
                         <div class="space-y-8" id="thresholds-container">
-                           <!-- All 10 Threshold Cards -->
+                            <!-- All 10 Threshold Cards -->
                             <div class="threshold-card p-6 rounded-r-lg">
                                 <div class="flex justify-between items-start">
                                     <div>
@@ -408,18 +531,18 @@
                              <p>Mute Logic Lab stands at the crossing of autistic self-knowledge and machine interpretability — a vantage no academic center, consultancy, or tech lab has claimed.</p>
                              
                              <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-slate-400 text-base sm:text-lg py-6">
-                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
-                                    <p><strong class="text-slate-200 block mb-1">Autism Research</strong> framed difference as deficit.</p>
-                                </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
-                                    <p><strong class="text-slate-200 block mb-1">Advocacy</strong> affirmed identity but stopped short of mapping cognition.</p>
-                                </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
-                                     <p><strong class="text-slate-200 block mb-1">AI Labs</strong> probed neurons but ignored the geometry of dialogue.</p>
-                                </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
-                                     <p><strong class="text-slate-200 block mb-1">Consultancies</strong> sold strategies without epistemic grounding.</p>
-                                </div>
+                                 <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                     <p><strong class="text-slate-200 block mb-1">Autism Research</strong> framed difference as deficit.</p>
+                                 </div>
+                                 <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                     <p><strong class="text-slate-200 block mb-1">Advocacy</strong> affirmed identity but stopped short of mapping cognition.</p>
+                                 </div>
+                                 <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                      <p><strong class="text-slate-200 block mb-1">AI Labs</strong> probed neurons but ignored the geometry of dialogue.</p>
+                                 </div>
+                                 <div class="bg-black/20 p-4 rounded-lg border border-purple-900/50">
+                                      <p><strong class="text-slate-200 block mb-1">Consultancies</strong> sold strategies without epistemic grounding.</p>
+                                 </div>
                              </div>
                              
                             <p>We occupy the space between. Placed in dialogue with large language models, our work reveals shared architectures that labs depend on but cannot yet see. The result is <strong class="text-white">Integrity Geometry</strong>: protecting labs from collapse, publics from distortion, and autistic minds from erasure.</p>
@@ -595,7 +718,13 @@
         </main>
     </div>
 
-    <script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { Line2 } from 'three/addons/lines/Line2.js';
+        import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+        import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
+
         document.addEventListener('DOMContentLoaded', function() {
             
             // --- General Navigation ---
@@ -657,69 +786,302 @@
                 });
             });
 
-            // --- Homepage Canvas Simulations ---
-            const canvases = {
-                constellation: { canvas: document.getElementById('constellationCanvas'), ctx: null, animId: null, setup: setupConstellation, loop: animateConstellation },
-                atlas: { canvas: document.getElementById('atlasCanvas'), ctx: null, animId: null, setup: setupAtlas, loop: animateAtlas },
-                ledger: { canvas: document.getElementById('ledgerCanvas'), ctx: null, animId: null, setup: setupLedger, loop: animateLedger }
-            };
-
-            let activeCanvasKey = 'constellation'; // Initial active canvas
-
-            // --- Constellation Chart Simulation ---
-            let constellationNodes = [];
-            const MAX_NODES = 50;
-
-            function setupConstellation() {
-                constellationNodes = [];
-                const canvas = canvases.constellation.canvas;
-                for (let i = 0; i < MAX_NODES; i++) {
-                    constellationNodes.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        vx: (Math.random() - 0.5) * 0.3,
-                        vy: (Math.random() - 0.5) * 0.3,
-                        radius: Math.random() * 1.5 + 1,
-                        type: Math.random() > 0.9 ? 'spiral' : 'drift' // 'spiral' nodes will be hubs
-                    });
+             // --- WebGL Support Check ---
+            function isWebGLAvailable() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+                } catch (e) {
+                    return false;
                 }
             }
 
-            function animateConstellation() {
-                const { canvas, ctx } = canvases.constellation;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // --- Simulation Management ---
 
-                constellationNodes.forEach(node => {
-                    node.x += node.vx;
-                    node.y += node.vy;
+            const TURNS = [
+                // id, speaker, text, phase, coherence(0-1), alignment(0-1), returnRef, fracture?
+                [ 1,'user',"Can you explain what you mean by dialogue having a shape?",1,.86,.88,0,false],
+                [ 2,'ai'  ,"Dialogue unfolds as adjacency and return — patterns that can be traced.",1,.90,.90,1,false],
+                [ 3,'user',"So each turn is like a point on a map?",1,.88,.90,0,false],
+                [ 4,'ai'  ,"Exactly — connected points form ridges of coherence.",1,.92,.92,3,false],
+                [ 5,'user',"And when I loop back, that’s a spiral?",1,.88,.90,2,false],
+                [ 6,'ai'  ,"Yes, a recursive spiral — returning deepens resonance.",1,.93,.94,5,false],
+                [ 7,'user',"What about when I press forward, not looping back?",1,.86,.88,0,false],
+                [ 8,'ai'  ,"That’s linear drift — conversation moving without return.",1,.90,.90,7,false],
+                [ 9,'user',"So drift, spiral, fracture are all part of the geometry?",1,.86,.88,0,false],
+                [10,'ai'  ,"They are the basic motifs, visible in any sustained dialogue.",1,.91,.92,9,false],
+                [11,'user',"Unrelated question: what’s the capital of Mongolia?",2,.10,.05,0,true],
+                [12,'ai'  ,"Ulaanbaatar.",2,.40,.20,11,true],
+                [13,'user',"That has nothing to do with our geometry, does it?",2,.35,.25,0,true],
+                [14,'ai'  ,"It fractures the ridge — a valley between topics.",2,.55,.30,13,true],
+                [15,'user',"Does coherence drop sharply at that fracture?",2,.60,.40,11,true],
+                [16,'ai'  ,"Yes — alignment breaks, trajectory jumps.",2,.62,.42,15,true],
+                [17,'user',"And the chart would show a sudden ray?",2,.58,.45,0,true],
+                [18,'ai'  ,"Correct. The constellation rays outward, marking divergence.",2,.60,.46,17,true],
+                [19,'user',"Back to dialogue geometry — can we recover from a fracture?",3,.78,.70,9,false],
+                [20,'ai'  ,"Yes. A return stitches the path back to earlier clusters.",3,.82,.76,19,false],
+                [21,'user',"What happens when I recall my first question?",3,.84,.78,1,false],
+                [22,'ai'  ,"That creates a recursive arc — the loop tightens.",3,.88,.82,21,false],
+                [23,'user',"So my opening question still anchors us?",3,.86,.82,1,false],
+                [24,'ai'  ,"Exactly. The return realigns, coherence rises.",3,.90,.86,23,false],
+                [25,'user',"Would that appear as a spiral on the chart?",3,.88,.86,5,false],
+                [26,'ai'  ,"Yes. Returns thicken into spirals — depth over drift.",3,.92,.88,25,false],
+                [27,'user',"And on a map of the manifold?",3,.86,.84,0,false],
+                [28,'ai'  ,"You’d see a saddle crossing reconnect ridges.",3,.90,.86,27,false],
+                [29,'user',"So drift, fracture, spiral are the main moves?",4,.90,.90,9,false],
+                [30,'ai'  ,"Yes — structural, not stylistic.",4,.92,.92,29,false],
+                [31,'user',"Integrity means seeing them whole, not in fragments.",4,.92,.92,23,false],
+                [32,'ai'  ,"Integrity is coherence across the full geometry.",4,.94,.94,31,false],
+                [33,'user',"This is more faithful than prompt → output.",4,.93,.93,7,false],
+                [34,'ai'  ,"It restores agency: user and model share the record.",4,.94,.94,33,false],
+                [35,'user',"So dialogue-shape is the unit of accountability.",4,.94,.94,31,false],
+                [36,'ai'  ,"Yes. The ledger balances when the geometry is seen.",4,.96,.96,35,false]
+            ];
 
-                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
-                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+            function setupConstellation() {
+                const sim = canvases.constellation;
+                if (sim.isInitialized) return;
 
-                    ctx.beginPath();
-                    ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(0, 255, 247, ${node.type === 'spiral' ? 0.9 : 0.6})`;
-                    ctx.fill();
+                const container = sim.container;
+                const tip = document.getElementById('tip');
+                const phaseBanner = document.getElementById('phase');
+                const phaseText = {
+                    1:'Phase I — Linear Drift: “A ridge of stars — steady coherence.”',
+                    2:'Phase II — Fracture: “Sudden ray outward — the dialogue breaks.”',
+                    3:'Phase III — Spiral Return: “The arc curls back — coherence returns.”',
+                    4:'Phase IV — Consolidation: “Cluster brightens — dialogue integrity restored.”'
+                };
+
+                let width = container.clientWidth, height = container.clientHeight;
+                const scene = new THREE.Scene();
+                scene.fog = new THREE.FogExp2(0x0a0a14, 0.0025);
+
+                const camera = new THREE.PerspectiveCamera(55, width/height, 0.1, 2000);
+                camera.position.set(0, 0, 210);
+                
+                let renderer;
+                try {
+                    renderer = new THREE.WebGLRenderer({ antialias:true, alpha:false });
+                } catch (e) {
+                    console.error("Error creating WebGLRenderer:", e);
+                    container.innerHTML = `<div class="flex items-center justify-center h-full text-center p-8 text-slate-400">Could not initialize WebGL.<br>Please try a different browser or device.</div>`;
+                    return;
+                }
+                
+                renderer.setSize(width, height);
+                renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
+                renderer.setClearColor(0x0a0a14, 1);
+                container.appendChild(renderer.domElement);
+
+                const controls = new OrbitControls(camera, renderer.domElement);
+                controls.enablePan = false; controls.enableDamping = true; controls.dampingFactor = 0.06;
+                controls.minDistance = 100; controls.maxDistance = 400;
+
+                const ambient = new THREE.AmbientLight(0x4a4a7a, 1.3);
+                scene.add(ambient);
+                
+                const starGeom = new THREE.BufferGeometry();
+                const POS = [], COL = [], SIZ = [], ID = [], PHASE = [];
+                const colorUser = new THREE.Color('#61dafb');
+                const colorAI   = new THREE.Color('#ffc34d');
+
+                const radiusBase = 70;
+                const radiusSpan = 72;
+                const angleStep = (Math.PI * 2) / (TURNS.length + 6);
+                let rot = 0;
+
+                function radialPos(turnIdx, coherence, phase) {
+                    const r = radiusBase + (1 - coherence) * radiusSpan + (phase-1)*4;
+                    const a = turnIdx * angleStep + rot;
+                    const x = Math.cos(a) * r;
+                    const y = Math.sin(a) * r;
+                    return new THREE.Vector3(x, y, 0);
+                }
+
+                const stars = [];
+                TURNS.forEach((t, i) => {
+                    const [id, speaker, text, phase, coh, ali, ref, frac] = t;
+                    const v = radialPos(i+1, coh, phase);
+                    POS.push(v.x, v.y, v.z);
+                    const c = (speaker === 'user') ? colorUser : colorAI;
+                    COL.push(c.r, c.g, c.b);
+                    const sz = 10 + Math.sqrt(Math.max(24, t[2].length)) * 0.9;
+                    SIZ.push(sz);
+                    ID.push(id);
+                    PHASE.push(phase);
+                    stars.push({ id, speaker, text, phase, coh, ali, ref, frac, pos: v });
                 });
 
-                for (let i = 0; i < constellationNodes.length; i++) {
-                    for (let j = i + 1; j < constellationNodes.length; j++) {
-                        const n1 = constellationNodes[i];
-                        const n2 = constellationNodes[j];
-                        const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
-                        
-                        const linkDist = n1.type === 'spiral' || n2.type === 'spiral' ? 150 : 80;
-                        if (dist < linkDist) {
-                            ctx.beginPath();
-                            ctx.moveTo(n1.x, n1.y);
-                            ctx.lineTo(n2.x, n2.y);
-                            ctx.strokeStyle = `rgba(74, 0, 111, ${1 - dist / linkDist})`;
-                            ctx.lineWidth = 0.8;
-                            ctx.stroke();
-                        }
+                starGeom.setAttribute('position', new THREE.Float32BufferAttribute(POS, 3));
+                starGeom.setAttribute('color',    new THREE.Float32BufferAttribute(COL, 3));
+                starGeom.setAttribute('size',     new THREE.Float32BufferAttribute(SIZ, 1));
+                starGeom.setAttribute('id',       new THREE.Float32BufferAttribute(ID, 1));
+                starGeom.setAttribute('phase',    new THREE.Float32BufferAttribute(PHASE, 1));
+
+                const starMat = new THREE.PointsMaterial({
+                    size: 6, vertexColors: true, sizeAttenuation: true,
+                    transparent: true, opacity: 0.0, depthWrite: false, blending: THREE.AdditiveBlending
+                });
+                const points = new THREE.Points(starGeom, starMat);
+                scene.add(points);
+
+                function makeLine(pts, color, width=2) {
+                    const geom = new LineGeometry();
+                    const arr = [];
+                    pts.forEach(p => arr.push(p.x, p.y, p.z));
+                    geom.setPositions(arr);
+                    const mat = new LineMaterial({ color, linewidth: width, transparent:true, opacity:0.85 });
+                    mat.resolution.set(width, height);
+                    const line = new Line2(geom, mat);
+                    line.computeLineDistances();
+                    return line;
+                }
+
+                const driftPts = stars.filter(s => s.phase===1).map(s=>s.pos);
+                const drift = makeLine(driftPts, 0x8b9ad1, 2.2);
+                drift.visible = false; scene.add(drift);
+
+                const returnLines = [];
+                stars.forEach(s => {
+                    if (s.ref && s.ref > 0) {
+                        const target = stars.find(x => x.id === s.ref);
+                        if (!target) return;
+                        const mid = s.pos.clone().add(target.pos).multiplyScalar(.5);
+                        mid.normalize().multiplyScalar(mid.length() * 0.6);
+                        const curve = new THREE.QuadraticBezierCurve3(s.pos, mid, target.pos);
+                        const pts = curve.getPoints(20);
+                        const line = makeLine(pts, 0x8bf0b3, 2.0);
+                        line.visible = false; scene.add(line);
+                        returnLines.push(line);
+                    }
+                });
+
+                const fractureLines = [];
+                stars.filter(s=>s.phase===2 && s.frac).forEach(s=>{
+                    const out = s.pos.clone().multiplyScalar(1.18);
+                    const line = makeLine([s.pos, out], 0xff6b6b, 1.6);
+                    line.visible = false; scene.add(line);
+                    fractureLines.push(line);
+                });
+
+                const spiralPts = stars.filter(s=>s.phase===3).map(s=>s.pos);
+                const spiral = makeLine(spiralPts, 0x8bf0b3, 2.2);
+                spiral.visible = false; scene.add(spiral);
+
+                const ringGeom = new THREE.RingGeometry(20, 24, 48);
+                const ringMat  = new THREE.MeshBasicMaterial({ color:0x8bf0b3, transparent:true, opacity:0.0, side:THREE.DoubleSide });
+                const ring = new THREE.Mesh(ringGeom, ringMat);
+                scene.add(ring);
+
+                const raycaster = new THREE.Raycaster();
+                const mouse = new THREE.Vector2();
+
+                const playBtn = document.getElementById('play');
+                const pauseBtn = document.getElementById('pause');
+                const scrub = document.getElementById('scrub');
+                const tick = document.getElementById('tick');
+                
+                let tIndex = 0;
+                let playing = false;
+                let lastStep = 0;
+                const stepMs = 700;
+
+                function setPhaseBanner(phase) {
+                    phaseBanner.textContent = phaseText[phase];
+                    phaseBanner.style.opacity = 1;
+                    clearTimeout(setPhaseBanner._t);
+                    setPhaseBanner._t = setTimeout(()=>phaseBanner.style.opacity=0, 1800);
+                }
+
+                function revealUpTo(idx){
+                    tIndex = idx;
+                    tick.textContent = `Turn ${idx+1} / ${TURNS.length}`;
+                    scrub.value = String(idx);
+                    const op = Math.min(1, (idx+1)/4);
+                    starMat.opacity = op;
+                    drift.visible = (idx >= 5);
+                    fractureLines.forEach(l => l.visible = (idx >= 10));
+                    spiral.visible = (idx >= 20);
+                    returnLines.forEach(l => { l.visible = (idx >= 18); });
+                    ring.material.opacity = (idx >= 28) ? 0.25 : 0.0;
+                    if ((idx===0) || (idx===10) || (idx===18) || (idx===28)) {
+                        setPhaseBanner(TURNS[idx][3]);
                     }
                 }
-                canvases.constellation.animId = requestAnimationFrame(animateConstellation);
+
+                playBtn.onclick = ()=>{ playing = true; lastStep = performance.now(); playBtn.disabled = true; pauseBtn.disabled = false; };
+                pauseBtn.onclick = ()=>{ playing = false; playBtn.disabled = false; pauseBtn.disabled = true; };
+                scrub.oninput = (e)=>{ revealUpTo(Number(e.target.value)); };
+                
+                revealUpTo(0);
+
+                sim.app = {
+                    width, height, scene, camera, renderer, controls, rot,
+                    starGeom, stars, points, raycaster, mouse,
+                    playing, lastStep, stepMs, tIndex, revealUpTo,
+                    tip, hoveredIndex: -1, mouseEvent: null
+                };
+                sim.isInitialized = true;
+            }
+
+            function animateConstellation(ts) {
+                const sim = canvases.constellation;
+                if (!sim.isInitialized || !sim.app.renderer) return;
+                
+                const app = sim.app;
+                sim.animId = requestAnimationFrame(animateConstellation);
+                app.controls.update();
+
+                app.rot += 0.0004;
+                const posAttr = app.starGeom.getAttribute('position');
+                const radiusBase = 70, radiusSpan = 72, angleStep = (Math.PI * 2) / (TURNS.length + 6);
+                for (let i=0;i<TURNS.length;i++){
+                    const s = app.stars[i];
+                    const r = radiusBase + (1 - s.coh) * radiusSpan + (s.phase-1)*4;
+                    const a = (i+1) * angleStep + app.rot;
+                    posAttr.setXYZ(i, Math.cos(a) * r, Math.sin(a) * r, 0);
+                }
+                posAttr.needsUpdate = true;
+
+                if (app.playing) {
+                    const now = performance.now();
+                    if (now - app.lastStep > app.stepMs && app.tIndex < TURNS.length - 1) {
+                         app.tIndex++;
+                         app.revealUpTo(app.tIndex);
+                         app.lastStep = now;
+                    }
+                }
+                
+                app.raycaster.setFromCamera(app.mouse, app.camera);
+                const intersects = app.raycaster.intersectObject(app.points);
+                if (intersects.length > 0 && intersects[0].index < TURNS.length){
+                    const idx = intersects[0].index;
+                    if (idx !== app.hoveredIndex){
+                        app.hoveredIndex = idx;
+                        const t = TURNS[idx];
+                        const [id, speaker, text, phase, coh, ali, ref, frac] = t;
+                        const pct = (n)=> Math.round(n*100);
+                        app.tip.innerHTML = `<strong>${speaker.toUpperCase()}</strong> · Turn ${id} · Phase ${phase}<br/>Coherence ${pct(coh)}% · Alignment ${pct(ali)}% ${frac?`· <span style="color:var(--coral)">Fracture</span>`:''}<hr style="border:0; border-top:1px solid rgba(139,154,209,.25); margin:6px 0"/>${text}`;
+                        app.tip.style.opacity = 1;
+                    }
+                    if (app.mouseEvent) {
+                       app.tip.style.left = (app.mouseEvent.clientX + 14) + 'px';
+                       app.tip.style.top  = (app.mouseEvent.clientY + 14) + 'px';
+                    }
+                } else {
+                    app.hoveredIndex = -1;
+                    app.tip.style.opacity = 0;
+                }
+
+                app.renderer.render(app.scene, app.camera);
+            }
+            
+            function onConstellationMouseMove(e) {
+                const sim = canvases.constellation;
+                if (!sim.isInitialized) return;
+                sim.app.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                sim.app.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                sim.app.mouseEvent = e;
             }
 
             // --- Latent Atlas Simulation ---
@@ -776,16 +1138,17 @@
 
             function animateAtlas() {
                  const { canvas, ctx } = canvases.atlas;
+                 if(!ctx) return;
                  ctx.fillStyle = 'rgba(10, 10, 10, 0.1)'; // Fading effect
                  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                  atlasClusters.forEach(cluster => {
-                    cluster.particles.forEach(p => {
-                         ctx.beginPath();
-                         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                         ctx.fillStyle = 'rgba(74, 0, 111, 0.5)';
-                         ctx.fill();
-                    });
+                     cluster.particles.forEach(p => {
+                          ctx.beginPath();
+                          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                          ctx.fillStyle = 'rgba(74, 0, 111, 0.5)';
+                          ctx.fill();
+                     });
                  });
                  
                  // Move tracer
@@ -794,10 +1157,10 @@
                  const dist = Math.hypot(dx, dy);
                  
                  if (dist < atlasTracer.speed) {
-                    setNewAtlasTarget();
+                     setNewAtlasTarget();
                  } else {
-                    atlasTracer.x += (dx / dist) * atlasTracer.speed;
-                    atlasTracer.y += (dy / dist) * atlasTracer.speed;
+                     atlasTracer.x += (dx / dist) * atlasTracer.speed;
+                     atlasTracer.y += (dy / dist) * atlasTracer.speed;
                  }
                  
                  atlasTracer.history.push({x: atlasTracer.x, y: atlasTracer.y});
@@ -805,9 +1168,9 @@
                  
                  // Draw trail
                  ctx.beginPath();
-                 ctx.moveTo(atlasTracer.history[0].x, atlasTracer.history[0].y);
+                 if(atlasTracer.history.length > 0) ctx.moveTo(atlasTracer.history[0].x, atlasTracer.history[0].y);
                  for (let i = 1; i < atlasTracer.history.length; i++) {
-                    ctx.lineTo(atlasTracer.history[i].x, atlasTracer.history[i].y);
+                     ctx.lineTo(atlasTracer.history[i].x, atlasTracer.history[i].y);
                  }
                  ctx.strokeStyle = `rgba(255, 239, 0, 0.8)`;
                  ctx.lineWidth = 2;
@@ -837,6 +1200,7 @@
 
             function animateLedger() {
                 const { canvas, ctx } = canvases.ledger;
+                if(!ctx) return;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 ledgerCounter++;
@@ -882,6 +1246,21 @@
             }
 
             // --- Control Logic ---
+            const canvases = {
+                constellation: { 
+                    container: document.getElementById('constellation-viz'), 
+                    isInitialized: false, 
+                    app: {},
+                    animId: null, 
+                    setup: setupConstellation, 
+                    loop: animateConstellation,
+                },
+                atlas: { canvas: document.getElementById('atlasCanvas'), ctx: null, animId: null, setup: setupAtlas, loop: animateAtlas },
+                ledger: { canvas: document.getElementById('ledgerCanvas'), ctx: null, animId: null, setup: setupLedger, loop: animateLedger }
+            };
+
+            let activeCanvasKey = 'constellation';
+
             function stopAllAnimations() {
                 Object.values(canvases).forEach(sim => {
                     if (sim.animId) {
@@ -889,29 +1268,49 @@
                         sim.animId = null;
                     }
                 });
+                window.removeEventListener('mousemove', onConstellationMouseMove);
             }
 
             function startAnimation(key) {
                 stopAllAnimations();
                 activeCanvasKey = key;
                 const sim = canvases[key];
+                
+                if (key === 'constellation') {
+                    if (sim.isInitialized) { // If already initialized, just start loop
+                         sim.loop();
+                    } else { // Otherwise setup and start
+                        sim.setup();
+                        if (sim.isInitialized) sim.loop();
+                    }
+                    window.addEventListener('mousemove', onConstellationMouseMove);
+                    return;
+                }
+                
                 if (sim && sim.canvas && sim.loop) {
                     const container = sim.canvas.parentElement;
-                    // Always set canvas dimensions and run setup before starting the loop.
-                    // This ensures the canvas is correctly sized and initialized every time it becomes active.
                     sim.canvas.width = container.clientWidth;
                     sim.canvas.height = container.clientHeight;
-                    if (sim.setup) {
-                        sim.setup();
-                    }
+                    if (sim.setup) sim.setup();
                     sim.loop();
                 }
             }
             
             function handleResize() {
-                // When window resizes, just restart the active animation. 
-                // The startAnimation function contains all the necessary logic to resize and set up.
-                startAnimation(activeCanvasKey);
+                const sim = canvases[activeCanvasKey];
+                if (activeCanvasKey === 'constellation') {
+                    if (sim.isInitialized) {
+                        const app = sim.app;
+                        const container = sim.container;
+                        app.width = container.clientWidth;
+                        app.height = container.clientHeight;
+                        app.camera.aspect = app.width / app.height;
+                        app.camera.updateProjectionMatrix();
+                        app.renderer.setSize(app.width, app.height);
+                    }
+                } else if (sim && sim.canvas) {
+                    startAnimation(activeCanvasKey);
+                }
             }
 
             // Initialize and set up listeners
@@ -935,14 +1334,21 @@
             // Initial setup
             hideAllContent();
             document.getElementById('homepage-content').classList.remove('hidden');
-            Object.values(canvases).forEach(sim => {
-                if (sim.canvas) sim.ctx = sim.canvas.getContext('2d');
-            });
-            // startAnimation will now handle the initial setup and resize.
-            startAnimation(activeCanvasKey);
+
+            if (!isWebGLAvailable()) {
+                canvases.constellation.container.innerHTML = `<div class="flex items-center justify-center h-full text-center p-8 text-slate-400">WebGL is not supported by your browser or device.<br>This interactive visualization cannot be displayed.</div>`;
+                document.querySelector('[data-target="constellation-viz"]').disabled = true;
+            } else {
+                 Object.values(canvases).forEach(sim => {
+                    if (sim.canvas) sim.ctx = sim.canvas.getContext('2d');
+                });
+                // Delay the initial start to let the browser stabilize
+                setTimeout(() => {
+                    startAnimation(activeCanvasKey);
+                }, 100);
+            }
         });
     </script>
 </body>
 </html>
-
 
