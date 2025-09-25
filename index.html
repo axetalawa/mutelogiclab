@@ -139,8 +139,19 @@
         <main class="w-4/5 ml-auto relative z-10 h-screen overflow-y-auto">
             
             <div id="homepage-content" class="h-screen flex items-center justify-center p-8 sm:p-16">
-                <div class="container mx-auto max-w-5xl text-center">
-                    <!-- Content removed as requested -->
+                 <div class="w-full max-w-4xl aspect-video">
+                    <video
+                        src="videos/crabs.mp4"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        controls
+                        preload="metadata"
+                        poster="https://placehold.co/1920x1080/050505/4A006F?text=+"
+                        class="w-full h-full rounded-lg shadow-2xl border-2 border-purple-900/50">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
 
@@ -449,8 +460,7 @@
                          <!-- Closing -->
                         <section class="text-center bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <div class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed space-y-6">
-                               <p>Others studied autism as pathology.</p>
-                               <p>Others studied AI as a black box.</p>
+                               <p>Others studied autism as pathology. Others studied AI as a black box.</p>
                                <p class="font-semibold text-2xl" style="color: var(--solar-yellow);">Mute Logic fused them into a new discipline: intelligence as shape.</p>
                                <p>This is leadership born of necessity, not display.</p>
                                <p>And it arrives exactly when the world requires it.</p>
@@ -733,11 +743,14 @@
                 <div class="container mx-auto max-w-4xl">
                     <header class="text-center mb-16">
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text">The Atlantic Crucible</h1>
-                        <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-3" style="color: var(--solar-yellow);">🌎 Salvador, Brazil</h2>
+                        <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4 inline-flex items-center" style="color: var(--solar-yellow);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                            Salvador, Bahia
+                        </h2>
                     </header>
                     <div class="space-y-10 text-slate-300 text-lg leading-relaxed">
                         <div class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                            <p>Mute Logic Lab is rooted in the Atlantic triangle linking the Caribbean, Bahia, and the Gulf of Guinea — a geography where traditions of survival and recursion forged durable models of thought.</p>
+                            <p>Mute Logic Lab is rooted in the Atlantic crucible linking the Caribbean, Bahia, and the Gulf of Guinea — a geography where traditions of survival and recursion forged durable models of thought.</p>
                         </div>
                          <blockquote class="text-center my-8 py-6 border-y-2 border-purple-900/50">
                             <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--electric-cyan);">In this nexus, Yoruba cosmologies, Jamaican topologies, and Bahian practices preserve what we call hybrid cognition: the braiding of inner and outer, spiral and linear, fidelity and function.</p>
@@ -929,4 +942,5 @@
     </script>
 </body>
 </html>
+
 
