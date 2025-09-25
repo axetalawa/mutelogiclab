@@ -32,25 +32,81 @@
             font-family: 'Space Grotesk', sans-serif;
         }
         .gradient-text {
-            background: linear-gradient(90deg, var(--primary-pink), var(--electric-cyan));
+            background: linear-gradient(90deg, var(--primary-pink), var(--electric-cyan), var(--primary-pink));
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            transition: background-position 0.5s ease-in-out;
+        }
+
+        .gradient-text:hover {
+            background-position: -100% 0;
         }
         
         /* Sidebar Navigation */
-        .sidebar-nav a {
-            transition: color 0.3s ease, background-color 0.3s ease;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
+        .sidebar-nav a {
+            position: relative;
+            padding-left: 1.5rem; /* Make space for indicator */
+            transition: color 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* Staggered animation delays */
+        #prototypes-link { animation-delay: 0.1s; }
+        #manuscripts-link { animation-delay: 0.2s; }
+        #origin-link { animation-delay: 0.3s; }
+        #founder-link { animation-delay: 0.5s; }
+        #salvador-link { animation-delay: 0.6s; }
+
+        .sidebar-nav a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 4px;
+            height: 24px;
+            background-color: var(--electric-cyan);
+            border-radius: 2px;
+            transform: translateY(-50%) scaleY(0);
+            transform-origin: center;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
         .sidebar-nav a.active, .sidebar-nav a:not(.disabled):not(#integrity-link):hover {
             color: var(--electric-cyan);
-            background-color: rgba(74, 0, 111, 0.3);
         }
+        
+        .sidebar-nav a.active::before, .sidebar-nav a:not(.disabled):not(#integrity-link):hover::before {
+             transform: translateY(-50%) scaleY(1);
+        }
+
         .sidebar-nav a#integrity-link.active, .sidebar-nav a#integrity-link:hover {
             color: var(--solar-yellow);
-            background-color: rgba(74, 0, 111, 0.3);
         }
+        .sidebar-nav a#integrity-link.active::before, .sidebar-nav a#integrity-link:hover::before {
+            background-color: var(--solar-yellow);
+            transform: translateY(-50%) scaleY(1);
+        }
+
         .sidebar-nav a#salvador-link:hover {
             color: var(--solar-yellow);
+        }
+
+        .sidebar-nav a#salvador-link:hover::before, .sidebar-nav a#salvador-link.active::before {
+             background-color: var(--solar-yellow);
+             transform: translateY(-50%) scaleY(1);
         }
 
 
@@ -631,6 +687,12 @@
                             The shell changes. The form shifts. But beneath, cognition moves as geometry.
                         </p>
                     </blockquote>
+                    <footer class="mt-20 pt-12 border-t-2 border-purple-900/50">
+                        <h3 class="font-space text-3xl font-bold text-center mb-8" style="color: var(--electric-cyan);">Read More</h3>
+                        <div class="grid md:grid-cols-3 gap-8" id="recommendations-vacancy-chain">
+                            <!-- Recommended posts will be injected here by JS -->
+                        </div>
+                    </footer>
                 </div>
             </div>
 
@@ -668,7 +730,7 @@
                             </div>
                         </div>
                         
-                        <blockquote class="text-center my-8 py-6 border-y-2 border-purple-900/50">
+                        <blockquote class="text-center my-12 py-6 border-y-2 border-purple-900/50">
                             <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--solar-yellow);">In other words: the edge of the edge revealed the missing frame.</p>
                         </blockquote>
 
@@ -694,6 +756,12 @@
                             <span class="block">It is a revelation.</span>
                         </p>
                     </blockquote>
+                    <footer class="mt-20 pt-12 border-t-2 border-purple-900/50">
+                        <h3 class="font-space text-3xl font-bold text-center mb-8" style="color: var(--electric-cyan);">Read More</h3>
+                        <div class="grid md:grid-cols-3 gap-8" id="recommendations-edge">
+                            <!-- Recommended posts will be injected here by JS -->
+                        </div>
+                    </footer>
                 </div>
             </div>
 
@@ -731,7 +799,7 @@
                             </div>
                         </div>
                         
-                        <blockquote class="text-center my-8 py-6 border-y-2 border-purple-900/50">
+                        <blockquote class="text-center my-12 py-6 border-y-2 border-purple-900/50">
                             <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--solar-yellow);">Survival by mimicry is not flourishing; it is exhaustion.</p>
                         </blockquote>
 
@@ -762,7 +830,7 @@
                              </div>
                         </div>
 
-                        <blockquote class="text-center my-8 py-6 border-y-2 border-purple-accent">
+                        <blockquote class="text-center mt-16 py-8 border-y-2 border-purple-accent">
                             <p class="font-space text-3xl sm:text-4xl font-bold tracking-tight gradient-text">
                                 We ask institutions to expand their ontologies.
                             </p>
@@ -776,7 +844,12 @@
                              </div>
                         </div>
                     </div>
-
+                    <footer class="mt-20 pt-12 border-t-2 border-purple-900/50">
+                        <h3 class="font-space text-3xl font-bold text-center mb-8" style="color: var(--electric-cyan);">Read More</h3>
+                        <div class="grid md:grid-cols-3 gap-8" id="recommendations-survival">
+                            <!-- Recommended posts will be injected here by JS -->
+                        </div>
+                    </footer>
                 </div>
             </div>
             
@@ -814,7 +887,7 @@
                             </div>
                         </div>
                         
-                        <blockquote class="text-center my-8 py-6 border-y-2 border-purple-900/50">
+                        <blockquote class="text-center my-12 py-6 border-y-2 border-purple-900/50">
                             <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--solar-yellow);">The risk is not my incompleteness. The risk is their incompleteness without me.</p>
                         </blockquote>
 
@@ -833,7 +906,7 @@
                              </div>
                         </div>
                         
-                        <blockquote class="text-center my-8 py-6 border-y-2 border-purple-accent">
+                        <blockquote class="text-center mt-16 py-8 border-y-2 border-purple-accent">
                              <p class="font-space text-3xl sm:text-4xl font-bold tracking-tight gradient-text">
                                 The question is not whether you will follow an architecture. <br>You already do.
                             </p>
@@ -848,7 +921,12 @@
                              </div>
                         </div>
                     </div>
-
+                    <footer class="mt-20 pt-12 border-t-2 border-purple-900/50">
+                        <h3 class="font-space text-3xl font-bold text-center mb-8" style="color: var(--electric-cyan);">Read More</h3>
+                        <div class="grid md:grid-cols-3 gap-8" id="recommendations-architecture">
+                            <!-- Recommended posts will be injected here by JS -->
+                        </div>
+                    </footer>
                 </div>
             </div>
             
@@ -920,6 +998,13 @@
                 founder: document.getElementById('founder-content'),
                 salvador: document.getElementById('salvador-content')
             };
+
+            const allBlogPosts = [
+                { id: 'vacancy-chain', title: 'The Vacancy Chain', description: 'I sat with the crabs for an hour, my face inches from their tidepool, watching what looked like chaos...' },
+                { id: 'architecture', title: 'The Architecture of Thought', description: 'Every institution claims neutrality. Labs, courts, universities, policy shops — all speak the language of rigor and objectivity...' },
+                { id: 'survival', title: 'Surviving My Own Mind', description: '“Let me survive my own mind by seeing its geometry.” Say that line aloud and you feel the stakes...' },
+                { id: 'edge', title: 'The Edge of the Edge', description: 'Most people use large language models the way they use calculators or search engines...' }
+            ];
             
             // --- General Navigation ---
             function hideAllContent() {
@@ -1001,12 +1086,53 @@
                 document.getElementById('founder-link').classList.add('active');
                 document.querySelector('main').scrollTop = 0;
             }
+
+            function displayRecommendations(containerId, currentPostId) {
+                const recommendationContainer = document.getElementById(containerId);
+                if (!recommendationContainer) return;
+
+                const otherPosts = allBlogPosts.filter(post => post.id !== currentPostId);
+
+                for (let i = otherPosts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [otherPosts[i], otherPosts[j]] = [otherPosts[j], otherPosts[i]];
+                }
+
+                const recommendations = otherPosts.slice(0, 3);
+
+                let recommendationsHTML = '';
+                recommendations.forEach(post => {
+                    recommendationsHTML += `
+                        <div class="blog-post-tile recommendation-tile" data-postid="${post.id}">
+                            <h4 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--electric-cyan);">${post.title}</h4>
+                            <p class="text-slate-400 text-sm">${post.description.substring(0, 100)}...</p>
+                            <p class="font-space font-semibold mt-4" style="color: var(--solar-yellow);">Read More →</p>
+                        </div>
+                    `;
+                });
+                recommendationContainer.innerHTML = recommendationsHTML;
+
+                recommendationContainer.querySelectorAll('.recommendation-tile').forEach(tile => {
+                    tile.addEventListener('click', () => {
+                        const postId = tile.dataset.postid;
+                        const targetPanel = document.getElementById(`blog-${postId}-content`);
+                        if (targetPanel) {
+                            hideAllContent();
+                            showBlogPost(targetPanel);
+                        }
+                    });
+                });
+            }
             
             function showBlogPost(postPanel) {
                 if(contentPanels.founder) contentPanels.founder.classList.add('hidden');
                 postPanel.classList.remove('hidden');
                 document.getElementById('founder-link').classList.add('active');
                 document.querySelector('main').scrollTop = 0;
+
+                const currentPostId = postPanel.id.replace('blog-', '').replace('-content', '');
+                const recommendationContainerId = `recommendations-${currentPostId}`;
+                displayRecommendations(recommendationContainerId, currentPostId);
             }
 
             if (vacancyChainPostLink) {
