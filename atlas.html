@@ -97,7 +97,8 @@
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
 window.addEventListener('load', () => {
     const TURNS = [
@@ -161,8 +162,8 @@ window.addEventListener('load', () => {
         document.body.appendChild(renderer.domElement);
         
         const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true; controls.dampingFactor = 0.06;
-        controls.maxPolarAngle = Math.PI * 0.49; controls.minDistance = 200; controls.maxDistance = 650;
+        controls.enableDamping = true; controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI * 0.49; controls.minDistance = 150; controls.maxDistance = 750;
 
         scene.add(new THREE.AmbientLight(0x6c6f8b, 1.2));
         const dir = new THREE.DirectionalLight(0xffffff, 1.3);
@@ -198,6 +199,27 @@ window.addEventListener('load', () => {
           }
           return H*0.45;
         }
+
+        function coherenceAt(px, pz) {
+            let totalInfluence = 0;
+            let weightedCoherenceSum = 0;
+            const influenceFactor = -0.00012;
+
+            for (const p of proj) {
+                const dx = px - p.x * 2.2;
+                const dz = pz - p.y * 2.2;
+                const d2 = dx * dx + dz * dz;
+                const influence = Math.exp(influenceFactor * d2);
+                
+                weightedCoherenceSum += p.coh * influence;
+                totalInfluence += influence;
+            }
+
+            if (totalInfluence < 1e-6) return 0;
+
+            return weightedCoherenceSum / totalInfluence;
+        }
+
         for (let i=0; i<pos.count; i++){
           v.fromBufferAttribute(pos, i);
           v.y = heightAt(v.x, v.z);
@@ -214,6 +236,28 @@ window.addEventListener('load', () => {
         grid.material.opacity = 0.15;
         grid.position.y = 0.1;
         scene.add(grid);
+        
+        // --- Phase 2: Topic Clusters ---
+        function createTopicCluster(center, color, count = 200) {
+            const geom = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+            for (let i = 0; i < count; i++) {
+                const x = center.x + (Math.random() - 0.5) * 200;
+                const z = center.z + (Math.random() - 0.5) * 200;
+                const y = heightAt(x, z) + 10 + Math.random() * 30;
+                positions[i*3] = x;
+                positions[i*3+1] = y;
+                positions[i*3+2] = z;
+            }
+            geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            const mat = new THREE.PointsMaterial({ color, size: 3, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending });
+            const points = new THREE.Points(geom, mat);
+            return points;
+        }
+        const clusterA = createTopicCluster(new THREE.Vector3(-150, 0, 80), 0x61dafb);
+        const clusterB = createTopicCluster(new THREE.Vector3(220, 0, -40), 0xffc34d);
+        scene.add(clusterA, clusterB);
+
 
         const nodeGeo = new THREE.SphereGeometry(3.2, 16, 16);
         const userMat = new THREE.MeshBasicMaterial({ color:0x61dafb });
@@ -241,7 +285,7 @@ window.addEventListener('load', () => {
                     const tube = new THREE.Mesh(tubeGeo, tubeMat);
                     tube.visible = false;
                     scene.add(tube);
-                    bridges.push(tube);
+                    bridges.push({mesh: tube, turnId: p.id});
                 }
             }
         });
@@ -263,6 +307,41 @@ window.addEventListener('load', () => {
         const pathTubeMat = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.9 });
         const pathTube = new THREE.Mesh(pathTubeGeom, pathTubeMat);
         scene.add(pathTube);
+        
+        let annotations = {};
+        let particleSystems = {};
+        const loader = new FontLoader();
+        loader.load('https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+            const textMatFracture = new THREE.MeshBasicMaterial({ color: 0xff6b6b, transparent: true, opacity: 0 });
+            const textMatReturn = new THREE.MeshBasicMaterial({ color: pink, transparent: true, opacity: 0 });
+            
+            const textGeomFracture = new TextGeometry('FRACTURE', { font, size: 10, height: 1 });
+            const textGeomReturn = new TextGeometry('RETURN', { font, size: 8, height: 1 });
+
+            annotations.fracture = new THREE.Mesh(textGeomFracture, textMatFracture);
+            annotations.return = new THREE.Mesh(textGeomReturn, textMatReturn);
+            scene.add(annotations.fracture, annotations.return);
+        });
+
+        function createParticleSystem(color, count) {
+            const geom = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+            geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            const mat = new THREE.PointsMaterial({ color, size: 1.5, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, sizeAttenuation: true });
+            const points = new THREE.Points(geom, mat);
+            points.userData.particles = [];
+            for (let i = 0; i < count; i++) {
+                points.userData.particles.push({ position: new THREE.Vector3(), velocity: new THREE.Vector3(), life: 0 });
+            }
+            points.visible = false;
+            scene.add(points);
+            return points;
+        }
+        particleSystems.fracture = createParticleSystem(0xff6b6b, 50);
+        particleSystems.trail = createParticleSystem(0x8bf0b3, 100);
+
+        // --- Phase 2: Alignment Pulses ---
+        const alignmentPulses = [];
 
         const playBtn = document.getElementById('play'), pauseBtn = document.getElementById('pause');
         const scrub = document.getElementById('scrub'), tick = document.getElementById('tick');
@@ -281,63 +360,123 @@ window.addEventListener('load', () => {
           setPhaseActive._t = setTimeout(()=> phaseBanner.style.opacity = 0, 1800);
         }
 
+        function triggerAnnotation(type, position) {
+            const annotation = annotations[type];
+            if (!annotation) return;
+            annotation.position.copy(position).add(new THREE.Vector3(10, 15, 0));
+            annotation.material.opacity = 1;
+            let fade = { opacity: 1 };
+            const target = { opacity: 0 };
+            const tween = (source, target, duration) => {
+                const start = Date.now();
+                const animate = () => {
+                    const elapsed = Date.now() - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    annotation.material.opacity = source.opacity + (target.opacity - source.opacity) * progress;
+                    if (progress < 1) requestAnimationFrame(animate);
+                };
+                animate();
+            };
+            setTimeout(() => tween(fade, target, 1000), 1500);
+        }
+
+        function triggerFractureParticles(position) {
+            const ps = particleSystems.fracture;
+            ps.visible = true;
+            ps.userData.particles.forEach(p => {
+                p.position.copy(position);
+                p.velocity.set( (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20 );
+                p.life = 1.0;
+            });
+        }
+        
+        function triggerAlignmentPulse(position, alignment) {
+            const pulseGeom = new THREE.RingGeometry(1, 1.5, 32);
+            const pulseMat = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.8,
+                side: THREE.DoubleSide
+            });
+            const pulse = new THREE.Mesh(pulseGeom, pulseMat);
+            pulse.position.copy(position);
+            pulse.lookAt(camera.position);
+            pulse.userData.life = 1.0;
+            pulse.userData.maxScale = 5 + alignment * 15;
+            scene.add(pulse);
+            alignmentPulses.push(pulse);
+        }
+        
         function revealUpTo(idx){
           tIndex = idx;
           tick.textContent = `Turn ${idx+1} / ${TURNS.length}`;
           scrub.value = String(idx);
 
-          nodes.forEach((node, i) => node.visible = i <= idx);
+          const lastTurnRevealed = nodes.filter(n => n.visible).length - 1;
+
+          nodes.forEach((node, i) => {
+            const wasVisible = node.visible;
+            const isVisible = i <= idx;
+            node.visible = isVisible;
+            if (isVisible && !wasVisible) {
+                triggerAlignmentPulse(node.position, TURNS[i][5]);
+            }
+          });
           
           const drawRatio = (idx + 1) / TURNS.length;
           pathTube.geometry.setDrawRange(0, Math.floor(drawRatio * pathTube.geometry.attributes.position.count));
 
-          bridges.forEach(b => b.visible = (idx >= 18));
+          bridges.forEach(b => b.mesh.visible = (b.turnId <= idx + 1 && idx >= 18));
 
           const currentTurn = TURNS[idx];
           const targetNodePos = nodes[Math.max(0, idx)].position;
           
-          if (currentTurn[3] === 2) {
-              cameraTarget.set(targetNodePos.x, targetNodePos.y + 150, targetNodePos.z + 300);
-          } else if (currentTurn[3] === 3) {
-              cameraTarget.set(targetNodePos.x + 150, targetNodePos.y + 100, targetNodePos.z + 150);
-          } else {
-              cameraTarget.set(targetNodePos.x, targetNodePos.y + 120, targetNodePos.z + 220);
+          if (currentTurn[7]) { 
+            triggerAnnotation('fracture', targetNodePos);
+            triggerFractureParticles(targetNodePos);
           }
-          controlsTarget.copy(targetNodePos);
+          if (currentTurn[6] > 0 && currentTurn[6] < currentTurn[0] - 1) {
+            triggerAnnotation('return', targetNodePos);
+          }
+          
+          if (!isUserInteracting) {
+            if (currentTurn[3] === 2) {
+                cameraTarget.set(targetNodePos.x, targetNodePos.y + 150, targetNodePos.z + 300);
+            } else if (currentTurn[3] === 3) {
+                cameraTarget.set(targetNodePos.x + 150, targetNodePos.y + 100, targetNodePos.z + 150);
+            } else {
+                cameraTarget.set(targetNodePos.x, targetNodePos.y + 120, targetNodePos.z + 220);
+            }
+            controlsTarget.copy(targetNodePos);
+          }
 
           if (idx===0 || idx===10 || idx===18 || idx===28){
             setPhaseActive(TURNS[idx][3]);
           }
         }
-
-        const tip = document.getElementById('tip');
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        let mouseX = 0, mouseY = 0, hovered = -1;
-        
-        window.addEventListener('mousemove', (e) => {
-          mouse.x = (e.clientX / width) * 2 - 1;
-          mouse.y = -(e.clientY / height) * 2 + 1;
-          mouseX = e.clientX;
-          mouseY = e.clientY;
-        });
         
         const cameraTarget = new THREE.Vector3();
         const controlsTarget = new THREE.Vector3();
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let mouseX = 0, mouseY = 0;
+        const tip = document.getElementById('tip');
 
         playBtn.onclick = ()=>{ playing = true; playBtn.disabled=true; pauseBtn.disabled=false; };
         pauseBtn.onclick = ()=>{ playing = false; playBtn.disabled=false; pauseBtn.disabled=true; };
         scrub.oninput = (e)=>{ revealUpTo(Number(e.target.value)); };
 
-        controls.addEventListener('start', () => {
-            isUserInteracting = true;
-            clearTimeout(interactionTimeout);
-        });
+        controls.addEventListener('start', () => { isUserInteracting = true; clearTimeout(interactionTimeout); });
         controls.addEventListener('end', () => {
             clearTimeout(interactionTimeout);
-            interactionTimeout = setTimeout(() => {
-                isUserInteracting = false;
-            }, 3000);
+            interactionTimeout = setTimeout(() => { isUserInteracting = false; }, 3000);
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          mouse.x = (e.clientX / width) * 2 - 1;
+          mouse.y = -(e.clientY / height) * 2 + 1;
+          mouseX = e.clientX;
+          mouseY = e.clientY;
         });
 
         function animate(ts){
@@ -348,9 +487,77 @@ window.addEventListener('load', () => {
           }
           
           if (!isUserInteracting) {
-            camera.position.lerp(cameraTarget, 0.04);
-            controls.target.lerp(controlsTarget, 0.05);
+            camera.position.lerp(cameraTarget, 0.02);
+            controls.target.lerp(controlsTarget, 0.03);
           }
+          
+          // Animate pulses
+          alignmentPulses.forEach((pulse, index) => {
+              pulse.userData.life -= 0.02;
+              if (pulse.userData.life <= 0) {
+                  scene.remove(pulse);
+                  pulse.geometry.dispose();
+                  pulse.material.dispose();
+                  alignmentPulses.splice(index, 1);
+              } else {
+                  pulse.scale.setScalar( (1 - pulse.userData.life) * pulse.userData.maxScale );
+                  pulse.material.opacity = pulse.userData.life;
+                  pulse.lookAt(camera.position);
+              }
+          });
+
+          // Animate particle systems
+          Object.values(particleSystems).forEach(ps => {
+            if (!ps.visible) return;
+            const positions = ps.geometry.attributes.position.array;
+            let alive = 0;
+            ps.userData.particles.forEach((p, i) => {
+                if (p.life > 0) {
+                    p.position.add(p.velocity);
+                    p.velocity.multiplyScalar(0.95);
+                    p.life -= 0.015;
+                    positions[i * 3] = p.position.x;
+                    positions[i * 3 + 1] = p.position.y;
+                    positions[i * 3 + 2] = p.position.z;
+                    alive++;
+                } else {
+                    positions[i * 3 + 1] = -1000;
+                }
+            });
+            ps.geometry.attributes.position.needsUpdate = true;
+            if (alive === 0) ps.visible = false;
+          });
+
+          const trailPs = particleSystems.trail;
+          if (playing && TURNS[tIndex][4] > 0.8) {
+              trailPs.visible = true;
+              const currentPos = pathCurve.getPointAt((tIndex + 0.5) / TURNS.length);
+              trailPs.userData.particles.forEach(p => {
+                  if (p.life <= 0) {
+                      p.position.copy(currentPos).add(new THREE.Vector3(jitter(2), jitter(2), jitter(2)));
+                      p.velocity.set(0,0,0);
+                      p.life = 0.5;
+                  }
+              });
+          }
+          
+          // Phase 2: Interactive Data Probe
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObject(terrain);
+          if (intersects.length > 0) {
+              const point = intersects[0].point;
+              let hypotheticalCoherence = coherenceAt(point.x, point.z);
+              hypotheticalCoherence = Math.max(0, Math.min(1, hypotheticalCoherence)); // Clamp for safety
+              tip.innerHTML = `Manifold Location<br/>
+              X: ${point.x.toFixed(1)}, Z: ${point.z.toFixed(1)}<br/>
+              Hypothetical Coherence: ${Math.round(hypotheticalCoherence * 100)}%`;
+              tip.style.opacity = 1;
+              tip.style.left = (mouseX + 14) + 'px';
+              tip.style.top  = (mouseY + 14) + 'px';
+          } else {
+              tip.style.opacity = 0;
+          }
+
 
           controls.update();
           renderer.render(scene, camera);
