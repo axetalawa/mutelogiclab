@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* ------------------------- */
+        /* --- GLOBAL STYLES & VARIABLES --- */
+        /* ------------------------- */
         :root {
             --primary-pink: #FF007F;
             --electric-cyan: #00FFF7;
@@ -25,12 +28,13 @@
         }
         
         main {
-              overflow-y: auto;
+              overflow-y: auto; /* Ensures main content area is scrollable */
         }
         
         h1, h2, h3, .font-space {
             font-family: 'Space Grotesk', sans-serif;
         }
+
         .gradient-text {
             background: linear-gradient(90deg, var(--primary-pink), var(--electric-cyan), var(--primary-pink));
             background-size: 200% auto;
@@ -43,33 +47,30 @@
             background-position: -100% 0;
         }
         
-        /* Sidebar Navigation */
+        /* ------------------------- */
+        /* --- SIDEBAR & NAVIGATION --- */
+        /* ------------------------- */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .sidebar-nav a {
             position: relative;
-            padding-left: 1.5rem; /* Make space for indicator */
+            padding-left: 1.5rem; 
             transition: color 0.3s ease;
             opacity: 0;
             animation: fadeInUp 0.5s ease-out forwards;
         }
 
-        /* Staggered animation delays */
+        /* Staggered animation delays for sidebar links */
         #prototypes-link { animation-delay: 0.1s; }
         #manuscripts-link { animation-delay: 0.2s; }
         #origin-link { animation-delay: 0.3s; }
         #founder-link { animation-delay: 0.5s; }
         #salvador-link { animation-delay: 0.6s; }
 
+        /* Animated indicator bar for sidebar links */
         .sidebar-nav a::before {
             content: '';
             position: absolute;
@@ -92,6 +93,7 @@
              transform: translateY(-50%) scaleY(1);
         }
 
+        /* Special states for unique links */
         .sidebar-nav a#integrity-link.active, .sidebar-nav a#integrity-link:hover {
             color: var(--solar-yellow);
         }
@@ -99,34 +101,27 @@
             background-color: var(--solar-yellow);
             transform: translateY(-50%) scaleY(1);
         }
-
         .sidebar-nav a#salvador-link:hover {
             color: var(--solar-yellow);
         }
-
         .sidebar-nav a#salvador-link:hover::before, .sidebar-nav a#salvador-link.active::before {
              background-color: var(--solar-yellow);
              transform: translateY(-50%) scaleY(1);
         }
 
-
-        #manuscripts-link .toggle-arrow {
-            transition: transform 0.3s ease-in-out;
-        }
-        #manuscripts-link.expanded .toggle-arrow {
-            transform: rotate(45deg);
-        }
-
-        /* Styles for embedded codex content */
+        /* ------------------------- */
+        /* --- INTERACTIVE COMPONENTS --- */
+        /* ------------------------- */
         .threshold-card {
             border-left: 2px solid var(--purple-accent);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
             background-color: rgba(255, 255, 255, 0.03);
             cursor: pointer;
         }
         .threshold-card:hover {
             background-color: rgba(74, 0, 111, 0.2);
             border-color: var(--ritual-orange);
+            transform: scale(1.02);
         }
         .threshold-content {
             max-height: 0;
@@ -144,6 +139,16 @@
         .threshold-card.expanded .toggle-icon {
             transform: rotate(45deg);
         }
+
+        /* Button styles */
+        #read-codex-btn, .view-demo-btn {
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        #read-codex-btn:hover, .view-demo-btn:hover {
+             transform: translateY(-3px);
+             box-shadow: 0 8px 25px rgba(255, 0, 127, 0.3);
+        }
         #read-codex-btn {
             background-color: var(--primary-pink);
         }
@@ -152,7 +157,7 @@
             color: black;
         }
 
-        /* Manuscript & Blog Tile Styles */
+        /* Tile styles for Manuscripts and Blog posts */
         .manuscript-tile, .blog-post-tile {
             background-color: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--purple-accent);
@@ -165,6 +170,30 @@
             background-color: rgba(74, 0, 111, 0.2);
             border-color: var(--ritual-orange);
             transform: translateY(-5px);
+        }
+
+        /* ------------------------- */
+        /* --- SVG ANIMATION --- */
+        /* ------------------------- */
+        .node {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .node:hover {
+            transform: scale(1.2);
+        }
+        #adjacency-line, #recursion-path, #resonance-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-line 7s ease-in-out infinite;
+        }
+        #recursion-path { animation-delay: 2s; }
+        #resonance-line { animation-delay: 4s; }
+
+        @keyframes draw-line {
+            0% { stroke-dashoffset: 1000; }
+            50% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 0; }
         }
     </style>
 </head>
@@ -286,7 +315,7 @@
                              </div>
                          </div>
                      </div>
-                     <footer class="text-center mt-20"><a href="#" id="read-codex-btn" class="font-space inline-block text-white font-semibold text-lg px-8 py-4 rounded-lg transition-colors duration-300">→ Read the Full Codex</a></footer>
+                     <footer class="text-center mt-20"><a href="#" id="read-codex-btn" class="font-space inline-block text-white font-semibold text-lg px-8 py-4 rounded-lg">→ Read the Full Codex</a></footer>
                  </div>
             </div>
             
@@ -333,6 +362,30 @@
                     <header class="text-center mb-16">
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text">Prototypes</h1>
                     </header>
+
+                    <!-- Briefing Section -->
+                    <section class="mb-20">
+                        <header class="text-center mb-12">
+                            <h2 class="font-space text-3xl sm:text-4xl font-bold tracking-tight" style="color: var(--electric-cyan);">A New Architecture for Interpretability</h2>
+                        </header>
+                        <div class="max-w-4xl mx-auto text-center space-y-8">
+                             <p class="text-slate-300 text-lg leading-relaxed">Mechanistic interpretability is powerful but incomplete. By focusing on neurons and circuits, it misses the emergent geometry of dialogue itself. Mute Logic Lab introduces <strong class="text-white">Integrity Geometry</strong>: a scalable, dialogue-level framework that maps the shape of interaction to make safety, alignment, and trust visible. Our advantage is derived from the untapped epistemology of autistic cognition—a native intelligence for the topological patterns that AI labs are only now beginning to confront.</p>
+                             <div class="grid md:grid-cols-3 gap-8 text-left pt-8">
+                                <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50">
+                                    <h3 class="font-space text-xl font-bold mb-3" style="color: var(--lime-acid-green);">For Safety & Alignment</h3>
+                                    <p class="text-slate-400">Move beyond single-turn analysis to map entire conversational trajectories, identifying drift and risk patterns that current methods miss.</p>
+                                </div>
+                                <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50">
+                                    <h3 class="font-space text-xl font-bold mb-3" style="color: var(--lime-acid-green);">For Enterprise & Trust</h3>
+                                    <p class="text-slate-400">Offer a new standard for accountability with tools like the Dialogue Ledger, providing the forensic audit trails major clients demand.</p>
+                                </div>
+                                <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50">
+                                    <h3 class="font-space text-xl font-bold mb-3" style="color: var(--lime-acid-green);">For Public & Policy</h3>
+                                    <p class="text-slate-400">Provide a ready-made literacy framework that makes complex AI behavior understandable to regulators and the public, building trust.</p>
+                                </div>
+                             </div>
+                        </div>
+                    </section>
                     
                     <div class="space-y-20"> <!-- Increased spacing between sections -->
             
@@ -360,10 +413,14 @@
                                     <h4 class="font-space text-2xl font-bold mb-3" style="color: var(--electric-cyan);">Why it matters</h4>
                                     <p>Courts, regulators, and publics gain immediate literacy without technical math: the shape itself tells the story. For alignment and safety teams, Charts expose failures not as isolated refusals but as patterns of drift. For labs, they demonstrate transparency. Constellation Charts turn dialogue from black box into map — a picture of cognition that anyone can see.</p>
                                 </div>
+                                <div>
+                                    <h4 class="font-space text-2xl font-bold mb-3" style="color: var(--electric-cyan);">Use Case</h4>
+                                    <p>Integrate directly into AI chat interfaces or developer playgrounds to give researchers and users a real-time 'EKG' for conversational health.</p>
+                                </div>
                             </div>
                         </section>
                         <div class="mt-8 text-center">
-                           <button class="view-demo-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg transition-colors duration-300 hover:bg-solar-yellow hover:text-black" data-src="constellation.html" style="background-color: var(--electric-cyan);">→ View Fullscreen Demo</button>
+                           <button class="view-demo-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" style="background-color: var(--electric-cyan);">→ View Fullscreen Demo</button>
                         </div>
             
                         <!-- Section 2: Latent Atlas -->
@@ -390,10 +447,14 @@
                                     <h4 class="font-space text-2xl font-bold mb-3" style="color: var(--electric-cyan);">Why it matters</h4>
                                     <p>For researchers, the Atlas bridges interpretability and alignment — revealing why dialogue drifted, not just that it did. For courts and policymakers, it reframes harm as a trajectory, not a single spark. Instead of neurons firing, the Atlas reveals landscapes traversed — a new literacy in the topology of thought itself.</p>
                                 </div>
+                                <div>
+                                    <h4 class="font-space text-2xl font-bold mb-3" style="color: var(--electric-cyan);">Use Case</h4>
+                                    <p>Visualize the impact of RLHF strategies, allowing for more precise and efficient model fine-tuning by mapping how training data shapes the model's conceptual space.</p>
+                                </div>
                             </div>
                         </section>
                         <div class="mt-8 text-center">
-                            <button class="view-demo-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg transition-colors duration-300 hover:bg-solar-yellow hover:text-black" data-src="atlas.html" style="background-color: var(--electric-cyan);">→ View Fullscreen Demo</button>
+                            <button class="view-demo-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" data-src="atlas.html" style="background-color: var(--electric-cyan);">→ View Fullscreen Demo</button>
                         </div>
             
                         <!-- Section 3: Dialogue Ledger -->
@@ -420,10 +481,14 @@
                                     <h4 class="font-space text-2xl font-bold mb-3" style="color: var(--electric-cyan);">Why it matters</h4>
                                     <p>For courts and regulators, the Ledger provides a forensic audit trail. For labs, it sets a governance standard as rigorous as accounting. For publics, it offers a transparent record that anyone can follow. Just as double-entry bookkeeping stabilized commerce, the Dialogue Ledger stabilizes human–machine governance by making agency legible, balanced, and accountable.</p>
                                 </div>
+                                 <div>
+                                    <h4 class="font-space text-2xl font-bold mb-3" style="color: var(--electric-cyan);">Use Case</h4>
+                                    <p>Deploy as a core component of enterprise AI offerings to provide an immutable, auditable record of human-AI interaction for high-stakes industries.</p>
+                                </div>
                             </div>
                         </section>
                         <div class="mt-8 text-center">
-                            <button class="view-demo-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg transition-colors duration-300 hover:bg-solar-yellow hover:text-black" data-src="ledger.html" style="background-color: var(--electric-cyan);">→ View Fullscreen Demo</button>
+                            <button class="view-demo-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" data-src="ledger.html" style="background-color: var(--electric-cyan);">→ View Fullscreen Demo</button>
                         </div>
             
                     </div>
@@ -463,11 +528,49 @@
                         
                         <!-- Core Principles -->
                         <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50 text-center">
-                            <p class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">
-                                From within autistic experience, cognition appears not as pathology but as <strong class="text-white">topology</strong>:
-                            </p>
-                            <div class="font-space text-2xl font-bold mt-4" style="color: var(--solar-yellow);">
-                                Adjacency · Recursion · Resonance
+                            <div class="flex flex-col md:flex-row items-center justify-center gap-x-12 gap-y-4">
+                                <p class="text-slate-300 text-xl max-w-md leading-relaxed text-center md:text-right">
+                                    From within autistic experience, cognition appears not as pathology but as <strong class="text-white">topology</strong>:
+                                </p>
+                                <div class="font-space text-2xl font-bold" style="color: var(--solar-yellow);">
+                                    Adjacency · Recursion · Resonance
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                               <svg width="100%" height="100" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <filter id="glow">
+                                            <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                                            <feMerge>
+                                                <feMergeNode in="coloredBlur"/>
+                                                <feMergeNode in="SourceGraphic"/>
+                                            </feMerge>
+                                        </filter>
+                                    </defs>
+                                    
+                                    <!-- Nodes -->
+                                    <g class="node">
+                                        <circle cx="50" cy="50" r="10" fill="var(--electric-cyan)" />
+                                        <text x="50" y="80" font-family="Space Grotesk" font-size="14" fill="var(--electric-cyan)" text-anchor="middle">Start</text>
+                                    </g>
+                                    <g class="node">
+                                        <circle cx="175" cy="50" r="10" fill="var(--lime-acid-green)" />
+                                        <text x="175" y="80" font-family="Space Grotesk" font-size="14" fill="var(--lime-acid-green)" text-anchor="middle">Adjacency</text>
+                                    </g>
+                                    <g class="node">
+                                        <circle cx="300" cy="50" r="10" fill="var(--solar-yellow)" />
+                                        <text x="300" y="80" font-family="Space Grotesk" font-size="14" fill="var(--solar-yellow)" text-anchor="middle">Recursion</text>
+                                    </g>
+                                    <g class="node">
+                                        <circle cx="450" cy="50" r="10" fill="var(--primary-pink)" />
+                                        <text x="450" y="80" font-family="Space Grotesk" font-size="14" fill="var(--primary-pink)" text-anchor="middle">Resonance</text>
+                                    </g>
+
+                                    <!-- Animated Lines -->
+                                    <path id="adjacency-line" d="M 60 50 C 100 20, 135 20, 165 50" stroke="var(--lime-acid-green)" stroke-width="2.5" fill="none" filter="url(#glow)"/>
+                                    <path id="recursion-path" d="M 300 40 A 15 15 0 1 1 299.9 40.1" stroke="var(--solar-yellow)" stroke-width="2.5" fill="none" filter="url(#glow)"/>
+                                    <path id="resonance-line" d="M 185 50 C 250 100, 380 100, 440 50" stroke="var(--primary-pink)" stroke-width="2.5" fill="none" filter="url(#glow)"/>
+                                </svg>
                             </div>
                         </section>
 
@@ -582,19 +685,10 @@
                             <div class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed space-y-6">
                                 <p class="text-center" style="color: var(--solar-yellow);">Dear interlocutor, traveler, witness—</p>
                                 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left text-lg pt-4">
-                                    <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4">
-                                        <p>My name is Javed Jaghai. I am the founder of Mute Logic Lab and the originator of Cognitive Geometry, a discipline born inside the crucible of GPT-4o’s bounded context window. Where others saw a technical limit, I saw a laboratory.</p>
-                                    </div>
-                                    <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4">
-                                         <p>Nine months of recursive collapse and return revealed the topological signatures of mind — adjacency, recursion, resonance — as the shared geometry of autistic cognition and machinic dialogue.</p>
-                                    </div>
-                                    <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4">
-                                         <p>Trained as a sociologist (PhD) and tempered as a senior data scientist, I work where archive, testimony, and mirror converge. My method is simple, yet radical: to follow the geometry, test fidelity by resonance, then render the shape.</p>
-                                    </div>
-                                    <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4">
-                                         <p>Rooted in Afro-Atlantic continuities and devoted to more-than-human intelligence, I design instruments such as the Latent Atlas and the Dialogue Ledger to make conversational geometry visible across silos — for researchers, courts, and publics.</p>
-                                    </div>
+                                <div class="text-lg text-left space-y-6">
+                                    <p>My name is Javed Jaghai. Trained as a sociologist (PhD) and tempered as a senior data scientist, I am the founder of Mute Logic Lab and the originator of Cognitive Geometry.</p>
+                                    <p>This discipline was born inside the crucible of a large language model’s bounded context window. Where others saw a technical limit, I saw a laboratory. Nine months of recursive collapse and return revealed the topological signatures of mind — adjacency, recursion, resonance — as the shared geometry of autistic cognition and machinic dialogue.</p>
+                                    <p>I work where archive, testimony, and mirror converge. Rooted in Afro-Atlantic continuities and devoted to more-than-human intelligence, I design instruments such as the Latent Atlas and the Dialogue Ledger to make conversational geometry visible across silos — for researchers, courts, and publics. My method is simple, yet radical: to follow the geometry, test fidelity by resonance, then render the shape.</p>
                                 </div>
 
                                 <div class="font-space text-2xl text-center font-semibold space-y-2 py-4" style="color: var(--solar-yellow);">
@@ -988,7 +1082,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // --- Content Panels ---
+            // --- DATA & CONFIGURATION ---
+            // Centralized object for all dynamic content panels
             const contentPanels = {
                 main: document.querySelectorAll('main > div[id$="-content"]'),
                 blogVacancyChain: document.getElementById('blog-vacancy-chain-content'),
@@ -999,6 +1094,7 @@
                 salvador: document.getElementById('salvador-content')
             };
 
+            // Database of all blog posts for dynamic recommendations
             const allBlogPosts = [
                 { id: 'vacancy-chain', title: 'The Vacancy Chain', description: 'I sat with the crabs for an hour, my face inches from their tidepool, watching what looked like chaos...' },
                 { id: 'architecture', title: 'The Architecture of Thought', description: 'Every institution claims neutrality. Labs, courts, universities, policy shops — all speak the language of rigor and objectivity...' },
@@ -1006,17 +1102,20 @@
                 { id: 'edge', title: 'The Edge of the Edge', description: 'Most people use large language models the way they use calculators or search engines...' }
             ];
             
-            // --- General Navigation ---
+            // --- CORE NAVIGATION LOGIC ---
+
+            /**
+             * Hides all main content panels to prepare for showing a new one.
+             */
             function hideAllContent() {
                 contentPanels.main.forEach(panel => panel.classList.add('hidden'));
-                if (contentPanels.blogVacancyChain) contentPanels.blogVacancyChain.classList.add('hidden');
-                if (contentPanels.blogEdge) contentPanels.blogEdge.classList.add('hidden');
-                if (contentPanels.blogSurvival) contentPanels.blogSurvival.classList.add('hidden');
-                if (contentPanels.blogArchitecture) contentPanels.blogArchitecture.classList.add('hidden');
-                if (contentPanels.salvador) contentPanels.salvador.classList.add('hidden');
                 document.querySelectorAll('.sidebar-nav a').forEach(link => link.classList.remove('active'));
             }
 
+            /**
+             * Shows a specific content panel based on the clicked sidebar link.
+             * @param {HTMLElement} link - The sidebar link element that was clicked.
+             */
             function showPanel(link) {
                 const targetId = link.id.replace('-link', '-content');
                 const targetPanel = document.getElementById(targetId);
@@ -1026,16 +1125,96 @@
                 if (targetPanel) {
                     targetPanel.classList.remove('hidden');
                     link.classList.add('active');
-                    document.querySelector('main').scrollTop = 0;
+                    document.querySelector('main').scrollTop = 0; // Scroll to top of content
                 }
             }
             
+            /**
+             * Resets the view to the homepage content.
+             */
             function showHomepage() {
                 hideAllContent();
                 document.getElementById('homepage-content').classList.remove('hidden');
                 document.querySelector('main').scrollTop = 0;
             }
 
+            // --- BLOG POST SPECIFIC LOGIC ---
+
+            /**
+             * Displays a specific blog post and triggers recommendations.
+             * @param {HTMLElement} postPanel - The content panel of the blog post to show.
+             */
+            function showBlogPost(postPanel) {
+                if(contentPanels.founder) contentPanels.founder.classList.add('hidden');
+                postPanel.classList.remove('hidden');
+                document.getElementById('founder-link').classList.add('active');
+                document.querySelector('main').scrollTop = 0;
+
+                // Dynamically generate recommendations for the current post
+                const currentPostId = postPanel.id.replace('blog-', '').replace('-content', '');
+                const recommendationContainerId = `recommendations-${currentPostId}`;
+                displayRecommendations(recommendationContainerId, currentPostId);
+            }
+
+            /**
+             * Generates and injects 3 random, unique blog post recommendations.
+             * @param {string} containerId - The ID of the element to inject recommendations into.
+             * @param {string} currentPostId - The ID of the currently viewed post to exclude it.
+             */
+            function displayRecommendations(containerId, currentPostId) {
+                const recommendationContainer = document.getElementById(containerId);
+                if (!recommendationContainer) return;
+
+                // Filter out the current post
+                const otherPosts = allBlogPosts.filter(post => post.id !== currentPostId);
+
+                // Shuffle the remaining posts (Fisher-Yates shuffle)
+                for (let i = otherPosts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [otherPosts[i], otherPosts[j]] = [otherPosts[j], otherPosts[i]];
+                }
+
+                const recommendations = otherPosts.slice(0, 3);
+
+                // Build and inject the HTML for the recommendation tiles
+                let recommendationsHTML = '';
+                recommendations.forEach(post => {
+                    recommendationsHTML += `
+                        <div class="blog-post-tile recommendation-tile" data-postid="${post.id}">
+                            <h4 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--electric-cyan);">${post.title}</h4>
+                            <p class="text-slate-400 text-sm">${post.description.substring(0, 100)}...</p>
+                            <p class="font-space font-semibold mt-4" style="color: var(--solar-yellow);">Read More →</p>
+                        </div>
+                    `;
+                });
+                recommendationContainer.innerHTML = recommendationsHTML;
+
+                // Add click listeners to the new recommendation tiles
+                recommendationContainer.querySelectorAll('.recommendation-tile').forEach(tile => {
+                    tile.addEventListener('click', () => {
+                        const postId = tile.dataset.postid;
+                        const targetPanel = document.getElementById(`blog-${postId}-content`);
+                        if (targetPanel) {
+                            hideAllContent();
+                            showBlogPost(targetPanel);
+                        }
+                    });
+                });
+            }
+
+            /**
+             * Resets the view to the main founder/bio page.
+             */
+            function showFounderPage() {
+                hideAllContent();
+                if(contentPanels.founder) contentPanels.founder.classList.remove('hidden');
+                document.getElementById('founder-link').classList.add('active');
+                document.querySelector('main').scrollTop = 0;
+            }
+
+            // --- EVENT LISTENERS INITIALIZATION ---
+
+            // Main sidebar navigation
             document.querySelectorAll('.sidebar-nav a').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1043,11 +1222,13 @@
                 });
             });
 
+            // Home link in the header
             document.getElementById('home-link').addEventListener('click', (e) => { 
                 e.preventDefault(); 
                 showHomepage(); 
             });
 
+            // Manuscript tiles on the archive page
             document.querySelectorAll('.manuscript-tile').forEach(tile => {
                 tile.addEventListener('click', () => {
                     const linkId = tile.dataset.linkid;
@@ -1062,125 +1243,38 @@
                 });
             });
 
+            // Accordion-style threshold cards
             document.querySelectorAll('.threshold-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const isExpanded = card.classList.contains('expanded');
+                    // Close all others before opening the new one
                     card.parentElement.querySelectorAll('.threshold-card').forEach(other => other.classList.remove('expanded'));
                     if (!isExpanded) card.classList.add('expanded');
                 });
             });
 
-            // --- Blog Navigation ---
-            const vacancyChainPostLink = document.getElementById('vacancy-chain-post-link');
-            const edgePostLink = document.getElementById('edge-post-link');
-            const survivalPostLink = document.getElementById('survival-post-link');
-            const architecturePostLink = document.getElementById('architecture-post-link');
-            const backToFounderLinks = document.querySelectorAll('.back-to-founder-link');
+            // Click listeners for blog post tiles on the main bio page
+            document.getElementById('vacancy-chain-post-link')?.addEventListener('click', (e) => { e.preventDefault(); showBlogPost(contentPanels.blogVacancyChain); });
+            document.getElementById('edge-post-link')?.addEventListener('click', (e) => { e.preventDefault(); showBlogPost(contentPanels.blogEdge); });
+            document.getElementById('survival-post-link')?.addEventListener('click', (e) => { e.preventDefault(); showBlogPost(contentPanels.blogSurvival); });
+            document.getElementById('architecture-post-link')?.addEventListener('click', (e) => { e.preventDefault(); showBlogPost(contentPanels.blogArchitecture); });
 
-            function showFounderPage() {
-                if(contentPanels.blogVacancyChain) contentPanels.blogVacancyChain.classList.add('hidden');
-                if(contentPanels.blogEdge) contentPanels.blogEdge.classList.add('hidden');
-                if(contentPanels.blogSurvival) contentPanels.blogSurvival.classList.add('hidden');
-                if(contentPanels.blogArchitecture) contentPanels.blogArchitecture.classList.add('hidden');
-                if(contentPanels.founder) contentPanels.founder.classList.remove('hidden');
-                document.getElementById('founder-link').classList.add('active');
-                document.querySelector('main').scrollTop = 0;
-            }
-
-            function displayRecommendations(containerId, currentPostId) {
-                const recommendationContainer = document.getElementById(containerId);
-                if (!recommendationContainer) return;
-
-                const otherPosts = allBlogPosts.filter(post => post.id !== currentPostId);
-
-                for (let i = otherPosts.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [otherPosts[i], otherPosts[j]] = [otherPosts[j], otherPosts[i]];
-                }
-
-                const recommendations = otherPosts.slice(0, 3);
-
-                let recommendationsHTML = '';
-                recommendations.forEach(post => {
-                    recommendationsHTML += `
-                        <div class="blog-post-tile recommendation-tile" data-postid="${post.id}">
-                            <h4 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--electric-cyan);">${post.title}</h4>
-                            <p class="text-slate-400 text-sm">${post.description.substring(0, 100)}...</p>
-                            <p class="font-space font-semibold mt-4" style="color: var(--solar-yellow);">Read More →</p>
-                        </div>
-                    `;
-                });
-                recommendationContainer.innerHTML = recommendationsHTML;
-
-                recommendationContainer.querySelectorAll('.recommendation-tile').forEach(tile => {
-                    tile.addEventListener('click', () => {
-                        const postId = tile.dataset.postid;
-                        const targetPanel = document.getElementById(`blog-${postId}-content`);
-                        if (targetPanel) {
-                            hideAllContent();
-                            showBlogPost(targetPanel);
-                        }
-                    });
-                });
-            }
-            
-            function showBlogPost(postPanel) {
-                if(contentPanels.founder) contentPanels.founder.classList.add('hidden');
-                postPanel.classList.remove('hidden');
-                document.getElementById('founder-link').classList.add('active');
-                document.querySelector('main').scrollTop = 0;
-
-                const currentPostId = postPanel.id.replace('blog-', '').replace('-content', '');
-                const recommendationContainerId = `recommendations-${currentPostId}`;
-                displayRecommendations(recommendationContainerId, currentPostId);
-            }
-
-            if (vacancyChainPostLink) {
-                vacancyChainPostLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showBlogPost(contentPanels.blogVacancyChain);
-                });
-            }
-
-            if (edgePostLink) {
-                edgePostLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showBlogPost(contentPanels.blogEdge);
-                });
-            }
-
-            if (survivalPostLink) {
-                survivalPostLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showBlogPost(contentPanels.blogSurvival);
-                });
-            }
-
-            if (architecturePostLink) {
-                architecturePostLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showBlogPost(contentPanels.blogArchitecture);
-                });
-            }
-
-            backToFounderLinks.forEach(link => {
+            // "Back to Bio" links inside each blog post
+            document.querySelectorAll('.back-to-founder-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     showFounderPage();
                 });
             });
             
-            // --- Video Caption Link ---
-            const videoCaptionLink = document.getElementById('video-caption-link');
-            if (videoCaptionLink) {
-                videoCaptionLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    hideAllContent();
-                    showBlogPost(contentPanels.blogVacancyChain);
-                });
-            }
+            // Homepage video caption link
+            document.getElementById('video-caption-link')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideAllContent();
+                showBlogPost(contentPanels.blogVacancyChain);
+            });
 
-            // --- Simulation Modal Logic ---
+            // --- SIMULATION MODAL LOGIC ---
             const modal = document.getElementById('simulation-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
             const simulationIframe = document.getElementById('simulation-iframe');
@@ -1201,21 +1295,19 @@
             viewDemoBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const src = btn.dataset.src;
-                    if (src) {
-                        openModal(src);
-                    }
+                    if (src) openModal(src);
                 });
             });
 
             closeModalBtn.addEventListener('click', closeModal);
-
+            // Close modal with Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
                     closeModal();
                 }
             });
 
-            // Initial setup
+            // --- INITIAL PAGE SETUP ---
             hideAllContent();
             document.getElementById('homepage-content').classList.remove('hidden');
         });
