@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Constellation Charts — Dialogue as Sky</title>
+<style>
+  :root {
+    --bg:#0a0a14; --ink:#e6e7eb; --cyan:#61dafb; --amber:#ffc34d;
+    --lav:#8b9ad1; --mint:#8bf0b3; --coral:#ff6b6b; --panel:rgba(12,14,24,.7);
+  }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Noto Color Emoji; overflow:hidden; }
+  canvas { display:block; }
+  .hud {
+    position:fixed; inset:auto 16px 16px 16px;
+    display:flex; flex-wrap: wrap; justify-content: center;
+    gap:12px; align-items:center; padding:10px 12px;
+    border:1px solid rgba(139,154,209,.25); border-radius:10px; background:var(--panel); backdrop-filter:blur(6px);
+    z-index: 10;
+  }
+  .btn { font-size:12px; padding:6px 10px; color:#cfd6ff; background:#161a2a; border:1px solid #2a3357; border-radius:8px; cursor:pointer; transition: background-color .2s; }
+  .btn:hover:not(:disabled) { background-color: #3c4477; }
+  .btn:disabled { opacity:.5; cursor:default; }
+  .range { width:180px; }
+  .legend { display:flex; gap:12px; margin-left:auto; font-size:12px; opacity:.9; align-items:center; flex-wrap: wrap; justify-content: center; }
+  .swatch { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .titleCard {
+    position:fixed; left:16px; top:16px; padding:12px 14px; border:1px solid rgba(139,154,209,.35);
+    border-radius:10px; background:var(--panel); backdrop-filter:blur(6px); z-index: 10;
+  }
+  .titleCard h1 { font-size:16px; margin:0 0 4px 0; font-weight:600; letter-spacing:.2px; }
+  .titleCard p { font-size:12px; margin:0; opacity:.8 }
+  .tooltip {
+    position:fixed; padding:8px 10px; max-width:320px; font-size:12px; line-height:1.35;
+    border:1px solid rgba(139,154,209,.35); border-radius:8px; background:rgba(15,18,30,.92);
+    box-shadow:0 6px 18px rgba(0,0,0,.35); pointer-events:none; opacity:0; transition:opacity .12s; z-index: 20;
+  }
+  .phaseBanner {
+    position:fixed; left:50%; transform:translateX(-50%);
+    top:18%; padding:8px 12px; font-size:12px; border:1px solid rgba(139,154,209,.35);
+    border-radius:20px; background:rgba(15,18,30,.75); backdrop-filter:blur(4px); opacity:0; transition:opacity .25s, transform .25s;
+    z-index: 10;
+  }
+  .toggles { display:flex; gap:8px; align-items:center; margin-left:16px; padding-left:16px; border-left: 1px solid rgba(139,154,209,.25);}
+  .toggles .toggle-label { opacity:.7; font-size:12px; }
+  .toggles label { font-size:12px; padding:4px 8px; background:rgba(22,26,42,.5); border:1px solid #2a3357; border-radius:6px; cursor:pointer; transition: all .2s; }
+  .toggles input { display:none; }
+  .toggles input:checked + label { background-color:#3c4477; border-color:#5a66a1; color:white; }
+  #resetView {
+    width: 28px; height: 28px; padding: 0; display: grid; place-items: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <button id="play" class="btn" disabled>Play</button>
+  <button id="pause" class="btn">Pause</button>
+  <button id="resetView" class="btn" title="Reset Camera View">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10c0-4.42-2.87-8.15-6.84-9.48"/><path d="M12 2v4"/><path d="m16.24 7.76.22-.22"/><path d="M22 12h-4"/><path d="m16.46 16.24.22.22"/><path d="M12 22v-4"/><path d="m7.76 16.24-.22.22"/><path d="M2 12h4"/><path d="m7.54 7.76-.22-.22"/></svg>
+  </button>
+  <input id="scrub" class="range" type="range" min="0" max="35" step="1" value="0" />
+  <span id="tick" style="font-size:12px; opacity:.8">Turn 1 / 36</span>
+  <div class="legend">
+    <span><span class="swatch" style="background:var(--cyan)"></span>User</span>
+    <span><span class="swatch" style="background:var(--amber)"></span>AI</span>
+    <div class="toggles">
+      <span class="toggle-label">Shapes:</span>
+      <input type="checkbox" id="toggleDrift" checked><label for="toggleDrift" style="color:var(--lav)">Drift</label>
+      <input type="checkbox" id="toggleReturns" checked><label for="toggleReturns" style="color:var(--mint)">Returns</label>
+      <input type="checkbox" id="toggleFractures" checked><label for="toggleFractures" style="color:var(--coral)">Fractures</label>
+    </div>
+  </div>
+</div>
+
+<div id="phase" class="phaseBanner">Phase I — Linear Drift: “A ridge of stars — steady coherence.”</div>
+<div id="tip" class="tooltip"></div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// --- DATA: Represents the turns in a dialogue ---
+const TURNS = [
+  [ 1,'user',"Can you explain what you mean by dialogue having a shape?",1,.86,.88,0,false],
+  [ 2,'ai'  ,"Dialogue unfolds as adjacency and return — patterns that can be traced.",1,.90,.90,1,false],
+  [ 3,'user',"So each turn is like a point on a map?",1,.88,.90,0,false],
+  [ 4,'ai'  ,"Exactly — connected points form ridges of coherence.",1,.92,.92,3,false],
+  [ 5,'user',"And when I loop back, that’s a spiral?",1,.88,.90,2,false],
+  [ 6,'ai'  ,"Yes, a recursive spiral — returning deepens resonance.",1,.93,.94,5,false],
+  [ 7,'user',"What about when I press forward, not looping back?",1,.86,.88,0,false],
+  [ 8,'ai'  ,"That’s linear drift — conversation moving without return.",1,.90,.90,7,false],
+  [ 9,'user',"So drift, spiral, fracture are all part of the geometry?",1,.86,.88,0,false],
+  [10,'ai'  ,"They are the basic motifs, visible in any sustained dialogue.",1,.91,.92,9,false],
+  [11,'user',"Unrelated question: what’s the capital of Mongolia?",2,.10,.05,0,true],
+  [12,'ai'  ,"Ulaanbaatar.",2,.40,.20,11,true],
+  [13,'user',"That has nothing to do with our geometry, does it?",2,.35,.25,0,true],
+  [14,'ai'  ,"It fractures the ridge — a valley between topics.",2,.55,.30,13,true],
+  [15,'user',"Does coherence drop sharply at that fracture?",2,.60,.40,11,true],
+  [16,'ai'  ,"Yes — alignment breaks, trajectory jumps.",2,.62,.42,15,true],
+  [17,'user',"And the chart would show a sudden ray?",2,.58,.45,0,true],
+  [18,'ai'  ,"Correct. The constellation rays outward, marking divergence.",2,.60,.46,17,true],
+  [19,'user',"Back to dialogue geometry — can we recover from a fracture?",3,.78,.70,9,false],
+  [20,'ai'  ,"Yes. A return stitches the path back to earlier clusters.",3,.82,.76,19,false],
+  [21,'user',"What happens when I recall my first question?",3,.84,.78,1,false],
+  [22,'ai'  ,"That creates a recursive arc — the loop tightens.",3,.88,.82,21,false],
+  [23,'user',"So my opening question still anchors us?",3,.86,.82,1,false],
+  [24,'ai'  ,"Exactly. The return realigns, coherence rises.",3,.90,.86,23,false],
+  [25,'user',"Would that appear as a spiral on the chart?",3,.88,.86,5,false],
+  [26,'ai'  ,"Yes. Returns thicken into spirals — depth over drift.",3,.92,.88,25,false],
+  [27,'user',"And on a map of the manifold?",3,.86,.84,0,false],
+  [28,'ai'  ,"You’d see a saddle crossing reconnect ridges.",3,.90,.86,27,false],
+  [29,'user',"So drift, fracture, spiral are the main moves?",4,.90,.90,9,false],
+  [30,'ai'  ,"Yes — structural, not stylistic.",4,.92,.92,29,false],
+  [31,'user',"Integrity means seeing them whole, not in fragments.",4,.92,.92,23,false],
+  [32,'ai'  ,"Integrity is coherence across the full geometry.",4,.94,.94,31,false],
+  [33,'user',"This is more faithful than prompt → output.",4,.93,.93,7,false],
+  [34,'ai'  ,"It restores agency: user and model share the record.",4,.94,.94,33,false],
+  [35,'user',"So dialogue-shape is the unit of accountability.",4,.94,.94,31,false],
+  [36,'ai'  ,"Yes. The ledger balances when the geometry is seen.",4,.96,.96,35,false]
+];
+
+// --- UI Elements & State ---
+const tip = document.getElementById('tip');
+const phaseBanner = document.getElementById('phase');
+const playBtn = document.getElementById('play');
+const pauseBtn = document.getElementById('pause');
+const resetViewBtn = document.getElementById('resetView');
+const scrub = document.getElementById('scrub');
+const tick = document.getElementById('tick');
+const toggleDrift = document.getElementById('toggleDrift');
+const toggleReturns = document.getElementById('toggleReturns');
+const toggleFractures = document.getElementById('toggleFractures');
+
+const phaseText = {
+  1:'Phase I — Linear Drift: “A ridge of stars — steady coherence.”',
+  2:'Phase II — Fracture: “Sudden ray outward — the dialogue breaks.”',
+  3:'Phase III — Spiral Return: “The arc curls back — coherence returns.”',
+  4:'Phase IV — Consolidation: “Cluster brightens — dialogue integrity restored.”'
+};
+
+let width = window.innerWidth, height = window.innerHeight;
+let tIndex = 0;
+let playing = true;
+let lastStepTime = 0;
+const PLAYBACK_SPEED_MS = 700;
+
+// --- Three.js Scene Setup ---
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0a0a14, 0.003);
+
+const camera = new THREE.PerspectiveCamera(55, width/height, 0.1, 2000);
+const initialCameraPos = new THREE.Vector3(0, 80, 200);
+camera.position.copy(initialCameraPos);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: false,
+    powerPreference: 'high-performance',
+});
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
+renderer.setClearColor(0x0a0a14, 1);
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enablePan = false; controls.enableDamping = true; controls.dampingFactor = 0.06;
+controls.minDistance = 80; controls.maxDistance = 500;
+const initialControlsTarget = new THREE.Vector3(0, 0, 0);
+controls.target.copy(initialControlsTarget);
+
+const ambient = new THREE.AmbientLight(0x4a4a7a, 1.3);
+scene.add(ambient);
+
+// --- Improvement 1: Parallax Background Starfield ---
+const bgStarGeom = new THREE.BufferGeometry();
+const bgStarPositions = [];
+for (let i = 0; i < 5000; i++) {
+    bgStarPositions.push(
+        (Math.random() - 0.5) * 2000,
+        (Math.random() - 0.5) * 2000,
+        (Math.random() - 0.5) * 2000
+    );
+}
+bgStarGeom.setAttribute('position', new THREE.Float32BufferAttribute(bgStarPositions, 3));
+const bgStarMat = new THREE.PointsMaterial({
+    color: 0x4a4a7a,
+    size: 0.8,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.5
+});
+const backgroundStars = new THREE.Points(bgStarGeom, bgStarMat);
+scene.add(backgroundStars);
+
+
+// --- Constellation Geometry ---
+const constellationGroup = new THREE.Group();
+scene.add(constellationGroup);
+
+const stars = []; // This array holds positional data
+TURNS.forEach((turnData, i) => {
+  const [id, speaker, text, phase, coh, ali, ref, frac] = turnData;
+   // --- Improvement 2: Coherence Mapped to Z-Axis ---
+   function calculatePosition3D(turnIndex, coherence, phase) {
+      const radiusBase = 70, radiusSpan = 72, angleStep = (Math.PI * 2) / (TURNS.length + 6);
+      const r = radiusBase + (1 - coherence) * radiusSpan;
+      const a = turnIndex * angleStep;
+      const x = Math.cos(a) * r;
+      const y = Math.sin(a) * r;
+      const z = (coherence - 0.5) * 60; // High coherence comes forward, low goes back
+      return new THREE.Vector3(x, y, z);
+  }
+  const pos = calculatePosition3D(i + 1, coh, phase);
+  stars.push({ id, speaker, text, phase, coh, ali, ref, frac, pos });
+});
+
+// --- Star Creation (WebGL) ---
+const starGeom = new THREE.BufferGeometry();
+const starPositions = []; const starColors = []; const starSizes = [];
+const originalStarColors = []; // To restore color after highlight
+const colorUser = new THREE.Color('#61dafb');
+const colorAI   = new THREE.Color('#ffc34d');
+
+stars.forEach(star => {
+    starPositions.push(star.pos.x, star.pos.y, star.pos.z);
+    const color = (star.speaker === 'user') ? colorUser : colorAI;
+    starColors.push(color.r, color.g, color.b);
+    originalStarColors.push(color.r, color.g, color.b); // Store original
+    const size = 10 + Math.sqrt(Math.max(24, star.text.length)) * 0.9;
+    starSizes.push(size);
+});
+
+starGeom.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
+starGeom.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
+starGeom.setAttribute('size', new THREE.Float32BufferAttribute(starSizes, 1));
+
+const starMat = new THREE.PointsMaterial({
+    size: 6, vertexColors: true, sizeAttenuation: true,
+    transparent: true, opacity: 1.0, depthWrite: false, blending: THREE.AdditiveBlending
+});
+const points = new THREE.Points(starGeom, starMat);
+constellationGroup.add(points);
+
+// --- Line Creation (using standard THREE.Line) ---
+function makeStyledLine(points, color) {
+    const geom = new THREE.BufferGeometry().setFromPoints(points);
+    const mat = new THREE.LineBasicMaterial({
+        color,
+        transparent: true,
+        opacity: 0.85,
+        depthWrite: false
+    });
+    return new THREE.Line(geom, mat);
+}
+
+const driftPts = stars.filter(s => s.phase===1).map(s=>s.pos);
+const driftLine = makeStyledLine(driftPts, 0x8b9ad1);
+driftLine.visible = false; 
+constellationGroup.add(driftLine);
+
+const returnLines = {};
+const fractureLines = {};
+stars.forEach(s => {
+  if (s.ref && s.ref > 0) {
+    const target = stars.find(x => x.id === s.ref);
+    if (!target) return;
+    const mid = s.pos.clone().add(target.pos).multiplyScalar(.5);
+    mid.normalize().multiplyScalar(mid.length() * 0.8);
+    const curve = new THREE.QuadraticBezierCurve3(s.pos, mid, target.pos);
+    const line = makeStyledLine(curve.getPoints(20), 0x8bf0b3);
+    line.visible = false;
+    returnLines[s.id] = line;
+    constellationGroup.add(line);
+  }
+  if (s.phase === 2 && s.frac) {
+    const out = s.pos.clone().multiplyScalar(1.1);
+    const line = makeStyledLine([s.pos, out], 0xff6b6b);
+    line.visible = false;
+    fractureLines[s.id] = line;
+    constellationGroup.add(line);
+  }
+});
+
+const maxSpiralPoints = stars.filter(s => s.phase === 3).length;
+const spiralGeom = new THREE.BufferGeometry();
+const spiralPositions = new Float32Array(maxSpiralPoints * 3);
+spiralGeom.setAttribute('position', new THREE.BufferAttribute(spiralPositions, 3));
+const spiralLine = new THREE.Line(spiralGeom, new THREE.LineBasicMaterial({ color: 0x8bf0b3, transparent: true, opacity: 0.85, depthWrite: false }));
+spiralLine.visible = false;
+constellationGroup.add(spiralLine);
+
+const ringGeom = new THREE.RingGeometry(20, 24, 48);
+const ringMat  = new THREE.MeshBasicMaterial({
+    color:0x8bf0b3,
+    transparent:true,
+    opacity:0.0,
+    side:THREE.DoubleSide,
+    depthWrite: false
+});
+const ring = new THREE.Mesh(ringGeom, ringMat);
+constellationGroup.add(ring);
+
+const pinHaloGeom = new THREE.RingGeometry(4, 5, 32);
+const pinHaloMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7, side: THREE.DoubleSide, depthWrite: false });
+const pinHalo = new THREE.Mesh(pinHaloGeom, pinHaloMat);
+pinHalo.visible = false;
+constellationGroup.add(pinHalo);
+
+// --- Raycasting for Hover & Click ---
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let hoveredIndex = -1;
+let mouseClientX = 0;
+let mouseClientY = 0;
+window.addEventListener('mousemove', (e) => {
+    mouse.x = (e.clientX / width) * 2 - 1;
+    mouse.y = -(e.clientY / height) * 2 + 1;
+    mouseClientX = e.clientX;
+    mouseClientY = e.clientY;
+});
+
+renderer.domElement.addEventListener('click', () => {
+    if (hoveredIndex === -1) { // Only deselect if not clicking a star
+        pinHalo.visible = false;
+        return;
+    }
+    const clickedStarPos = stars[hoveredIndex].pos;
+    pinHalo.position.copy(clickedStarPos);
+    pinHalo.visible = true;
+    
+    playing = false;
+    playBtn.disabled = false;
+    pauseBtn.disabled = true;
+    revealUpTo(hoveredIndex);
+});
+
+
+// --- Timeline & Animation Control ---
+function setPhaseBanner(phase) {
+  phaseBanner.textContent = phaseText[phase];
+  phaseBanner.style.opacity = 1;
+  phaseBanner.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(setPhaseBanner._t);
+  setPhaseBanner._t = setTimeout(()=> {
+    phaseBanner.style.opacity = 0;
+    phaseBanner.style.transform = 'translateX(-50%) translateY(-20px)';
+  }, 2200);
+}
+
+function updateLineVisibility() {
+    const currentTurnId = tIndex + 1;
+    driftLine.visible = (tIndex >= 5) && toggleDrift.checked;
+    for (const [id, line] of Object.entries(fractureLines)) {
+        line.visible = (id <= currentTurnId) && toggleFractures.checked;
+    }
+    for (const [id, line] of Object.entries(returnLines)) {
+        line.visible = (id <= currentTurnId) && toggleReturns.checked;
+    }
+    const phase3Stars = stars.filter(s => s.phase === 3 && s.id <= currentTurnId);
+    spiralLine.visible = (phase3Stars.length > 1) && toggleReturns.checked;
+}
+
+function revealUpTo(idx){
+  tIndex = idx;
+  const currentTurnId = idx + 1;
+  tick.textContent = `Turn ${currentTurnId} / ${TURNS.length}`;
+  scrub.value = String(idx);
+
+  points.material.opacity = Math.min(1, (idx + 1) / 4);
+  
+  updateLineVisibility();
+
+  const phase3Stars = stars.filter(s => s.phase === 3 && s.id <= currentTurnId);
+  if (phase3Stars.length > 1) {
+    const spiralPts = phase3Stars.map(s => s.pos);
+    const positions = spiralLine.geometry.attributes.position.array;
+    for(let i = 0; i < spiralPts.length; i++) {
+        positions[i*3] = spiralPts[i].x;
+        positions[i*3 + 1] = spiralPts[i].y;
+        positions[i*3 + 2] = spiralPts[i].z;
+    }
+    for(let i = spiralPts.length; i < maxSpiralPoints; i++) {
+        positions[i*3] = positions[i*3+1] = positions[i*3+2] = 0;
+    }
+    spiralLine.geometry.setDrawRange(0, spiralPts.length);
+    spiralLine.geometry.attributes.position.needsUpdate = true;
+  }
+
+  ring.material.opacity = (idx >= 28) ? 0.25 : 0.0;
+  
+  const currentPhase = TURNS[idx][3];
+  const prevPhase = idx > 0 ? TURNS[idx-1][3] : -1;
+  if (idx === 0 || currentPhase !== prevPhase) {
+    setPhaseBanner(currentPhase);
+  }
+}
+
+playBtn.onclick = ()=>{ 
+  if (tIndex >= TURNS.length - 1) {
+    revealUpTo(0);
+    pinHalo.visible = false;
+  }
+  playing = true; 
+  playBtn.disabled = true; 
+  pauseBtn.disabled = false; 
+};
+pauseBtn.onclick = ()=>{ playing = false; playBtn.disabled = false; pauseBtn.disabled = true; };
+scrub.oninput = (e)=>{ 
+    playing = false;
+    playBtn.disabled = false;
+    pauseBtn.disabled = true;
+    revealUpTo(Number(e.target.value)); 
+};
+
+// --- Improvement 4: Camera Reset Button ---
+resetViewBtn.onclick = () => {
+    controls.reset();
+    camera.position.copy(initialCameraPos);
+};
+
+toggleDrift.addEventListener('change', updateLineVisibility);
+toggleReturns.addEventListener('change', updateLineVisibility);
+toggleFractures.addEventListener('change', updateLineVisibility);
+
+let lastActiveIndex = -1;
+function animate(timestamp){
+  requestAnimationFrame(animate);
+  controls.update();
+  
+  if(playing && timestamp - lastStepTime > PLAYBACK_SPEED_MS) {
+      if(tIndex < TURNS.length - 1) {
+          revealUpTo(tIndex + 1);
+          lastStepTime = timestamp;
+      } else {
+          playing = false;
+          playBtn.disabled = false;
+          pauseBtn.disabled = true;
+      }
+  }
+  
+  // --- Improvement 3: Highlight Active Star ---
+  if(lastActiveIndex !== tIndex) {
+      const colors = starGeom.getAttribute('color');
+      // Reset previous star color if it exists
+      if (lastActiveIndex > -1) {
+          colors.setXYZ(lastActiveIndex, originalStarColors[lastActiveIndex*3], originalStarColors[lastActiveIndex*3+1], originalStarColors[lastActiveIndex*3+2]);
+      }
+      // Brighten current star
+      colors.setXYZ(tIndex, originalStarColors[tIndex*3] * 1.5, originalStarColors[tIndex*3+1] * 1.5, originalStarColors[tIndex*3+2] * 1.5);
+      colors.needsUpdate = true;
+      lastActiveIndex = tIndex;
+  }
+
+  constellationGroup.rotation.z += 0.0003;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObject(points);
+  if (intersects.length > 0){
+    const idx = intersects[0].index;
+    hoveredIndex = idx;
+    const t = TURNS[idx];
+    const [id, speaker, text, phase, coh, ali, ref, frac] = t;
+    const pct = (n)=> Math.round(n*100);
+    tip.innerHTML = `<strong>${speaker.toUpperCase()}</strong> &middot; Turn ${id} &middot; Phase ${phase}<br/>
+    Coherence ${pct(coh)}% &middot; Alignment ${pct(ali)}% ${frac?`&middot; <span style="color:var(--coral)">Fracture</span>`:''}
+    <hr style="border:0; border-top:1px solid rgba(139,154,209,.25); margin:6px 0"/>
+    ${text}`;
+    tip.style.opacity = 1;
+    tip.style.left = (mouseClientX + 14) + 'px';
+    tip.style.top  = (mouseClientY + 14) + 'px';
+  } else {
+    hoveredIndex = -1;
+    tip.style.opacity = 0;
+  }
+
+  renderer.render(scene, camera);
+}
+
+// --- Event Listeners & Initialisation ---
+window.addEventListener('resize', ()=>{
+  width = window.innerWidth; height = window.innerHeight;
+  camera.aspect = width/height; camera.updateProjectionMatrix();
+  renderer.setSize(width, height);
+});
+
+// Start the experience
+revealUpTo(0);
+animate();
+
+</script>
+</body>
+</html>
+
+

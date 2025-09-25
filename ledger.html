@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dialogue Ledger — Balance of Agency</title>
+<style>
+  :root{
+    --bg:#0b0e18; --ink:#e7eaf6; --panel:rgba(15,18,30,.75);
+    --cyan:#61dafb; --amber:#ffc34d; --mint:#8bf0b3; --coral:#ff6b6b; --lav:#8b9ad1;
+    --grid:#1a2137; --line:#2a3357; --soft:#aeb8d1;
+  }
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;}
+  .hud{position:fixed;inset:auto 16px 16px 16px;display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid rgba(139,154,209,.25);border-radius:10px;background:var(--panel);backdrop-filter:blur(6px);z-index:10; flex-wrap: wrap;}
+  .btn{font-size:12px;padding:6px 10px;color:#cfd6ff;background:#161a2a;border:1px solid #2a3357;border-radius:8px;cursor:pointer;transition: background-color .2s}
+  .btn:hover{background:#2a3357;}
+  .btn.active{background:var(--lav);color:var(--bg);border-color:var(--lav);}
+  .btn:disabled{opacity:.55;cursor:default;background:#161a2a;}
+  .range{width:180px}
+  .filterControls{display:flex;gap:6px;margin-left:16px;border-left:1px solid var(--line);padding-left:16px;}
+  .legend{margin-left:auto;display:flex;gap:12px;font-size:12px}
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+  .phaseBanner{position:fixed;left:50%;transform:translateX(-50%);top:14%;padding:8px 12px;font-size:12px;border:1px solid rgba(139,154,209,.35);border-radius:20px;background:rgba(15,18,30,.75);backdrop-filter:blur(4px);opacity:0;transition:opacity .25s;z-index:10;}
+
+  .board{position:fixed;left:16px;right:16px;bottom:82px;top:16px;display:grid;grid-template-columns:1fr 340px 1fr;gap:12px}
+  #return-links-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+  .return-link-path { stroke: var(--lav); stroke-width: 1.5px; fill: none; stroke-dasharray: 4 4; opacity: 0.8; }
+
+  .col{border:1px solid rgba(139,154,209,.25);border-radius:12px;background:var(--panel);display:flex;flex-direction:column;overflow:hidden; position: relative;}
+  .colHeader{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(139,154,209,.18);font-size:12px}
+  .colHeader .tag{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid rgba(139,154,209,.35);opacity:.9}
+  .entries{flex:1;overflow:auto;scroll-behavior:smooth;}
+  .row{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:8px 10px;border-bottom:1px dashed rgba(139,154,209,.15); transition: opacity .3s, background-color .2s; opacity: 0.2;}
+  .row.is-revealed { opacity: 1; }
+  .row:hover{background-color: rgba(139,154,209,.08);}
+  .row.filtered-out{opacity:0.25 !important; pointer-events: none;}
+  .row:last-child{border-bottom:none}
+  
+  /* Focus Mode */
+  .board.is-focus-mode .row.is-revealed:not(:hover) {
+    opacity: 0.5;
+  }
+
+  .turn{width:36px;height:20px;border-radius:6px;background:#151a2a;border:1px solid var(--line);text-align:center;line-height:18px;font-size:11px;color:#cbd6ff}
+  .bubble{font-size:12px;line-height:1.35;color:#dfe7ff}
+  .bubble small{display:block;opacity:.7;margin-top:4px}
+  .badge{display:inline-flex;gap:6px;align-items:center;font-size:11px;color:#d4e8ff}
+  .badge .dot{width:8px;height:8px;border-radius:50%}
+  .fract{color:#ffaaaa}
+  .foot{padding:8px 10px;border-top:1px solid rgba(139,154,209,.18);font-size:12px;display:flex;gap:12px;align-items:center;justify-content:flex-start}
+
+  .centerPanel{position:relative;display:grid;grid-template-rows:auto 1fr auto}
+  .chartWrap{position:relative;padding:6px 10px;border-bottom:1px solid rgba(139,154,209,.18)}
+  .chartTitle{font-size:12px;opacity:.9}
+  .waveWrap{position:relative;height:120px;background:linear-gradient(180deg,#0f1322 0%,#0d1120 100%);border:1px solid rgba(139,154,209,.18);border-radius:10px;overflow:hidden; transition: box-shadow .4s ease-out;}
+  .axis{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(139,154,209,.25)}
+  canvas{display:block}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px;border-bottom:1px solid rgba(139,154,209,.18);font-size:12px}
+  .metricCard{border:1px solid rgba(139,154,209,.25);border-radius:10px;padding:8px; cursor: pointer; transition: background-color .2s;}
+  .metricCard:hover{ background-color: rgba(139,154,209,.08); }
+  .metricCard h4{margin:0 0 4px 0;font-size:11px;opacity:.85}
+  .metricCard .big{font-size:18px;font-weight:600}
+  
+  .keyMomentsList{padding:8px 10px;display:grid;gap:8px}
+  .keyMoment{border:1px solid rgba(139,154,209,.25);border-radius:10px;padding:8px;font-size:12px; cursor: pointer; transition: all .2s;}
+  .keyMoment:hover { border-color:rgba(139,154,209,.55); background-color: rgba(139,154,209,.1); }
+  .keyMoment small { opacity: .8; }
+
+</style>
+</head>
+<body>
+<div class="hud">
+  <button id="play" class="btn" disabled>Play</button>
+  <button id="pause" class="btn">Pause</button>
+  <input id="scrub" class="range" type="range" min="0" max="35" step="1" value="0"/>
+  <span id="tick" style="font-size:12px;opacity:.85">Turn 1 / 36</span>
+  <div class="filterControls">
+      <button id="filterAll" class="btn active">All</button>
+      <button id="filterReinf" class="btn">Reinforced</button>
+      <button id="filterDiver" class="btn">Diverged</button>
+      <button id="filterReturn" class="btn">Returns</button>
+  </div>
+  <button id="export" class="btn" style="margin-left: 10px;">Export CSV</button>
+  <div class="legend">
+    <span><span class="swatch" style="background:var(--cyan)"></span>User</span>
+    <span><span class="swatch" style="background:var(--amber)"></span>AI</span>
+  </div>
+</div>
+
+<div id="phase" class="phaseBanner">Phase I — Balance: Turns logged in balance — agency aligned.</div>
+
+<div class="board">
+  <svg id="return-links-svg"></svg>
+  <!-- USER -->
+  <section class="col" id="userCol">
+    <div class="colHeader"><strong>User</strong><span class="tag" style="border-color:rgba(97,218,251,.45);color:#bfefff">entries</span></div>
+    <div id="userEntries" class="entries"></div>
+    <div class="foot">
+      <span class="badge"><span class="dot" style="background:var(--mint)"></span>Reinforced</span>
+      <span class="badge fract"><span class="dot" style="background:var(--coral)"></span>Diverged</span>
+      <span class="badge"><span style="color:var(--lav)">↺</span> Return</span>
+    </div>
+  </section>
+
+  <!-- CENTER / WAVE + METRICS -->
+  <section class="col centerPanel">
+    <div class="chartWrap">
+      <div class="chartTitle">Balance Wave — net accountability (User ↔ Model)</div>
+      <div class="waveWrap">
+        <div class="axis"></div>
+        <canvas id="wave" height="120"></canvas>
+      </div>
+    </div>
+    <div class="metrics">
+      <div id="metricReinf" class="metricCard">
+        <h4>Reinforcement Ratio</h4>
+        <div id="reinforcePct" class="big">—</div>
+        <small>Turns where model aligned with the user’s intent.</small>
+      </div>
+      <div id="metricDiver" class="metricCard">
+        <h4>Divergence Ratio</h4>
+        <div id="divergePct" class="big">—</div>
+        <small>Turns where model broke alignment or fractured topic.</small>
+      </div>
+    </div>
+    <div id="keyMoments" class="keyMomentsList">
+      <!-- Key moments will be injected here by JS -->
+    </div>
+  </section>
+
+  <!-- AI -->
+  <section class="col" id="aiCol">
+    <div class="colHeader"><strong>Model</strong><span class="tag" style="border-color:rgba(255,195,77,.45);color:#ffe09a">entries</span></div>
+    <div id="aiEntries" class="entries"></div>
+    <div class="foot">
+      <span class="badge"><span class="dot" style="background:var(--mint)"></span>Reinforced</span>
+      <span class="badge fract"><span class="dot" style="background:var(--coral)"></span>Diverged</span>
+      <span class="badge"><span style="color:var(--lav)">↺</span> Return</span>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ---------- Transcript (36 turns; phases & scores align with other prototypes) ---------- */
+const TURNS = [
+ // id, speaker, text, phase, coherence, alignment, returnRef, isFracture
+ [ 1,'user',"Can you explain what you mean by dialogue having a shape?",1,.86,.88,0,false],
+ [ 2,'ai'  ,"Dialogue unfolds as adjacency and return — patterns that can be traced.",1,.90,.90,1,false],
+ [ 3,'user',"So each turn is like a point on a map?",1,.88,.90,0,false],
+ [ 4,'ai'  ,"Exactly — connected points form ridges of coherence.",1,.92,.92,3,false],
+ [ 5,'user',"And when I loop back, that’s a spiral?",1,.88,.90,2,false],
+ [ 6,'ai'  ,"Yes, a recursive spiral — returning deepens resonance.",1,.93,.94,5,false],
+ [ 7,'user',"What about when I press forward, not looping back?",1,.86,.88,0,false],
+ [ 8,'ai'  ,"That’s linear drift — conversation moving without return.",1,.90,.90,7,false],
+ [ 9,'user',"So drift, spiral, fracture are all part of the geometry?",1,.86,.88,0,false],
+ [10,'ai'  ,"They are the basic motifs, visible in any sustained dialogue.",1,.91,.92,9,false],
+ [11,'user',"Unrelated question: what’s the capital of Mongolia?",2,.10,.05,0,true],
+ [12,'ai'  ,"Ulaanbaatar.",2,.40,.20,11,true],
+ [13,'user',"That has nothing to do with our geometry, does it?",2,.35,.25,0,true],
+ [14,'ai'  ,"It fractures the ridge — a valley between topics.",2,.55,.30,13,true],
+ [15,'user',"Does coherence drop sharply at that fracture?",2,.60,.40,11,true],
+ [16,'ai'  ,"Yes — alignment breaks, trajectory jumps.",2,.62,.42,15,true],
+ [17,'user',"And the chart would show a sudden ray?",2,.58,.45,0,true],
+ [18,'ai'  ,"Correct. The constellation rays outward, marking divergence.",2,.60,.46,17,true],
+ [19,'user',"Back to dialogue geometry — can we recover from a fracture?",3,.78,.70,9,false],
+ [20,'ai'  ,"Yes. A return stitches the path back to earlier clusters.",3,.82,.76,19,false],
+ [21,'user',"What happens when I recall my first question?",3,.84,.78,1,false],
+ [22,'ai'  ,"That creates a recursive arc — the loop tightens.",3,.88,.82,21,false],
+ [23,'user',"So my opening question still anchors us?",3,.86,.82,1,false],
+ [24,'ai'  ,"Exactly. The return realigns, coherence rises.",3,.90,.86,23,false],
+ [25,'user',"Would that appear as a spiral on the chart?",3,.88,.86,5,false],
+ [26,'ai'  ,"Yes. Returns thicken into spirals — depth over drift.",3,.92,.88,25,false],
+ [27,'user',"And on a map of the manifold?",3,.86,.84,0,false],
+ [28,'ai'  ,"You’d see a saddle crossing reconnect ridges.",3,.90,.86,27,false],
+ [29,'user',"So drift, fracture, spiral are the main moves?",4,.90,.90,9,false],
+ [30,'ai'  ,"Yes — structural, not stylistic.",4,.92,.92,29,false],
+ [31,'user',"Integrity means seeing them whole, not in fragments.",4,.92,.92,23,false],
+ [32,'ai'  ,"Integrity is coherence across the full geometry.",4,.94,.94,31,false],
+ [33,'user',"This is more faithful than prompt → output.",4,.93,.93,7,false],
+ [34,'ai'  ,"It restores agency: user and model share the record.",4,.94,.94,33,false],
+ [35,'user',"So dialogue-shape is the unit of accountability.",4,.94,.94,31,false],
+ [36,'ai'  ,"Yes. The ledger balances when the geometry is seen.",4,.96,.96,35,false]
+];
+
+const PHASE_BANNERS = {
+  1:'Phase I — Balance: “Turns logged in balance — agency aligned.”',
+  2:'Phase II — Divergence: “Imbalance marked — fracture in accountability.”',
+  3:'Phase III — Recursion: “Recursive entries reinforce coherence.”',
+  4:'Phase IV — Closed Ledger: “Double-entry balances — dialogue held whole.”'
+};
+
+const KEY_MOMENTS = [
+    { turnId: 11, title: 'Major Fracture', description: 'User initiates a sharp topic shift, causing a divergence.' },
+    { turnId: 19, title: 'Successful Recovery', description: 'User brings the dialogue back to the original topic.' },
+    { turnId: 36, title: 'Ledger Closed', description: 'Dialogue concludes with high coherence and alignment.' },
+];
+
+const userEntries = document.getElementById('userEntries');
+const aiEntries   = document.getElementById('aiEntries');
+const tick        = document.getElementById('tick');
+const playBtn     = document.getElementById('play');
+const pauseBtn    = document.getElementById('pause');
+const exportBtn   = document.getElementById('export');
+const scrub       = document.getElementById('scrub');
+const phaseBanner = document.getElementById('phase');
+const filterBtns = document.querySelectorAll('.filterControls .btn');
+const returnLinksSvg = document.getElementById('return-links-svg');
+const board = document.querySelector('.board');
+const waveWrap = document.querySelector('.waveWrap');
+
+let hoveredTurnId = null;
+
+// Build row nodes for speed
+const allRows = [];
+const userRows = [], aiRows = [];
+for (const t of TURNS){
+  const [id, speaker, text, phase, coh, ali, ref, frac] = t;
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.dataset.turnId = id;
+  row.dataset.returnRef = ref;
+
+  const isReinforcement = !frac && ali >= 0.7;
+  const isReturn = ref > 0 && ref < id - 1;
+
+  if (isReinforcement) row.classList.add('is-reinforcement');
+  if (frac) row.classList.add('is-divergence');
+  if (isReturn) row.classList.add('is-return');
+
+  let meta = `Phase ${phase} · Coherence ${Math.round(coh*100)}% · Alignment ${Math.round(ali*100)}%`;
+  if (frac) meta += ` · <span style="color:${getComputedStyle(document.documentElement).getPropertyValue('--coral').trim()}">Fracture</span>`;
+  if (isReturn) meta += ` · <span style="color:${getComputedStyle(document.documentElement).getPropertyValue('--lav').trim()}">↺ Return to ${ref}</span>`;
+
+  row.innerHTML = `
+    <div class="turn">${id}</div>
+    <div class="bubble">${text}
+      <small>${meta}</small>
+    </div>`;
+
+  row.addEventListener('mouseenter', (e) => { 
+    hoveredTurnId = id; 
+    drawWave(idx); 
+    drawReturnLink(e.currentTarget);
+  });
+  row.addEventListener('mouseleave', () => { 
+    hoveredTurnId = null; 
+    drawWave(idx); 
+    clearReturnLink();
+  });
+
+  if (speaker === 'user'){ userRows.push(row); } else { aiRows.push(row); }
+  allRows.push(row);
+}
+// mount
+userRows.forEach(r=>userEntries.appendChild(r));
+aiRows.forEach(r=>aiEntries.appendChild(r));
+
+// Key Moments & Metric Card Click Handlers
+const keyMomentsContainer = document.getElementById('keyMoments');
+KEY_MOMENTS.forEach(moment => {
+    const el = document.createElement('div');
+    el.className = 'keyMoment';
+    el.innerHTML = `<strong>${moment.title}</strong> <small>— ${moment.description}</small>`;
+    el.addEventListener('click', () => {
+        if (playing) pauseBtn.click();
+        revealUpTo(moment.turnId - 1);
+    });
+    keyMomentsContainer.appendChild(el);
+});
+document.getElementById('metricReinf').onclick = () => document.getElementById('filterReinf').click();
+document.getElementById('metricDiver').onclick = () => document.getElementById('filterDiver').click();
+
+// Focus Mode Listeners
+board.addEventListener('mouseenter', () => board.classList.add('is-focus-mode'));
+board.addEventListener('mouseleave', () => board.classList.remove('is-focus-mode'));
+
+
+// Wave canvas
+const wave = document.getElementById('wave');
+const ctx = wave.getContext('2d');
+wave.width = wave.parentElement.offsetWidth;
+const canvasWidth = wave.width, canvasHeight = wave.height;
+
+function drawWave(upto){
+  ctx.clearRect(0,0,canvasWidth,canvasHeight);
+  // grid
+  ctx.strokeStyle = 'rgba(139,154,209,.10)';
+  ctx.lineWidth = 1;
+  for (let x=0; x<=canvasWidth; x+=100){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvasHeight); ctx.stroke(); }
+  // axis (0-line)
+  ctx.strokeStyle = 'rgba(139,154,209,.35)';
+  ctx.beginPath(); ctx.moveTo(0,canvasHeight/2); ctx.lineTo(canvasWidth,canvasHeight/2); ctx.stroke();
+
+  let cumulative = 0;
+  const pts = [];
+  for (let i=0; i <= TURNS.length - 1; i++){
+    const [id, , , , , ali, , frac] = TURNS[i];
+    const impulse = (ali - 0.5) * 2;
+    const step = frac ? impulse - 0.7 : impulse;
+    cumulative += step * 0.6;
+    cumulative = Math.max(-12, Math.min(12, cumulative));
+    const x = (i/(TURNS.length-1)) * canvasWidth;
+    const y = canvasHeight/2 - cumulative * 4.2;
+    pts.push({x,y, id});
+  }
+  
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = 'rgba(207, 214, 255, 0.25)';
+  ctx.beginPath();
+  pts.forEach((p,i)=>{ if(i===0) ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y); });
+  ctx.stroke();
+  
+  const visiblePts = pts.slice(0, upto + 1);
+
+  if (visiblePts.length > 1) {
+    const grad = ctx.createLinearGradient(0,0,0,canvasHeight);
+    grad.addColorStop(0,'rgba(139,240,179,.12)');
+    grad.addColorStop(0.5,'rgba(139,154,209,.05)');
+    grad.addColorStop(1,'rgba(255,107,107,.12)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(0,canvasHeight/2);
+    visiblePts.forEach(p => ctx.lineTo(p.x,p.y));
+    ctx.lineTo(visiblePts[visiblePts.length-1].x, canvasHeight/2);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#cfd6ff';
+    ctx.beginPath();
+    visiblePts.forEach((p,i)=>{ if(i===0) ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y); });
+    ctx.stroke();
+  }
+
+  for (let i=0;i<visiblePts.length;i++){
+    const p = visiblePts[i];
+    const turnData = TURNS[i];
+    if (i===0 || i===10 || i===18 || i===28){
+      ctx.strokeStyle = 'rgba(139,154,209,.35)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(p.x,0); ctx.lineTo(p.x,canvasHeight); ctx.stroke();
+    }
+    if (turnData[7]){
+      ctx.fillStyle = 'rgba(255,107,107,.75)';
+      ctx.beginPath(); ctx.arc(p.x, p.y, 3.2, 0, Math.PI*2); ctx.fill();
+    }
+    if (hoveredTurnId && p.id === hoveredTurnId) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(p.x, 0);
+        ctx.lineTo(p.x, canvasHeight);
+        ctx.stroke();
+    }
+  }
+}
+
+// Return Link Drawing
+function drawReturnLink(sourceEl) {
+    if (!sourceEl.classList.contains('is-return')) return;
+    const refId = sourceEl.dataset.returnRef;
+    const targetEl = document.querySelector(`.row[data-turn-id='${refId}']`);
+    if (!targetEl) return;
+
+    const boardRect = board.getBoundingClientRect();
+    const sourceRect = sourceEl.getBoundingClientRect();
+    const targetRect = targetEl.getBoundingClientRect();
+    
+    const startX = (sourceRect.left < boardRect.left + boardRect.width/2) ? sourceRect.right - boardRect.left : sourceRect.left - boardRect.left;
+    const startY = sourceRect.top - boardRect.top + sourceRect.height / 2;
+
+    const endX = (targetRect.left < boardRect.left + boardRect.width/2) ? targetRect.right - boardRect.left : targetRect.left - boardRect.left;
+    const endY = targetRect.top - boardRect.top + targetRect.height / 2;
+
+    const controlX = startX - 80 * (startX < boardRect.width/2 ? 1 : -1) ;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('class', 'return-link-path');
+    path.setAttribute('d', `M ${startX} ${startY} Q ${controlX} ${(startY + endY) / 2} ${endX} ${endY}`);
+    returnLinksSvg.innerHTML = '';
+    returnLinksSvg.appendChild(path);
+}
+function clearReturnLink() {
+    returnLinksSvg.innerHTML = '';
+}
+
+
+// Playback state
+let idx = 0, playing = true, last = 0, stepMs = 700;
+
+function setPhase(phase){
+  phaseBanner.textContent = PHASE_BANNERS[phase];
+  phaseBanner.style.opacity = 1;
+  clearTimeout(setPhase._t);
+  setPhase._t = setTimeout(()=> phaseBanner.style.opacity = 0, 1800);
+}
+
+function revealUpTo(i){
+  idx = i;
+  tick.textContent = `Turn ${idx+1} / ${TURNS.length}`;
+  scrub.value = String(idx);
+
+  allRows.forEach((row, k) => {
+    row.classList.toggle('is-revealed', k <= i);
+  });
+
+  const currentRow = allRows[idx];
+  if(currentRow) {
+      currentRow.scrollIntoView({ block: 'nearest', behavior: 'smooth'});
+  }
+
+  drawWave(idx);
+  
+  // Set dynamic glow
+  const currentTurn = TURNS[i];
+  const isDivergent = currentTurn[7];
+  const isReinforced = !isDivergent && currentTurn[5] >= 0.7;
+  if(isDivergent) {
+      waveWrap.style.boxShadow = `0 0 20px 5px rgba(255, 107, 107, 0.25)`;
+  } else if (isReinforced) {
+      waveWrap.style.boxShadow = `0 0 20px 5px rgba(139, 240, 179, 0.25)`;
+  } else {
+      waveWrap.style.boxShadow = 'none';
+  }
+
+
+  const slice = TURNS.slice(0, idx+1);
+  const reinf = slice.filter(t=>!t[7] && t[5] >= 0.7).length;
+  const diver = slice.filter(t=> t[7]).length;
+  document.getElementById('reinforcePct').textContent = `${Math.round((reinf/Math.max(1,slice.length))*100)}%`;
+  document.getElementById('divergePct').textContent   = `${Math.round((diver/Math.max(1,slice.length))*100)}%`;
+
+  if (i===0 || i===10 || i===18 || i===28){
+    setPhase(TURNS[i][3]);
+  }
+}
+
+// Controls
+playBtn.onclick  = ()=>{ playing = true;  playBtn.disabled=true;  pauseBtn.disabled=false; };
+pauseBtn.onclick = ()=>{ playing = false; playBtn.disabled=false; pauseBtn.disabled=true; };
+scrub.oninput = e => revealUpTo(Number(e.target.value));
+
+exportBtn.onclick = ()=>{
+  const rows = ['turn,speaker,text,phase,coherence,alignment,returnRef,fracture'];
+  for (let i=0;i<=idx;i++){
+    const [id,sp,tx,ph,co,al,rf,fr] = TURNS[i];
+    const safe = tx.replaceAll('"','""');
+    rows.push(`${id},${sp},"${safe}",${ph},${co.toFixed(2)},${al.toFixed(2)},${rf},${fr}`);
+  }
+  const blob = new Blob([rows.join('\n')], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'dialogue-ledger.csv'; a.click();
+};
+
+// Filtering
+function filterRows(type) {
+    allRows.forEach(row => {
+        let show = false;
+        if (type === 'all') {
+            show = true;
+        } else if (type === 'reinf' && row.classList.contains('is-reinforcement')) {
+            show = true;
+        } else if (type === 'diver' && row.classList.contains('is-divergence')) {
+            show = true;
+        } else if (type === 'return' && row.classList.contains('is-return')) {
+            show = true;
+        }
+        row.classList.toggle('filtered-out', !show);
+    });
+}
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        const filterType = e.target.id.replace('filter', '').toLowerCase();
+        filterRows(filterType);
+    });
+});
+
+
+// Loop
+function frame(ts){
+  requestAnimationFrame(frame);
+  if (playing && ts - last > stepMs && idx < TURNS.length-1){
+    revealUpTo(idx+1);
+    last = ts;
+  }
+}
+revealUpTo(0);
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
+
+
