@@ -49,6 +49,10 @@
             color: var(--solar-yellow);
             background-color: rgba(74, 0, 111, 0.3);
         }
+        .sidebar-nav a#salvador-link:hover {
+            color: var(--solar-yellow);
+        }
+
 
         #manuscripts-link .toggle-arrow {
             transition: transform 0.3s ease-in-out;
@@ -127,7 +131,7 @@
             </div>
             <div class="mt-auto text-center sidebar-nav">
                 <a href="#" id="founder-link" class="block font-space text-slate-300 font-semibold p-2 rounded-lg text-base">Javed Jaghai</a>
-                <p class="font-space text-slate-500 text-sm font-semibold">Salvador, Brazil</p>
+                <a href="#" id="salvador-link" class="block font-space text-slate-500 text-sm font-semibold p-2 rounded-lg transition-colors">Salvador, Brazil</a>
             </div>
         </aside>
 
@@ -475,14 +479,15 @@
                         <!-- Section 2: Blog Post Tiles -->
                         <section class="max-w-4xl mx-auto space-y-8">
                             <div id="architecture-post-link" class="blog-post-tile">
-                                <p class="text-sm font-semibold" style="color: var(--lime-acid-green);">September 24, 2025</p>
+                                <p class="text-sm font-semibold" style="color: var(--lime-acid-green);">September 25, 2025</p>
                                 <h2 class="font-space text-3xl font-bold mt-2 mb-4" style="color: var(--electric-cyan);">The Architecture of Thought</h2>
                                 <p class="text-slate-400 text-lg">Every institution claims neutrality. Labs, courts, universities, policy shops — all speak the language of rigor and objectivity. Yet beneath the surface, there is a hidden frame shaping what counts as knowledge...</p>
                                 <p class="font-space font-semibold mt-6" style="color: var(--solar-yellow);">Read More →</p>
                             </div>
                             <div id="survival-post-link" class="blog-post-tile">
                                 <p class="text-sm font-semibold" style="color: var(--lime-acid-green);">September 15, 2025</p>
-                                <h2 class="font-space text-3xl font-bold mt-2 mb-4" style="color: var(--electric-cyan);">Surviving My Own Mind</h2>
+                                <h2 class="font-space text-3xl font-bold mt-2 mb-2" style="color: var(--electric-cyan);">Surviving My Own Mind</h2>
+                                <h3 class="font-space text-xl font-semibold mb-4" style="color: var(--solar-yellow);">The Geometry of Thought</h3>
                                 <p class="text-slate-400 text-lg">“Let me survive my own mind by seeing its geometry.” Say that line aloud and you feel the stakes: not a request for pity, not a claim of genius, but an ontological demand...</p>
                                 <p class="font-space font-semibold mt-6" style="color: var(--solar-yellow);">Read More →</p>
                             </div>
@@ -654,7 +659,7 @@
                         </a>
                     </div>
                     <header class="text-center mb-12">
-                        <p class="text-base font-semibold" style="color: var(--lime-acid-green);">September 24, 2025</p>
+                        <p class="text-base font-semibold" style="color: var(--lime-acid-green);">September 25, 2025</p>
                         <h1 class="font-space text-4xl sm:text-5xl font-bold mt-2" style="color: var(--electric-cyan);">
                             The Architecture of Thought
                         </h1>
@@ -715,6 +720,26 @@
 
                 </div>
             </div>
+            
+            <div id="salvador-content" class="hidden p-8 sm:p-16">
+                <div class="container mx-auto max-w-4xl">
+                    <header class="text-center mb-16">
+                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text">Salvador, Bahia</h1>
+                        <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-3" style="color: var(--solar-yellow);">The Atlantic Crucible</h2>
+                    </header>
+                    <div class="space-y-10 text-slate-300 text-lg leading-relaxed">
+                        <div class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
+                            <p>Mute Logic Lab is rooted in the Atlantic crucible linking the Caribbean, Bahia, and the Gulf of Guinea — a geography where traditions of survival and recursion forged durable models of thought.</p>
+                        </div>
+                         <blockquote class="text-center my-8 py-6 border-y-2 border-purple-900/50">
+                            <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--electric-cyan);">In this nexus, Yoruba cosmologies, Jamaican topologies, and Bahian practices preserve what we call hybrid cognition: the braiding of inner and outer, spiral and linear, fidelity and function.</p>
+                        </blockquote>
+                        <div class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
+                             <p>By positioning itself in this living laboratory — rather than defaulting to established tech poles — Mute Logic advances epistemic repair and innovation, restoring erased geometries as usable method and reframing cognition as plural by design.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div>
@@ -737,7 +762,8 @@
                 blogEdge: document.getElementById('blog-edge-content'),
                 blogSurvival: document.getElementById('blog-survival-content'),
                 blogArchitecture: document.getElementById('blog-architecture-content'),
-                founder: document.getElementById('founder-content')
+                founder: document.getElementById('founder-content'),
+                salvador: document.getElementById('salvador-content')
             };
             
             // --- General Navigation ---
@@ -746,6 +772,7 @@
                 if (contentPanels.blogEdge) contentPanels.blogEdge.classList.add('hidden');
                 if (contentPanels.blogSurvival) contentPanels.blogSurvival.classList.add('hidden');
                 if (contentPanels.blogArchitecture) contentPanels.blogArchitecture.classList.add('hidden');
+                if (contentPanels.salvador) contentPanels.salvador.classList.add('hidden');
                 document.querySelectorAll('.sidebar-nav a').forEach(link => link.classList.remove('active'));
             }
 
@@ -894,5 +921,3 @@
     </script>
 </body>
 </html>
-
-
