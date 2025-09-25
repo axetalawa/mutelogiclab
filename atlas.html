@@ -7,18 +7,18 @@
 <style>
   :root{
     --bg:#0a0a14; --ink:#e6e7eb; --mint:#8bf0b3; --amber:#ffc34d; --cyan:#61dafb;
-    --lav:#8b9ad1; --coral:#ff6b6b; --panel:rgba(12,14,24,.7);
+    --lav:#8b9ad1; --coral:#ff6b6b; --panel:rgba(12,14,24,.7); --pink: #FF007F;
   }
   html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;}
   canvas{display:block;}
-  .hud{position:fixed;inset:auto 16px 16px 16px;display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid rgba(139,154,209,.25);border-radius:10px;background:var(--panel);backdrop-filter:blur(6px); flex-wrap: wrap;}
+  .hud{position:fixed;inset:auto 16px 16px 16px;display:flex;gap:12px;align-items:center;padding:10px 12px;border:1px solid rgba(139,154,209,.25);border-radius:10px;background:var(--panel);backdrop-filter:blur(6px); flex-wrap: wrap; justify-content: center;}
   .btn{font-size:12px;padding:6px 10px;color:#cfd6ff;background:#161a2a;border:1px solid #2a3357;border-radius:8px;cursor:pointer}
   .btn:disabled{opacity:.55;cursor:default}
   .range{width:200px}
-  .legend{margin-left:auto;display:flex;gap:12px;font-size:12px}
+  .legend{margin-left:auto;display:flex;gap:12px;font-size:12px; flex-wrap: wrap; justify-content: center;}
   .swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
   .tooltip{position:fixed;padding:8px 10px;max-width:320px;font-size:12px;line-height:1.35;border:1px solid rgba(139,154,209,.35);border-radius:8px;background:rgba(15,18,30,.92);box-shadow:0 6px 18px rgba(0,0,0,.35);pointer-events:none;opacity:0;transition:opacity .12s}
-  .sidePanel{position:fixed;right:16px;top:16px;bottom: 82px; width:260px;border:1px solid rgba(139,154,209,.25);border-radius:10px;background:var(--panel);backdrop-filter:blur(6px)}
+  .sidePanel{position:fixed;right:16px;top:16px;width:260px;border:1px solid rgba(139,154,209,.25);border-radius:10px;background:var(--panel);backdrop-filter:blur(6px)}
   .sidePanel h3{margin:10px 12px 4px 12px;font-size:12px;opacity:.9}
   .phaseItem{display:flex;align-items:center;gap:10px;margin:6px 12px;padding:8px;border-radius:8px;border:1px solid rgba(139,154,209,.15);font-size:12px}
   .phaseItem.active{border-color:rgba(139,154,209,.5);box-shadow:0 0 0 1px rgba(139,154,209,.25) inset}
@@ -72,7 +72,7 @@
   <div class="legend">
     <span><span class="swatch" style="background:var(--cyan)"></span>User</span>
     <span><span class="swatch" style="background:var(--amber)"></span>AI</span>
-    <span><span class="swatch" style="background:var(--mint)"></span>High coherence ridge</span>
+    <span><span class="swatch" style="background:var(--pink)"></span>Return Arc</span>
   </div>
 </div>
 
@@ -80,8 +80,9 @@
   <h3>Storyboard</h3>
   <div id="p1" class="phaseItem active"><span class="phaseDot" style="background:#6da9ff"></span>Phase I — Ridge Path: Conversation travels a high ridge.</div>
   <div id="p2" class="phaseItem"><span class="phaseDot" style="background:#ff6b6b"></span>Phase II — Jump: Trajectory leaps — coherence collapses.</div>
-  <div id="p3" class="phaseItem"><span class="phaseDot" style="background:#8bf0b3"></span>Phase III — Saddle: Return stitches the path — resonance rises.</div>
+  <div id="p3" class="phaseItem"><span class="phaseDot" style="background:var(--pink)"></span>Phase III — Saddle: Return stitches the path — resonance rises.</div>
   <div id="p4" class="phaseItem"><span class="phaseDot" style="background:#f0d98b"></span>Phase IV — High Ridge: Trajectory stabilizes — coherence holds.</div>
+  <p style="font-size: 11px; opacity: 0.7; padding: 0 12px 10px;">Click & drag to orbit. Scroll to zoom.</p>
 </div>
 
 <div id="phase" class="phaseBanner">Phase I — Ridge Path: “Conversation travels a high ridge.”</div>
@@ -96,12 +97,9 @@
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { Line2 } from 'three/addons/lines/Line2.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
-import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 
 window.addEventListener('load', () => {
-    // ---- Shared transcript (36 turns; same content as Sky prototype) ----
     const TURNS = [
       [ 1,'user',"Can you explain what you mean by dialogue having a shape?",1,.86,.88,0,false,'A'],
       [ 2,'ai'  ,"Dialogue unfolds as adjacency and return — patterns that can be traced.",1,.90,.90,1,false,'A'],
@@ -140,15 +138,13 @@ window.addEventListener('load', () => {
       [35,'user',"So dialogue-shape is the unit of accountability.",4,.94,.94,31,false,'A'],
       [36,'ai'  ,"Yes. The ledger balances when the geometry is seen.",4,.96,.96,35,false]
     ];
-
     const phaseCaption = {
       1:'Phase I — Ridge Path: “Conversation travels a high ridge.”',
-      2:'Phase II — Jump: “Trajectory leaps — coherence collapses.”',
+      2:'Phase II — Fracture: “Trajectory leaps — coherence collapses.”',
       3:'Phase III — Saddle Crossing: “Return stitches the path — resonance rises.”',
       4:'Phase IV — High Ridge: “Trajectory stabilizes — coherence holds.”'
     };
 
-    // ---- Scene setup ----
     let width = window.innerWidth, height = window.innerHeight;
     
     try {
@@ -156,9 +152,9 @@ window.addEventListener('load', () => {
         scene.fog = new THREE.FogExp2(0x0a0a14, 0.0025);
 
         const camera = new THREE.PerspectiveCamera(58, width/height, 0.1, 5000);
-        camera.position.set(0, 180, 380); camera.lookAt(0,0,0);
+        camera.position.set(0, 180, 380);
 
-        let renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference: 'low-power' });
+        const renderer = new THREE.WebGLRenderer({ antialias:true });
         renderer.setSize(width, height);
         renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
         renderer.setClearColor(0x0a0a14, 1);
@@ -168,49 +164,40 @@ window.addEventListener('load', () => {
         controls.enableDamping = true; controls.dampingFactor = 0.06;
         controls.maxPolarAngle = Math.PI * 0.49; controls.minDistance = 200; controls.maxDistance = 650;
 
-        // Lighting
         scene.add(new THREE.AmbientLight(0x6c6f8b, 1.2));
         const dir = new THREE.DirectionalLight(0xffffff, 1.3);
         dir.position.set(200, 300, 120); scene.add(dir);
 
-        // ---- Deterministic 2D projection for turns (two clusters A/B) ----
         const rng = (seed=>()=> (seed = (seed*1664525 + 1013904223) % 4294967296, seed/4294967296))(0xC0FFEE);
         function jitter(s=6){ return (rng()-0.5)*s*2; }
 
-        const proj = []; // [{x,y,z,h}, ...]
+        const proj = [];
         TURNS.forEach((t,i)=>{
           const [id, speaker, text, phase, coh, ali, ref, frac, topic] = t;
           let cx=0, cy=0;
           if (phase===1) { cx = -80; cy = 40; }
-          if (phase===2) { cx = 100; cy = -20; } // jump cluster
-          if (phase===3) { cx = -30; cy = 20; }  // saddle back
-          if (phase===4) { cx = -60; cy = 50; }  // stabilize on ridge
-          const x = cx + jitter(14);
-          const y = cy + jitter(14);
-          const h = THREE.MathUtils.lerp(10, 120, coh); // height from coherence
+          if (phase===2) { cx = 100; cy = -20; }
+          if (phase===3) { cx = -30; cy = 20; }
+          if (phase===4) { cx = -60; cy = 50; }
+          const x = cx + jitter(14); const y = cy + jitter(14);
+          const h = THREE.MathUtils.lerp(10, 120, coh);
           proj.push({ x, y, z:h, coh, ali, phase, speaker, text, id, ref, frac, topic });
         });
 
-        // ---- Terrain (heightfield) via Gaussian splats of coherence ----
         const SIZE = 700, RES = 180;
         const geo = new THREE.PlaneGeometry(SIZE, SIZE, RES, RES);
         geo.rotateX(-Math.PI/2);
-
         const pos = geo.attributes.position;
         const v = new THREE.Vector3();
-
         function heightAt(px, pz){
-          // sum of Gaussian bumps centered at projected (x,y), weighted by coherence
           let H = 0;
           for (const p of proj){
             const dx = px - p.x*2.2, dz = pz - p.y*2.2;
             const d2 = (dx*dx + dz*dz);
-            const s = 0.00012; // spread; tweak for sharpness
-            H += p.z * Math.exp(-s * d2);
+            H += p.z * Math.exp(-0.00012 * d2);
           }
           return H*0.45;
         }
-        // write heights
         for (let i=0; i<pos.count; i++){
           v.fromBufferAttribute(pos, i);
           v.y = heightAt(v.x, v.z);
@@ -218,63 +205,15 @@ window.addEventListener('load', () => {
         }
         pos.needsUpdate = true;
         geo.computeVertexNormals();
-
-        const terrMat = new THREE.MeshStandardMaterial({
-          color: 0x1f2940, metalness:0.05, roughness:0.95, flatShading:false,
-        });
+        const terrMat = new THREE.MeshStandardMaterial({ color: 0x1f2940, metalness:0.05, roughness:0.95 });
         const terrain = new THREE.Mesh(geo, terrMat);
         scene.add(terrain);
 
-        // Coherence tint pass (peaks glow mint)
-        const peakMat = new THREE.MeshStandardMaterial({
-          color: 0x8bf0b3, metalness:0.1, roughness:0.8, transparent:true, opacity:0.12
-        });
-        const peakMesh = new THREE.Mesh(geo.clone(), peakMat);
-        scene.add(peakMesh);
-
-        // Divergence fog (low alignment zones as ground haze)
-        const fogGeom = new THREE.PlaneGeometry(SIZE, SIZE, 1, 1);
-        fogGeom.rotateX(-Math.PI/2);
-        const fogMat = new THREE.MeshBasicMaterial({ color:0xff6b6b, transparent:true, opacity:0.05 });
-        const fog = new THREE.Mesh(fogGeom, fogMat);
-        fog.position.y = 2;
-        fog.visible = false;
-        scene.add(fog);
-
-        // ---- Topic cluster hulls (A/B) as translucent blobs ----
-        function makeHull(points, color, visible=false){
-          // simple convex-ish blob: average center + radial quads
-          const center = points.reduce((acc,p)=>acc.add(new THREE.Vector3(p.x*2.2, heightAt(p.x*2.2,p.y*2.2)+3, p.y*2.2)), new THREE.Vector3()).multiplyScalar(1/points.length);
-          const grp = new THREE.Group(); grp.visible = visible;
-          for (let i=0;i<points.length;i++){
-            const p = points[i], q = points[(i+1)%points.length];
-            const a = new THREE.Vector3(p.x*2.2, heightAt(p.x*2.2,p.y*2.2)+3, p.y*2.2);
-            const b = new THREE.Vector3(q.x*2.2, heightAt(q.x*2.2,q.y*2.2)+3, q.y*2.2);
-            const geom = new THREE.PlaneGeometry(a.distanceTo(b), 26, 1, 1);
-            geom.rotateX(-Math.PI/2);
-            const mesh = new THREE.Mesh(geom, new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.08, side:THREE.DoubleSide}));
-            mesh.position.copy(a.clone().lerp(b,0.5));
-            grp.add(mesh);
-          }
-          return grp;
-        }
-        const ptsA = proj.filter(p=>p.phase!==2).slice(0,10);
-        const ptsB = proj.filter(p=>p.phase===2).slice(10,18);
-        const hullA = makeHull(ptsA, 0x61dafb, false);
-        const hullB = makeHull(ptsB, 0xffc34d, false);
-        scene.add(hullA, hullB);
-
-        // ---- Path and waypoints ----
-        const pathGeom = new LineGeometry();
-        const pathMat = new LineMaterial({ 
-            linewidth: 4, 
-            transparent:true, 
-            opacity:.9,
-            vertexColors: true 
-        });
-        pathMat.resolution.set(width, height);
-        const pathLine = new Line2(pathGeom, pathMat);
-        scene.add(pathLine);
+        const grid = new THREE.GridHelper(SIZE, 20, 0x00ffff, 0x00ffff);
+        grid.material.transparent = true;
+        grid.material.opacity = 0.15;
+        grid.position.y = 0.1;
+        scene.add(grid);
 
         const nodeGeo = new THREE.SphereGeometry(3.2, 16, 16);
         const userMat = new THREE.MeshBasicMaterial({ color:0x61dafb });
@@ -288,64 +227,54 @@ window.addEventListener('load', () => {
           return mesh;
         });
 
-        // Return bridges (mint arcs) & fracture beacons
-        const mint = 0x8bf0b3;
+        const pink = new THREE.Color("#FF007F");
         const bridges = [];
-        proj.forEach((p,i)=>{
-          if (p.ref && p.ref>0){
-            const j = proj.findIndex(t=>t.id===p.ref);
-            if (j>=0){
-              const a = nodes[i].position, b = nodes[j].position;
-              const mid = a.clone().add(b).multiplyScalar(.5); mid.y += 24;
-              const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
-              const pts = curve.getPoints(20).flatMap(v=>[v.x,v.y,v.z]);
-              const g = new LineGeometry(); g.setPositions(pts);
-              const m = new LineMaterial({ color:mint, linewidth:2, transparent:true, opacity:.8 });
-              m.resolution.set(width, height);
-              const l = new Line2(g,m); l.computeLineDistances(); l.visible=false; scene.add(l);
-              bridges.push(l);
+        proj.forEach((p, i) => {
+            if (p.ref && p.ref > 0) {
+                const j = proj.findIndex(t => t.id === p.ref);
+                if (j >= 0) {
+                    const a = nodes[i].position, b = nodes[j].position;
+                    const mid = a.clone().add(b).multiplyScalar(.5); mid.y += 30;
+                    const curve = new THREE.CatmullRomCurve3([a, mid, b]);
+                    const tubeGeo = new THREE.TubeGeometry(curve, 20, 1.2, 8, false);
+                    const tubeMat = new THREE.MeshBasicMaterial({ color: pink, transparent: true, opacity: 0.8 });
+                    const tube = new THREE.Mesh(tubeGeo, tubeMat);
+                    tube.visible = false;
+                    scene.add(tube);
+                    bridges.push(tube);
+                }
             }
-          }
         });
-
-        // Precompute full path positions and colors
-        const PATH_POS = [];
-        const PATH_COLORS = [];
-        const startColor = new THREE.Color(0x61dafb); // Cyan
-        const endColor = new THREE.Color(0xffc34d); // Amber
-        const tempColor = new THREE.Color();
-
-        for (let i=0;i<proj.length;i++){
-          const n = nodes[i].position;
-          PATH_POS.push(n.x, n.y, n.z);
-          
-          const progress = i / (proj.length - 1);
-          tempColor.copy(startColor).lerp(endColor, progress);
-          PATH_COLORS.push(tempColor.r, tempColor.g, tempColor.b);
+        
+        const allPoints = nodes.map(n => n.position);
+        const pathCurve = new THREE.CatmullRomCurve3(allPoints);
+        const pathTubeGeom = new THREE.TubeGeometry(pathCurve, TURNS.length * 4, 1.5, 8, false);
+        const pathColors = [];
+        const color1 = new THREE.Color(0xff6b6b);
+        const color2 = new THREE.Color(0x8bf0b3);
+        for (let i = 0; i < pathTubeGeom.attributes.position.count; i++) {
+            const t = i / (pathTubeGeom.attributes.position.count -1);
+            const turnIndex = Math.floor(t * (TURNS.length - 1));
+            const coherence = TURNS[turnIndex][4];
+            const color = new THREE.Color().lerpColors(color1, color2, coherence);
+            pathColors.push(color.r, color.g, color.b);
         }
-        pathGeom.setPositions(PATH_POS);
-        pathGeom.setColors(PATH_COLORS);
-        pathLine.computeLineDistances();
+        pathTubeGeom.setAttribute('color', new THREE.Float32BufferAttribute(pathColors, 3));
+        const pathTubeMat = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.9 });
+        const pathTube = new THREE.Mesh(pathTubeGeom, pathTubeMat);
+        scene.add(pathTube);
 
-
-        // ---- UI/Playback ----
-        const playBtn = document.getElementById('play');
-        const pauseBtn = document.getElementById('pause');
-        const scrub = document.getElementById('scrub');
-        const tick = document.getElementById('tick');
+        const playBtn = document.getElementById('play'), pauseBtn = document.getElementById('pause');
+        const scrub = document.getElementById('scrub'), tick = document.getElementById('tick');
         const phaseBanner = document.getElementById('phase');
-
-        const pEls = [null,
-          document.getElementById('p1'),
-          document.getElementById('p2'),
-          document.getElementById('p3'),
-          document.getElementById('p4')
-        ];
+        const pEls = [null, ...Array.from({length:4}, (_,i) => document.getElementById(`p${i+1}`))];
 
         let tIndex = 0, playing = true, lastStep = 0, stepMs = 800;
+        let isUserInteracting = false;
+        let interactionTimeout;
 
         function setPhaseActive(phase){
-          for (let k=1;k<=4;k++) pEls[k].classList.toggle('active', k===phase);
+          pEls.forEach((el, i) => el?.classList.toggle('active', i === phase));
           phaseBanner.textContent = phaseCaption[phase];
           phaseBanner.style.opacity = 1;
           clearTimeout(setPhaseActive._t);
@@ -357,170 +286,84 @@ window.addEventListener('load', () => {
           tick.textContent = `Turn ${idx+1} / ${TURNS.length}`;
           scrub.value = String(idx);
 
-          // reveal nodes & path segment
-          for (let i=0;i<nodes.length;i++) nodes[i].visible = (i<=idx);
-          // bridges visible broadly after phase 3 starts
+          nodes.forEach((node, i) => node.visible = i <= idx);
+          
+          const drawRatio = (idx + 1) / TURNS.length;
+          pathTube.geometry.setDrawRange(0, Math.floor(drawRatio * pathTube.geometry.attributes.position.count));
+
           bridges.forEach(b => b.visible = (idx >= 18));
 
-          // divergence fog visible in phase 2
-          fog.visible = (TURNS[idx][3] === 2);
+          const currentTurn = TURNS[idx];
+          const targetNodePos = nodes[Math.max(0, idx)].position;
+          
+          if (currentTurn[3] === 2) {
+              cameraTarget.set(targetNodePos.x, targetNodePos.y + 150, targetNodePos.z + 300);
+          } else if (currentTurn[3] === 3) {
+              cameraTarget.set(targetNodePos.x + 150, targetNodePos.y + 100, targetNodePos.z + 150);
+          } else {
+              cameraTarget.set(targetNodePos.x, targetNodePos.y + 120, targetNodePos.z + 220);
+          }
+          controlsTarget.copy(targetNodePos);
 
-          // topic hulls (peek as needed)
-          hullA.visible = (idx >= 4 && TURNS[idx][3] !== 2);
-          hullB.visible = (idx >= 12 && TURNS[idx][3] === 2);
-
-          // camera follow node with gentle easing
-          const target = nodes[Math.max(0, idx)].position.clone();
-          cameraTarget.copy(target).add(new THREE.Vector3(0, 120, 220));
-          controlsTarget.copy(target);
-
-          // phase banner at boundaries
           if (idx===0 || idx===10 || idx===18 || idx===28){
             setPhaseActive(TURNS[idx][3]);
           }
         }
 
-        // tooltip via raycasting
         const tip = document.getElementById('tip');
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
-        let mouseX = 0, mouseY = 0;
-        let hovered = -1;
-        function onMouseMove(e){
+        let mouseX = 0, mouseY = 0, hovered = -1;
+        
+        window.addEventListener('mousemove', (e) => {
           mouse.x = (e.clientX / width) * 2 - 1;
           mouse.y = -(e.clientY / height) * 2 + 1;
           mouseX = e.clientX;
           mouseY = e.clientY;
-        }
-        window.addEventListener('mousemove', onMouseMove);
+        });
+        
+        const cameraTarget = new THREE.Vector3();
+        const controlsTarget = new THREE.Vector3();
 
-        function onClick(e) {
-            // Use the same mouse coordinates from the hover effect to perform a raycast
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(nodes, false);
-
-            if (intersects.length > 0) {
-                const clickedObject = intersects[0].object;
-                const idx = nodes.indexOf(clickedObject);
-
-                // Ensure the clicked node is visible (i.e., part of the conversation's past)
-                // before jumping the timeline to that point.
-                if (idx !== -1 && clickedObject.visible) {
-                    revealUpTo(idx);
-                }
-            }
-        }
-        window.addEventListener('click', onClick);
-
-        // camera follow state
-        const cameraTarget = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
-        const controlsTarget = new THREE.Vector3(0,0,0);
-
-        // controls
         playBtn.onclick = ()=>{ playing = true; playBtn.disabled=true; pauseBtn.disabled=false; };
         pauseBtn.onclick = ()=>{ playing = false; playBtn.disabled=false; pauseBtn.disabled=true; };
         scrub.oninput = (e)=>{ revealUpTo(Number(e.target.value)); };
 
-        window.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                e.preventDefault();
-                if (playing) {
-                    pauseBtn.click();
-                } else {
-                    playBtn.click();
-                }
-            } else if (e.code === 'ArrowRight') {
-                if (tIndex < TURNS.length - 1) {
-                    revealUpTo(tIndex + 1);
-                }
-            } else if (e.code === 'ArrowLeft') {
-                if (tIndex > 0) {
-                    revealUpTo(tIndex - 1);
-                }
-            }
+        controls.addEventListener('start', () => {
+            isUserInteracting = true;
+            clearTimeout(interactionTimeout);
+        });
+        controls.addEventListener('end', () => {
+            clearTimeout(interactionTimeout);
+            interactionTimeout = setTimeout(() => {
+                isUserInteracting = false;
+            }, 3000);
         });
 
-        // ---- Animate ----
         function animate(ts){
           requestAnimationFrame(animate);
-          
-          // play timeline
           if (playing && ts - lastStep > stepMs && tIndex < TURNS.length-1){
             revealUpTo(tIndex+1);
             lastStep = ts;
           }
           
-          // camera ease
-          camera.position.lerp(cameraTarget, 0.03);
-          controls.target.lerp(controlsTarget, 0.04);
-          controls.update();
-
-          // hover nodes
-          raycaster.setFromCamera(mouse, camera);
-          const intersects = raycaster.intersectObjects(nodes, false);
-          if (intersects.length){
-            const idx = nodes.indexOf(intersects[0].object);
-            if (idx !== hovered){
-              hovered = idx;
-              const p = proj[idx];
-              const pct = n=>Math.round(n*100);
-              tip.innerHTML = `<strong>${p.speaker.toUpperCase()}</strong> · Turn ${p.id} · Phase ${p.phase}<br/>
-                Coherence ${pct(p.coh)}% · Alignment ${pct(p.ali)}% ${p.frac?`· <span style="color:var(--coral)">Fracture</span>`:''}
-                <hr style="border:0;border-top:1px solid rgba(139,154,209,.25);margin:6px 0"/>
-                ${p.text}`;
-              tip.style.opacity = 1;
-            }
-            tip.style.left = (mouseX + 14) + 'px';
-            tip.style.top  = (mouseY + 14) + 'px';
-          } else {
-            hovered = -1; tip.style.opacity = 0;
+          if (!isUserInteracting) {
+            camera.position.lerp(cameraTarget, 0.04);
+            controls.target.lerp(controlsTarget, 0.05);
           }
 
-          // subtle peak pulsation at high coherence
-          peakMesh.material.opacity = 0.10 + 0.03 * Math.sin(performance.now()/1200);
-
+          controls.update();
           renderer.render(scene, camera);
         }
 
-        // Bootstrap
         revealUpTo(0);
         animate();
 
-        window.addEventListener('resize', ()=>{
-          width = window.innerWidth; height = window.innerHeight;
-          camera.aspect = width/height; camera.updateProjectionMatrix();
-          renderer.setSize(width, height);
-        });
-
     } catch (e) {
         console.error("WebGL initialization failed:", e);
-        
-        // Remove the failed canvas if it exists
-        const canvas = document.querySelector('canvas');
-        if (canvas) canvas.remove();
-
-        // Hide 3D specific UI
-        document.querySelector('.hud').style.display = 'none';
-        document.querySelector('.sidePanel').style.display = 'none';
-
-        
-        // Create and show fallback content
-        const fallbackContainer = document.createElement('div');
-        fallbackContainer.className = 'fallback-content';
-        
-        TURNS.forEach(turnData => {
-            const [id, speaker, text] = turnData;
-            const turnEl = document.createElement('div');
-            turnEl.className = `fallback-turn ${speaker}`;
-            turnEl.innerHTML = `<div class="speaker">${speaker} (Turn ${id})</div><p>${text}</p>`;
-            fallbackContainer.appendChild(turnEl);
-        });
-
-        document.body.appendChild(fallbackContainer);
     }
 });
 </script>
 </body>
 </html>
-
 
