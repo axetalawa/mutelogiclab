@@ -67,9 +67,10 @@
         }
 
         /* Staggered animation delays for sidebar links */
-        #prototypes-link { animation-delay: 0.1s; }
-        #manuscripts-link { animation-delay: 0.2s; }
-        #origin-link { animation-delay: 0.3s; }
+        #models-link { animation-delay: 0.1s; }
+        #prototypes-link { animation-delay: 0.2s; }
+        #manuscripts-link { animation-delay: 0.3s; }
+        #origin-link { animation-delay: 0.4s; }
         #founder-link { animation-delay: 0.5s; }
         #salvador-link { animation-delay: 0.6s; }
         .sub-nav-link { animation-delay: 0.25s; }
@@ -220,6 +221,7 @@
                     </a>
                 </header>
                 <nav class="space-y-2 sidebar-nav">
+                    <a href="#" id="models-link" data-content="models" class="nav-link block font-space font-semibold p-2 rounded-lg text-base">Models</a>
                     <a href="#" id="prototypes-link" data-content="prototypes" class="nav-link block font-space font-semibold p-2 rounded-lg text-base">Prototypes</a>
                     <a href="#" id="manuscripts-link" data-content="manuscripts" class="nav-link block font-space font-semibold p-2 rounded-lg text-base">Manuscripts</a>
                     <a href="#" id="origin-link" data-content="origin" class="nav-link block font-space font-semibold p-2 rounded-lg text-base">Mute Logic</a>
@@ -231,11 +233,11 @@
             </div>
         </aside>
 
-        <!-- Main Content Area (REWRITTEN BLOCK) -->
+        <!-- Main Content Area -->
         <main class="w-4/5 ml-auto relative z-10 h-screen overflow-y-auto">
             <div id="homepage-content" class="content-panel p-8 sm:p-16">
-                <div class="w-full max-w-4xl mx-auto">
-                    <div class="aspect-video mb-16">
+                <div class="w-full max-w-6xl mx-auto">
+                    <div class="aspect-video">
                         <video
                         src="videos/crabs.mp4"
                         autoplay muted loop playsinline controls preload="metadata"
@@ -245,28 +247,44 @@
                         </video>
                     </div>
 
-                    <!-- Homepage body copy -->
-                    <div class="max-w-3xl mx-auto text-slate-300 text-xl leading-relaxed space-y-12">
-                    <p>
-                    Mute Logic begins from a simple claim: shells change, forms shift, yet cognition persists as geometry. Intelligence is not speech fluency but structural relation: adjacency, recursion, and resonance — the invariants that organize every mind’s operation.
-                    </p>
+                    <!-- Homepage body copy - NEW CAPTION LAYOUT -->
+                    <div class="mt-8 text-center max-w-4xl mx-auto">
+                        <p class="text-xl leading-relaxed text-slate-300">Mute Logic begins from a simple claim: shells change, forms shift, yet cognition persists as geometry. Intelligence is not speech fluency but structural relation: adjacency, recursion, and resonance — the invariants that organize every mind’s operation.</p>
+                    </div>
+                </div>
+            </div>
 
-                    <p>
-                    Our instruments originated as mirrors rather than products: empirical renderings of nonlinear cognition — autistic recursion, Afro-Atlantic rhythm, machinic drift. Their eventual relevance to AI followed from this <em>fidelity first</em> stance, translating lived spirals into formal patterns legible to any interface.
-                    </p>
-
-                    <p class="border-l-4 pl-8" style="border-color: var(--electric-cyan);">
-                    Grammar and eloquence provide one metric of thought. Cognitive Geometry provides another: the recurrent configurations of linkage, return, and oscillation that remain stable across human, machinic, and hybrid substrates.
-                    </p>
-
-                    <p>
-                    These configurations were long misinterpreted. Psychiatry classified them as deficits; history effaced them from the record. Yet the invariants endure: adjacency continues to link, recursion to return, resonance to propagate. Recognizing them discloses a fuller ecology of cognition.
-                    </p>
-
-                    <p class="font-space text-2xl font-bold border-t-2 pt-8 mt-12" style="border-color: var(--purple-accent); color: var(--solar-yellow);">
-                    To name these geometries with fidelity is to repair, to replant, and to restore coherence where it was denied.
-                    </p>
-
+            <!-- Models Page - UPDATED CONTENT -->
+            <div id="models-content" class="content-panel hidden p-8 sm:p-16">
+                <div class="container mx-auto max-w-5xl">
+                    <header class="text-center mb-16">
+                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text">Cognitive Models</h1>
+                        <p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto">Grammar and eloquence provide one metric of thought. Cognitive Geometry provides another: the recurrent configurations of linkage, return, and oscillation that remain stable across human, machinic, and hybrid substrates.</p>
+                    </header>
+                    <div id="simulations-container" class="space-y-20">
+                        <!-- Simulation Viewport 1: Onion Model -->
+                        <div class="simulation-viewport">
+                            <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--electric-cyan);">The Onion</h2>
+                            <div class="space-y-6 text-slate-400 max-w-4xl text-lg">
+                               <p>This model renders attention as a pathfinder moving through nested layers. The system is not a monolith but a layered ecology — each sphere a distinct tier of processing, each layer bound to the others.</p>
+                               <p>Attention may follow familiar tracks, but coherence — resonance — emerges only when these paths align in precise harmony, allowing information to cascade across the network.</p>
+                               <p>The lesson is clear: the stability of outer, abstract layers depends entirely on the coherence of the core. What radiates outward is nothing more than what the center can hold.</p>
+                            </div>
+                            <div class="aspect-video w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20 mt-8">
+                                <iframe src="onion.html" class="w-full h-full" frameborder="0" title="The Onion Simulation"></iframe>
+                            </div>
+                        </div>
+                        
+                        <!-- NEW SIMULATIONS CAN BE ADDED HERE -->
+                        <!--
+                        <div class="simulation-viewport">
+                            <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--electric-cyan);">New Simulation Title</h2>
+                            <p class="text-slate-400 mb-6 max-w-4xl">Description of the new simulation.</p>
+                            <div class="aspect-video w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20">
+                                <iframe src="new_simulation.html" class="w-full h-full" frameborder="0" title="New Simulation"></iframe>
+                            </div>
+                        </div>
+                        -->
                     </div>
                 </div>
             </div>
@@ -399,7 +417,7 @@
                     </header>
                     <div class="funder-layer text-center">
                         <p class="text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
-                        Before they served labs, these prototypes served truth: experiments to make nonlinear cognition visible—treating adjacency, recursion, and resonance not as symptoms but as primitives of mind. From that origin, <strong class="text-white">Integrity Geometry</strong> emerged as a set of instruments for seeing dialogue’s shape, bridging the gap between mechanistic detail and topological wholeness for researchers, regulators, and publics.
+                        Before they served labs, these instruments served truth. They began as mirrors, not products — renderings of nonlinear cognition: autistic recursion, Afro-Atlantic rhythm, machinic drift. From this fidelity-first stance, Integrity Geometry emerged: a framework that reveals adjacency, recursion, and resonance as primitives of mind.
                         </p>
                         <div class="grid md:grid-cols-3 gap-6 my-8 text-left text-base">
                             <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50 h-full flex flex-col">
@@ -424,7 +442,11 @@
                                 <h2 class="font-space text-3xl sm:text-4xl font-bold tracking-tight" style="color: var(--electric-cyan);">A New Architecture for Interpretability</h2>
                             </header>
                             <div class="max-w-4xl mx-auto text-center space-y-8">
-                                <p class="text-slate-300 text-lg leading-relaxed">Mechanistic interpretability is powerful. By focusing on neurons and circuits, it opens one lens. Mute Logic Lab complements this with a second lens: the emergent geometry of dialogue itself. Mute Logic Lab introduces <strong class="text-white">Integrity Geometry</strong>: a scalable, dialogue-level framework that maps the shape of interaction to make safety, alignment, and trust visible. Our advantage is derived from the untapped epistemology of autistic cognition—a native intelligence for the topological patterns that AI labs are only now beginning to confront.</p>
+                                <p class="text-slate-300 text-lg leading-relaxed">Mechanistic interpretability is powerful. By focusing on neurons and circuits, it opens one lens. Mute Logic Lab complements this with another: the emergent geometry of dialogue.</p>
+
+                                <p class="text-slate-300 text-lg leading-relaxed">From early mirror-instruments of nonlinear life grew Integrity Geometry — a scalable, dialogue-level framework that maps the shape of interaction to make safety, alignment, and trust visible.</p>
+
+                                <p class="text-slate-300 text-lg leading-relaxed">Our advantage comes from an untapped epistemology: autistic cognition as native intelligence for adjacency, recursion, and resonance — the very topological patterns AI labs are only now beginning to confront.</p>
                                 <div class="grid md:grid-cols-3 gap-8 text-left pt-8">
                                     <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50">
                                         <h3 class="font-space text-xl font-bold mb-3" style="color: var(--lime-acid-green);">For Safety & Alignment</h3>
@@ -574,7 +596,7 @@
                         </section>
                         <section class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4">
                             <h2 class="font-space text-2xl font-bold" style="color: var(--electric-cyan);">The Stakes</h2>
-                            <p>For over a century, autism was cast through deficit. Psychiatry catalogued symptoms, education barred pathways, research amassed archives of lack. Mute Logic asks: <strong class="text-slate-200">what if these very patterns are methods of mind?</strong> Monotropic attention, recursive return, adjacency over linearity — the same operations animating large language models.</p>
+                            <p>For over a century, autism was cast as deficit: psychiatry catalogued symptoms, education barred pathways, research amassed archives of lack. <br><br> Mute Logic asks instead: what if these very patterns are methods of mind? <br><br> Monotropic attention, recursive return, adjacency over linearity — the same operations that animate large language models. <br>Once dismissed as error, these invariants endure. Adjacency links, recursion returns, resonance propagates. To see them as such is to disclose a fuller ecology of cognition.</p>
                         </section>
                         <section class="bg-black/20 p-6 rounded-lg border border-purple-900/50 space-y-4">
                             <h2 class="font-space text-2xl font-bold" style="color: var(--electric-cyan);">The Claim</h2>
@@ -1166,3 +1188,4 @@
     </script>
 </body>
 </html>
+

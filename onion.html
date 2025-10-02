@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Onion</title>
+    <style>
+        :root {
+            --primary-pink: #FF007F;
+            --electric-cyan: #00FFF7;
+            --solar-yellow: #FFEF00;
+            --lime-acid-green: #A6FF00;
+            --purple-accent: #4A006F;
+            --ritual-orange: #FF5E00;
+        }
+
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background-color: #050505; 
+            color: #E2E8F0; 
+            font-family: 'Inter', sans-serif; 
+        }
+
+        canvas { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        #controls-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: rgba(5, 5, 5, 0.5);
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--purple-accent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            animation: fadeIn 0.5s ease-out;
+            pointer-events: all;
+        }
+
+        #status-display {
+            font-size: 0.9em;
+            min-height: 20px;
+            color: #fff;
+            transition: color 0.5s ease;
+        }
+
+        #regen-button {
+            background-color: transparent;
+            border: 1px solid var(--purple-accent);
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.5em;
+            line-height: 1;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        #regen-button:hover:not(:disabled) {
+            background-color: rgba(74, 0, 111, 0.7);
+            box-shadow: 0 0 15px var(--primary-pink);
+            transform: rotate(90deg);
+        }
+
+        #regen-button:disabled {
+            cursor: wait;
+            color: #aaa;
+            border-color: #555;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="controls-container">
+        <div id="status-display">Status: Initializing...</div>
+        <button id="regen-button" title="Generate New System">↺</button>
+    </div>
+
+    <script async src="https://unpkg.com/es-module-shims@1.10.0/dist/es-module-shims.js"></script>
+    <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/", "@tweenjs/tween.js": "https://unpkg.com/@tweenjs/tween.js@23.1.2/dist/tween.esm.js" } }</script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import TWEEN from '@tweenjs/tween.js';
+
+        const pathfinderVertexShader = `varying vec3 vNormal; void main() { vNormal = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+        const pathfinderFragmentShader = `uniform float time; varying vec3 vNormal; void main() { float intensity = 0.7 + 0.3 * sin(vNormal.z * 5.0 + time * 4.0); gl_FragColor = vec4(vec3(intensity), 1.0); }`;
+
+        let scene, camera, renderer, composer, controls, bloomPass;
+        let mainGroup = new THREE.Group();
+        let trailGroup = new THREE.Group();
+        let nodeData = [], edgeObjects = [], adjacencyList = new Map();
+        let nodeInstances = {}; // { core_8: InstancedMesh, shell_8: InstancedMesh, ... }
+        let pathfinder, pathfinderHistory = [], currentNodeIndex = 0, isMoving = false;
+        let moveInterval, clock = new THREE.Clock();
+        let audioContext, statusDisplay, regenButton;
+
+        // Color Palette
+        const RECURSION_COLOR = 0xA6FF00;
+        const TRIANGLE_RESONANCE_COLOR = 0xFFEF00;
+        const JUMP_RESONANCE_COLOR = 0x00FFF7;
+        const JUMP_COLOR = 0xFF007F;
+        const NODE_HEAT_COLOR = new THREE.Color(0xFFEF00);
+        
+        init();
+        setupScene();
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x050505);
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.z = 45;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.minDistance = 25;
+            controls.maxDistance = 100;
+
+            const renderScene = new RenderPass(scene, camera);
+            bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.4, 0.6);
+            composer = new EffectComposer(renderer);
+            composer.addPass(renderScene);
+            composer.addPass(bloomPass);
+
+            statusDisplay = document.getElementById('status-display');
+            regenButton = document.getElementById('regen-button');
+            regenButton.addEventListener('click', handleNewSystemClick);
+            
+            window.addEventListener('resize', onWindowResize);
+            document.body.addEventListener('click', initAudio, { once: true });
+            
+            animate();
+        }
+        
+        function updateStatus(message, color = '#A6FF00') {
+            if (statusDisplay) {
+                statusDisplay.textContent = `Event: ${message}`;
+                statusDisplay.style.color = color;
+                setTimeout(() => {
+                    if (statusDisplay && statusDisplay.textContent === `Event: ${message}`) {
+                       statusDisplay.textContent = 'Status: Observing...';
+                       statusDisplay.style.color = '#fff';
+                    }
+                }, 4000);
+            }
+        }
+        
+        async function handleNewSystemClick() {
+            regenButton.disabled = true;
+            regenButton.innerHTML = '...';
+
+            if (moveInterval) clearInterval(moveInterval);
+            TWEEN.removeAll();
+            
+            // Fade out old system
+            await new Promise(resolve => new TWEEN.Tween(mainGroup.scale)
+                .to({x: 0.01, y: 0.01, z: 0.01}, 500)
+                .easing(TWEEN.Easing.Cubic.In)
+                .onComplete(() => {
+                    disposeGroup(mainGroup);
+                    scene.remove(mainGroup);
+                    resolve();
+                }).start());
+            
+            await setupScene();
+            
+            regenButton.disabled = false;
+            regenButton.innerHTML = '↺';
+        }
+
+        function disposeGroup(group) {
+            group.traverse(object => {
+                if (object.geometry) object.geometry.dispose();
+                if (object.material) {
+                     if (Array.isArray(object.material)) {
+                        object.material.forEach(m => m.dispose());
+                    } else {
+                        object.material.dispose();
+                    }
+                }
+            });
+        }
+
+        async function setupScene() {
+            mainGroup = new THREE.Group();
+            scene.add(mainGroup);
+            trailGroup = new THREE.Group();
+            mainGroup.add(trailGroup);
+
+            nodeData = [];
+            edgeObjects = [];
+            nodeInstances = {};
+            adjacencyList.clear();
+            pathfinder = null;
+            pathfinderHistory = [];
+            isMoving = false;
+            updateStatus('Generating new system...', '#fff');
+            
+            await generateConcentricSpheres();
+            createPathfinder();
+            
+            updateStatus('Observing...', '#fff');
+            mainGroup.scale.set(0.01, 0.01, 0.01);
+            new TWEEN.Tween(mainGroup.scale).to({x: 1, y: 1, z: 1}, 800).easing(TWEEN.Easing.Cubic.Out).start();
+            
+            moveInterval = setInterval(movePathfinder, 2000);
+        }
+
+        async function generateConcentricSpheres() {
+            const layers = [
+                { radius: 8, subdivisions: 2, color: 0xFF5E00 },
+                { radius: 14, subdivisions: 3, color: 0x00FFF7 },
+                { radius: 20, subdivisions: 4, color: 0xA6FF00 }
+            ];
+            let globalNodeIndex = 0;
+            const dummy = new THREE.Object3D();
+
+            for (const layer of layers) {
+                const geometry = new THREE.IcosahedronGeometry(layer.radius, layer.subdivisions);
+                const positions = geometry.attributes.position.array;
+                const uniquePositions = new Map();
+                const layerPositions = [];
+
+                for (let i = 0; i < positions.length; i += 3) {
+                    const key = `${positions[i].toFixed(3)},${positions[i+1].toFixed(3)},${positions[i+2].toFixed(3)}`;
+                    if (!uniquePositions.has(key)) {
+                        const pos = new THREE.Vector3(positions[i], positions[i+1], positions[i+2]);
+                        uniquePositions.set(key, { index: globalNodeIndex, pos: pos });
+                        layerPositions.push(pos);
+                        globalNodeIndex++;
+                    }
+                }
+
+                // Create InstancedMeshes
+                const coreGeom = new THREE.SphereGeometry(0.2, 16, 16);
+                const shellGeom = new THREE.SphereGeometry(0.4, 32, 32);
+                const coreMat = new THREE.MeshBasicMaterial({ color: layer.color });
+                const shellMat = new THREE.MeshStandardMaterial({ color: layer.color, transparent: true, opacity: 0.2, roughness: 0.2, metalness: 0.8 });
+                const coreMesh = new THREE.InstancedMesh(coreGeom, coreMat, layerPositions.length);
+                const shellMesh = new THREE.InstancedMesh(shellGeom, shellMat, layerPositions.length);
+                
+                let instanceIdx = 0;
+                for (const [key, {index, pos}] of uniquePositions.entries()) {
+                    dummy.position.copy(pos);
+                    dummy.updateMatrix();
+                    coreMesh.setMatrixAt(instanceIdx, dummy.matrix);
+                    shellMesh.setMatrixAt(instanceIdx, dummy.matrix);
+
+                    nodeData[index] = {
+                        id: index,
+                        instanceId: instanceIdx,
+                        layer: layer.radius,
+                        originalColor: new THREE.Color(layer.color),
+                        currentColor: new THREE.Color(layer.color),
+                        visitCount: 0,
+                        position: pos
+                    };
+                    adjacencyList.set(index, []);
+                    instanceIdx++;
+                }
+                
+                mainGroup.add(coreMesh, shellMesh);
+                nodeInstances[`core_${layer.radius}`] = coreMesh;
+                nodeInstances[`shell_${layer.radius}`] = shellMesh;
+
+                // Create edges
+                const edges = new Set();
+                const posAttribute = geometry.attributes.position;
+                for (let i = 0; i < posAttribute.count; i += 3) {
+                    const p = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+                    for (let j=0; j<3; j++) p[j].fromBufferAttribute(posAttribute, i+j);
+                    const idx = p.map(v => uniquePositions.get(`${v.x.toFixed(3)},${v.y.toFixed(3)},${v.z.toFixed(3)}`).index);
+                    
+                    [[idx[0], idx[1]], [idx[1], idx[2]], [idx[2], idx[0]]].forEach(([a, b]) => {
+                        const edgeKey = [a, b].sort().join('-');
+                        if (a !== undefined && b !== undefined && !edges.has(edgeKey)) {
+                            const line = new THREE.Line(
+                                new THREE.BufferGeometry().setFromPoints([nodeData[a].position, nodeData[b].position]),
+                                new THREE.LineBasicMaterial({ color: layer.color, transparent: true, opacity: 0.15 })
+                            );
+                            mainGroup.add(line);
+                            edgeObjects.push(line);
+                            adjacencyList.get(a).push(b);
+                            adjacencyList.get(b).push(a);
+                            edges.add(edgeKey);
+                        }
+                    });
+                }
+                geometry.dispose();
+            }
+        }
+        
+        function createPathfinder() {
+            if (nodeData.length === 0) return;
+            const geometry = new THREE.IcosahedronGeometry(0.6, 1);
+            const material = new THREE.ShaderMaterial({ uniforms: { time: { value: 0.0 } }, vertexShader: pathfinderVertexShader, fragmentShader: pathfinderFragmentShader });
+            pathfinder = new THREE.Mesh(geometry, material);
+            currentNodeIndex = Math.floor(Math.random() * nodeData.length);
+            pathfinder.position.copy(nodeData[currentNodeIndex].position);
+            mainGroup.add(pathfinder);
+            pathfinderHistory.push({ index: currentNodeIndex, layer: nodeData[currentNodeIndex].layer });
+        }
+        
+        function movePathfinder() {
+            if (isMoving || nodeData.length === 0 || !nodeData[currentNodeIndex]) return;
+            const shouldJump = Math.random() < 0.2; 
+            
+            if (shouldJump) {
+                const currentLayer = nodeData[currentNodeIndex].layer;
+                updateStatus(`Layer Jump Initiated`, '#FF007F');
+                const availableLayers = [8, 14, 20].filter(r => r !== currentLayer);
+                if (availableLayers.length === 0) return;
+                const targetLayer = availableLayers[Math.floor(Math.random() * availableLayers.length)];
+                const targetLayerNodes = nodeData.filter(n => n && n.layer === targetLayer);
+                if (targetLayerNodes.length === 0) return;
+                let closestNode = null, minDistance = Infinity;
+                const currentPos = nodeData[currentNodeIndex].position;
+                targetLayerNodes.forEach(node => {
+                    const dist = currentPos.distanceTo(node.position);
+                    if (dist < minDistance) { minDistance = dist; closestNode = node; }
+                });
+                if (closestNode) prepareAndAnimateMove(closestNode.id, true);
+
+            } else {
+                const neighbors = adjacencyList.get(currentNodeIndex);
+                if (neighbors && neighbors.length > 0) {
+                    const validNeighbors = neighbors.filter(i => nodeData[i]);
+                    if (validNeighbors.length > 0) {
+                        const nextNodeIndex = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
+                        prepareAndAnimateMove(nextNodeIndex, false);
+                    }
+                }
+            }
+        }
+        
+        function prepareAndAnimateMove(nextNodeIndex, isJump) {
+            if (!nodeData[currentNodeIndex] || !nodeData[nextNodeIndex]) return;
+            const startPos = nodeData[currentNodeIndex].position;
+            const endPos = nodeData[nextNodeIndex].position;
+            
+            if (isJump) {
+                playSound('jump');
+            }
+            
+            checkRecursion(nextNodeIndex);
+            checkResonance(currentNodeIndex, nextNodeIndex);
+
+            currentNodeIndex = nextNodeIndex;
+            pathfinderHistory.push({ index: currentNodeIndex, layer: nodeData[currentNodeIndex].layer });
+            if (pathfinderHistory.length > 20) pathfinderHistory.shift();
+
+            animatePathfinderMovement(endPos);
+        }
+
+        function checkResonance(currentIndex, nextNodeIndex) {
+            const prev = pathfinderHistory[pathfinderHistory.length - 1];
+            const prevPrev = pathfinderHistory[pathfinderHistory.length - 2];
+            if (!prev || !prevPrev || !nodeData[nextNodeIndex] || !nodeData[prevPrev.index]) return;
+            const nextNodeLayer = nodeData[nextNodeIndex].layer;
+            
+            if (prev.layer === prevPrev.layer && prev.layer === nextNodeLayer && adjacencyList.get(nextNodeIndex)?.includes(prevPrev.index)) {
+                updateStatus('Triangular Resonance', '#FFEF00');
+                triggerResonanceEffect([prevPrev.index, prev.index, nextNodeIndex], TRIANGLE_RESONANCE_COLOR, 'halo');
+            } else if (prev.layer !== prevPrev.layer && nextNodeLayer === prevPrev.layer) {
+                updateStatus('Jump Resonance', '#00FFF7');
+                triggerResonanceEffect([prevPrev.index, prev.index, nextNodeIndex], JUMP_RESONANCE_COLOR, 'layerPulse', [prev.layer, nextNodeLayer]);
+            }
+        }
+
+        function triggerResonanceEffect(nodeIndices, color, type, layersToPulse = []) {
+            nodeIndices.forEach((idx, i) => {
+                const node = nodeData[idx];
+                if (node) setTimeout(() => flashEffect(node, color, 1500), i * 100);
+            });
+            playSound('resonance');
+            new TWEEN.Tween(bloomPass).to({ strength: 2.5 }, 500).yoyo(true).repeat(1).easing(TWEEN.Easing.Cubic.InOut).start();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            TWEEN.update();
+            controls.update();
+            
+            if (mainGroup) mainGroup.rotation.y += 0.0005;
+            if (pathfinder?.material?.uniforms) pathfinder.material.uniforms.time.value += delta;
+            
+            composer.render();
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer || !composer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+            bloomPass.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function initAudio() { if (!audioContext) { audioContext = new (window.AudioContext || window.webkitAudioContext)(); playSound('init'); } }
+
+        function animatePathfinderMovement(targetPosition) {
+            if (!pathfinder) return;
+            isMoving = true; 
+            playSound('move');
+            new TWEEN.Tween(pathfinder.position)
+                .to(targetPosition, 1000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onComplete(() => {
+                    isMoving = false;
+                    const node = nodeData[currentNodeIndex];
+                    if (node) {
+                        node.visitCount++;
+                        updateNodeHeat(node);
+                    }
+                })
+                .start();
+        }
+
+        function updateNodeHeat(node) {
+            const { originalColor, visitCount, layer, instanceId } = node;
+            const heatFactor = Math.min(visitCount / 5, 1);
+            const targetColor = originalColor.clone().lerp(NODE_HEAT_COLOR, heatFactor);
+            
+            if (node.currentColor.equals(targetColor)) return;
+            node.currentColor.copy(targetColor);
+
+            const coreMesh = nodeInstances[`core_${layer}`];
+            if (coreMesh) {
+                coreMesh.setColorAt(instanceId, targetColor);
+                coreMesh.instanceColor.needsUpdate = true;
+            }
+        }
+
+        function flashEffect(node, flashColor, duration = 500) {
+            const { layer, instanceId, currentColor } = node;
+            const coreMesh = nodeInstances[`core_${layer}`];
+            if (!coreMesh) return;
+            
+            const fromColor = currentColor.clone();
+            new TWEEN.Tween({ val: 0 }).to({ val: 1 }, duration / 2)
+                .easing(TWEEN.Easing.Cubic.Out)
+                .onUpdate(obj => {
+                    const c = fromColor.clone().lerp(new THREE.Color(flashColor), obj.val);
+                    coreMesh.setColorAt(instanceId, c);
+                    coreMesh.instanceColor.needsUpdate = true;
+                })
+                .yoyo(true).repeat(1)
+                .start();
+        }
+
+        function checkRecursion(nextNodeIndex) { 
+            if (nodeData[nextNodeIndex]) {
+                const nextNode = nodeData[nextNodeIndex];
+                if (pathfinderHistory.some(p => p.index === nextNodeIndex)) {
+                    updateStatus('Recursive Path Detected', '#A6FF00');
+                    playSound('recursion');
+                    flashEffect(nextNode, RECURSION_COLOR, 1000);
+                    new TWEEN.Tween(bloomPass).to({ strength: 3.0 }, 400).yoyo(true).repeat(1).easing(TWEEN.Easing.Cubic.InOut).start();
+                }
+            }
+        }
+        function playSound(type) {
+            if (!audioContext || audioContext.state === 'suspended') return;
+            const now = audioContext.currentTime;
+            switch (type) {
+                case 'init': audioContext.resume(); break;
+                case 'move': {
+                    const gain = audioContext.createGain();
+                    gain.connect(audioContext.destination);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+                    const osc = audioContext.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(100, now + 0.2);
+                    osc.connect(gain);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                    break;
+                }
+                case 'recursion': {
+                    const gain = audioContext.createGain();
+                    gain.connect(audioContext.destination);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
+                    const osc = audioContext.createOscillator();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.detune.setValueAtTime(0, now);
+                    osc.detune.linearRampToValueAtTime(1200, now + 0.3);
+                    osc.connect(gain);
+                    osc.start(now);
+                    osc.stop(now + 0.8);
+                    break;
+                }
+                case 'resonance': {
+                    const gain = audioContext.createGain();
+                    gain.connect(audioContext.destination);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+                    [100, 150, 200].forEach(freq => {
+                        const osc = audioContext.createOscillator();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(freq, now);
+                        osc.frequency.exponentialRampToValueAtTime(freq * 4, now + 1.0);
+                        osc.connect(gain);
+                        osc.start(now);
+                        osc.stop(now + 1.2);
+                    });
+                    break;
+                }
+                case 'jump': {
+                    const gain = audioContext.createGain();
+                    gain.connect(audioContext.destination);
+                    gain.gain.setValueAtTime(0.5, now);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+                    const osc = audioContext.createOscillator();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(80, now);
+                    osc.frequency.exponentialRampToValueAtTime(40, now + 0.3);
+                    osc.connect(gain);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
