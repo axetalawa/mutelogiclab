@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Onion</title>
+    <title>A Cebola</title>
     <style>
         :root {
             --primary-pink: #FF007F;
@@ -94,8 +94,8 @@
 </head>
 <body>
     <div id="controls-container">
-        <div id="status-display">Status: Initializing...</div>
-        <button id="regen-button" title="Generate New System">↺</button>
+        <div id="status-display">Status: Inicializando...</div>
+        <button id="regen-button" title="Gerar Novo Sistema">↺</button>
     </div>
 
     <script async src="https://unpkg.com/es-module-shims@1.10.0/dist/es-module-shims.js"></script>
@@ -165,11 +165,11 @@
         
         function updateStatus(message, color = '#A6FF00') {
             if (statusDisplay) {
-                statusDisplay.textContent = `Event: ${message}`;
+                statusDisplay.textContent = `Evento: ${message}`;
                 statusDisplay.style.color = color;
                 setTimeout(() => {
-                    if (statusDisplay && statusDisplay.textContent === `Event: ${message}`) {
-                       statusDisplay.textContent = 'Status: Observing...';
+                    if (statusDisplay && statusDisplay.textContent === `Evento: ${message}`) {
+                       statusDisplay.textContent = 'Status: Observando...';
                        statusDisplay.style.color = '#fff';
                     }
                 }, 4000);
@@ -225,12 +225,12 @@
             pathfinder = null;
             pathfinderHistory = [];
             isMoving = false;
-            updateStatus('Generating new system...', '#fff');
+            updateStatus('Gerando novo sistema...', '#fff');
             
             await generateConcentricSpheres();
             createPathfinder();
             
-            updateStatus('Observing...', '#fff');
+            updateStatus('Observando...', '#fff');
             mainGroup.scale.set(0.01, 0.01, 0.01);
             new TWEEN.Tween(mainGroup.scale).to({x: 1, y: 1, z: 1}, 800).easing(TWEEN.Easing.Cubic.Out).start();
             
@@ -338,7 +338,7 @@
             
             if (shouldJump) {
                 const currentLayer = nodeData[currentNodeIndex].layer;
-                updateStatus(`Layer Jump Initiated`, '#FF007F');
+                updateStatus(`Salto de Camada Iniciado`, '#FF007F');
                 const availableLayers = [8, 14, 20].filter(r => r !== currentLayer);
                 if (availableLayers.length === 0) return;
                 const targetLayer = availableLayers[Math.floor(Math.random() * availableLayers.length)];
@@ -390,10 +390,10 @@
             const nextNodeLayer = nodeData[nextNodeIndex].layer;
             
             if (prev.layer === prevPrev.layer && prev.layer === nextNodeLayer && adjacencyList.get(nextNodeIndex)?.includes(prevPrev.index)) {
-                updateStatus('Triangular Resonance', '#FFEF00');
+                updateStatus('Ressonância Triangular', '#FFEF00');
                 triggerResonanceEffect([prevPrev.index, prev.index, nextNodeIndex], TRIANGLE_RESONANCE_COLOR, 'halo');
             } else if (prev.layer !== prevPrev.layer && nextNodeLayer === prevPrev.layer) {
-                updateStatus('Jump Resonance', '#00FFF7');
+                updateStatus('Ressonância de Salto', '#00FFF7');
                 triggerResonanceEffect([prevPrev.index, prev.index, nextNodeIndex], JUMP_RESONANCE_COLOR, 'layerPulse', [prev.layer, nextNodeLayer]);
             }
         }
@@ -484,7 +484,7 @@
             if (nodeData[nextNodeIndex]) {
                 const nextNode = nodeData[nextNodeIndex];
                 if (pathfinderHistory.some(p => p.index === nextNodeIndex)) {
-                    updateStatus('Recursive Path Detected', '#A6FF00');
+                    updateStatus('Caminho Recursivo Detectado', '#A6FF00');
                     playSound('recursion');
                     flashEffect(nextNode, RECURSION_COLOR, 1000);
                     new TWEEN.Tween(bloomPass).to({ strength: 3.0 }, 400).yoyo(true).repeat(1).easing(TWEEN.Easing.Cubic.InOut).start();
@@ -560,4 +560,3 @@
     </script>
 </body>
 </html>
-

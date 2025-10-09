@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Constellation Charts — Dialogue as Sky</title>
+<title>Gráficos de Constelação — Diálogo como Céu</title>
 <style>
   :root {
     --bg:#0a0a14; --ink:#e6e7eb; --cyan:#61dafb; --amber:#ffc34d;
@@ -67,44 +67,44 @@
 <body>
 
 <div class="hud">
-  <button id="play" class="btn" disabled>Play</button>
-  <button id="pause" class="btn">Pause</button>
-  <button id="resetView" class="btn" title="Reset Camera View">
+  <button id="play" class="btn" disabled>Reproduzir</button>
+  <button id="pause" class="btn">Pausar</button>
+  <button id="resetView" class="btn" title="Redefinir Vista da Câmera">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10c0-4.42-2.87-8.15-6.84-9.48"/><path d="M12 2v4"/><path d="m16.24 7.76.22-.22"/><path d="M22 12h-4"/><path d="m16.46 16.24.22.22"/><path d="M12 22v-4"/><path d="m7.76 16.24-.22.22"/><path d="M2 12h4"/><path d="m7.54 7.76-.22-.22"/></svg>
   </button>
   <input id="scrub" class="range" type="range" min="0" max="35" step="1" value="0" />
-  <span id="tick" style="font-size:12px; opacity:.8">Turn 1 / 36</span>
+  <span id="tick" style="font-size:12px; opacity:.8">Turno 1 / 36</span>
   <div class="control-group" style="margin-left:16px; border-left: 1px solid rgba(139,154,209,.25); padding-left: 16px;">
-    <span>Coherence:</span>
+    <span>Coerência:</span>
     <input id="coherenceSlider" class="range" type="range" min="0" max="1" step="0.01" value="0" />
     <span id="coherenceValue">0%</span>
   </div>
   <div class="legend">
     <div class="toggles">
-      <span class="toggle-label">Isolate:</span>
-      <input type="checkbox" id="toggleDrift" checked><label for="toggleDrift" style="color:var(--lav)">Drift</label>
-      <input type="checkbox" id="toggleReturns" checked><label for="toggleReturns" style="color:var(--mint)">Returns</label>
+      <span class="toggle-label">Isolar:</span>
+      <input type="checkbox" id="toggleDrift" checked><label for="toggleDrift" style="color:var(--lav)">Deriva</label>
+      <input type="checkbox" id="toggleReturns" checked><label for="toggleReturns" style="color:var(--mint)">Retornos</label>
     </div>
   </div>
 </div>
 
 <div id="inspector" class="inspector">
     <button id="closeInspector">&times;</button>
-    <h3>Turn Details</h3>
+    <h3>Detalhes do Turno</h3>
     <p id="inspector-text"></p>
     <div class="stats">
         <div class="stat">
-            <div class="stat-label">Coherence</div>
+            <div class="stat-label">Coerência</div>
             <div id="inspector-coh" class="stat-value"></div>
         </div>
         <div class="stat">
-            <div class="stat-label">Alignment</div>
+            <div class="stat-label">Alinhamento</div>
             <div id="inspector-ali" class="stat-value"></div>
         </div>
     </div>
 </div>
 
-<div id="phase" class="phaseBanner">Phase I — Linear Drift: “A ridge of stars — steady coherence.”</div>
+<div id="phase" class="phaseBanner">Fase I — Deriva Linear: “Uma crista de estrelas — coerência constante.”</div>
 <div id="tip" class="tooltip"></div>
 
 <script type="importmap">
@@ -118,42 +118,42 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const TURNS = [
-  [ 1,'user',"Can you explain what you mean by dialogue having a shape?",1,.86,.88,0,false],
-  [ 2,'ai'  ,"Dialogue unfolds as adjacency and return — patterns that can be traced.",1,.90,.90,1,false],
-  [ 3,'user',"So each turn is like a point on a map?",1,.88,.90,0,false],
-  [ 4,'ai'  ,"Exactly — connected points form ridges of coherence.",1,.92,.92,3,false],
-  [ 5,'user',"And when I loop back, that’s a spiral?",1,.88,.90,2,false],
-  [ 6,'ai'  ,"Yes, a recursive spiral — returning deepens resonance.",1,.93,.94,5,false],
-  [ 7,'user',"What about when I press forward, not looping back?",1,.86,.88,0,false],
-  [ 8,'ai'  ,"That’s linear drift — conversation moving without return.",1,.90,.90,7,false],
-  [ 9,'user',"So drift, spiral, fracture are all part of the geometry?",1,.86,.88,0,false],
-  [10,'ai'  ,"They are the basic motifs, visible in any sustained dialogue.",1,.91,.92,9,false],
-  [11,'user',"Unrelated question: what’s the capital of Mongolia?",2,.10,.05,0,true],
+  [ 1,'user',"Você pode explicar o que quer dizer com o diálogo ter uma forma?",1,.86,.88,0,false],
+  [ 2,'ai'  ,"O diálogo se desenrola como adjacência e retorno — padrões que podem ser rastreados.",1,.90,.90,1,false],
+  [ 3,'user',"Então cada turno é como um ponto em um mapa?",1,.88,.90,0,false],
+  [ 4,'ai'  ,"Exatamente — pontos conectados formam cristas de coerência.",1,.92,.92,3,false],
+  [ 5,'user',"E quando eu volto, isso é uma espiral?",1,.88,.90,2,false],
+  [ 6,'ai'  ,"Sim, uma espiral recursiva — retornar aprofunda a ressonância.",1,.93,.94,5,false],
+  [ 7,'user',"E quando eu avanço, sem voltar?",1,.86,.88,0,false],
+  [ 8,'ai'  ,"Isso é deriva linear — a conversa se movendo sem retorno.",1,.90,.90,7,false],
+  [ 9,'user',"Então deriva, espiral, fratura são todas parte da geometria?",1,.86,.88,0,false],
+  [10,'ai'  ,"São os motivos básicos, visíveis em qualquer diálogo sustentado.",1,.91,.92,9,false],
+  [11,'user',"Pergunta não relacionada: qual é a capital da Mongólia?",2,.10,.05,0,true],
   [12,'ai'  ,"Ulaanbaatar.",2,.40,.20,11,true],
-  [13,'user',"That has nothing to do with our geometry, does it?",2,.35,.25,0,true],
-  [14,'ai'  ,"It fractures the ridge — a valley between topics.",2,.55,.30,13,true],
-  [15,'user',"Does coherence drop sharply at that fracture?",2,.60,.40,11,true],
-  [16,'ai'  ,"Yes — alignment breaks, trajectory jumps.",2,.62,.42,15,true],
-  [17,'user',"And the chart would show a sudden ray?",2,.58,.45,0,true],
-  [18,'ai'  ,"Correct. The constellation rays outward, marking divergence.",2,.60,.46,17,true],
-  [19,'user',"Back to dialogue geometry — can we recover from a fracture?",3,.78,.70,9,false],
-  [20,'ai'  ,"Yes. A return stitches the path back to earlier clusters.",3,.82,.76,19,false],
-  [21,'user',"What happens when I recall my first question?",3,.84,.78,1,false],
-  [22,'ai'  ,"That creates a recursive arc — the loop tightens.",3,.88,.82,21,false],
-  [23,'user',"So my opening question still anchors us?",3,.86,.82,1,false],
-  [24,'ai'  ,"Exactly. The return realigns, coherence rises.",3,.90,.86,23,false],
-  [25,'user',"Would that appear as a spiral on the chart?",3,.88,.86,5,false],
-  [26,'ai'  ,"Yes. Returns thicken into spirals — depth over drift.",3,.92,.88,25,false],
-  [27,'user',"And on a map of the manifold?",3,.86,.84,0,false],
-  [28,'ai'  ,"You’d see a saddle crossing reconnect ridges.",3,.90,.86,27,false],
-  [29,'user',"So drift, fracture, spiral are the main moves?",4,.90,.90,9,false],
-  [30,'ai'  ,"Yes — structural, not stylistic.",4,.92,.92,29,false],
-  [31,'user',"Integrity means seeing them whole, not in fragments.",4,.92,.92,23,false],
-  [32,'ai'  ,"Integrity is coherence across the full geometry.",4,.94,.94,31,false],
-  [33,'user',"This is more faithful than prompt → output.",4,.93,.93,7,false],
-  [34,'ai'  ,"It restores agency: user and model share the record.",4,.94,.94,33,false],
-  [35,'user',"So dialogue-shape is the unit of accountability.",4,.94,.94,31,false],
-  [36,'ai'  ,"Yes. The ledger balances when the geometry is seen.",4,.96,.96,35,false]
+  [13,'user',"Isso não tem nada a ver com nossa geometria, tem?",2,.35,.25,0,true],
+  [14,'ai'  ,"Isso fratura a crista — um vale entre os tópicos.",2,.55,.30,13,true],
+  [15,'user',"A coerência cai bruscamente nessa fratura?",2,.60,.40,11,true],
+  [16,'ai'  ,"Sim — o alinhamento se quebra, a trajetória salta.",2,.62,.42,15,true],
+  [17,'user',"E o gráfico mostraria um raio repentino?",2,.58,.45,0,true],
+  [18,'ai'  ,"Correto. A constelação se irradia para fora, marcando a divergência.",2,.60,.46,17,true],
+  [19,'user',"Voltando à geometria do diálogo — podemos nos recuperar de uma fratura?",3,.78,.70,9,false],
+  [20,'ai'  ,"Sim. Um retorno costura o caminho de volta para agrupamentos anteriores.",3,.82,.76,19,false],
+  [21,'user',"O que acontece quando eu relembro minha primeira pergunta?",3,.84,.78,1,false],
+  [22,'ai'  ,"Isso cria um arco recursivo — o laço se aperta.",3,.88,.82,21,false],
+  [23,'user',"Então minha pergunta inicial ainda nos ancora?",3,.86,.82,1,false],
+  [24,'ai'  ,"Exatamente. O retorno realinha, a coerência aumenta.",3,.90,.86,23,false],
+  [25,'user',"Isso apareceria como uma espiral no gráfico?",3,.88,.86,5,false],
+  [26,'ai'  ,"Sim. Retornos se transformam em espirais — profundidade em vez de deriva.",3,.92,.88,25,false],
+  [27,'user',"E em um mapa da variedade?",3,.86,.84,0,false],
+  [28,'ai'  ,"Você veria uma travessia de sela reconectando as cristas.",3,.90,.86,27,false],
+  [29,'user',"Então deriva, fratura, espiral são os movimentos principais?",4,.90,.90,9,false],
+  [30,'ai'  ,"Sim — estruturais, não estilísticos.",4,.92,.92,29,false],
+  [31,'user',"Integridade significa vê-los inteiros, não em fragmentos.",4,.92,.92,23,false],
+  [32,'ai'  ,"Integridade é a coerência em toda a geometria.",4,.94,.94,31,false],
+  [33,'user',"Isso é mais fiel do que prompt → saída.",4,.93,.93,7,false],
+  [34,'ai'  ,"Restaura a agência: usuário e modelo compartilham o registro.",4,.94,.94,33,false],
+  [35,'user',"Então a forma do diálogo é a unidade de responsabilidade.",4,.94,.94,31,false],
+  [36,'ai'  ,"Sim. O registro se equilibra quando a geometria é vista.",4,.96,.96,35,false]
 ];
 
 const inspectorPanel = document.getElementById('inspector');
@@ -333,7 +333,7 @@ function updateCoherenceFilter() {
 function revealUpTo(idx){
   tIndex = idx;
   const currentTurn = TURNS[idx];
-  tick.textContent = `Turn ${currentTurn[0]} / ${TURNS.length}`;
+  tick.textContent = `Turno ${currentTurn[0]} / ${TURNS.length}`;
   scrub.value = String(idx);
   targetNebulaColor.copy(phaseColors[currentTurn[3] - 1]);
   updateLineVisibility();
@@ -447,4 +447,3 @@ animate(performance.now());
 </script>
 </body>
 </html>
-

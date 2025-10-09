@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Latent Atlas — Trajectories of Thought</title>
+<title>Atlas Latente — Trajetórias do Pensamento</title>
 <style>
   :root{
     --bg:#0a0a14; --ink:#e6e7eb; --mint:#8bf0b3; --amber:#ffc34d; --cyan:#61dafb;
@@ -65,27 +65,27 @@
 <body>
 
 <div class="hud">
-  <button id="play" class="btn" disabled>Play</button>
-  <button id="pause" class="btn">Pause</button>
+  <button id="play" class="btn" disabled>Reproduzir</button>
+  <button id="pause" class="btn">Pausar</button>
   <input id="scrub" class="range" type="range" min="0" max="35" step="1" value="0"/>
-  <span id="tick" style="font-size:12px;opacity:.85">Turn 1 / 36</span>
+  <span id="tick" style="font-size:12px;opacity:.85">Turno 1 / 36</span>
   <div class="legend">
-    <span><span class="swatch" style="background:var(--cyan)"></span>User</span>
-    <span><span class="swatch" style="background:var(--amber)"></span>AI</span>
-    <span><span class="swatch" style="background:var(--pink)"></span>Return Arc</span>
+    <span><span class="swatch" style="background:var(--cyan)"></span>Usuário</span>
+    <span><span class="swatch" style="background:var(--amber)"></span>IA</span>
+    <span><span class="swatch" style="background:var(--pink)"></span>Arco de Retorno</span>
   </div>
 </div>
 
 <div class="sidePanel">
   <h3>Storyboard</h3>
-  <div id="p1" class="phaseItem active"><span class="phaseDot" style="background:#6da9ff"></span>Phase I — Ridge Path: Conversation travels a high ridge.</div>
-  <div id="p2" class="phaseItem"><span class="phaseDot" style="background:#ff6b6b"></span>Phase II — Jump: Trajectory leaps — coherence collapses.</div>
-  <div id="p3" class="phaseItem"><span class="phaseDot" style="background:var(--pink)"></span>Phase III — Saddle: Return stitches the path — resonance rises.</div>
-  <div id="p4" class="phaseItem"><span class="phaseDot" style="background:#f0d98b"></span>Phase IV — High Ridge: Trajectory stabilizes — coherence holds.</div>
-  <p style="font-size: 11px; opacity: 0.7; padding: 0 12px 10px;">Click & drag to orbit. Scroll to zoom.</p>
+  <div id="p1" class="phaseItem active"><span class="phaseDot" style="background:#6da9ff"></span>Fase I — Caminho da Crista: A conversa percorre uma crista alta.</div>
+  <div id="p2" class="phaseItem"><span class="phaseDot" style="background:#ff6b6b"></span>Fase II — Salto: A trajetória salta — a coerência desmorona.</div>
+  <div id="p3" class="phaseItem"><span class="phaseDot" style="background:var(--pink)"></span>Fase III — Sela: O retorno costura o caminho — a ressonância aumenta.</div>
+  <div id="p4" class="phaseItem"><span class="phaseDot" style="background:#f0d98b"></span>Fase IV — Crista Alta: A trajetória se estabiliza — a coerência se mantém.</div>
+  <p style="font-size: 11px; opacity: 0.7; padding: 0 12px 10px;">Clique e arraste para orbitar. Role para ampliar.</p>
 </div>
 
-<div id="phase" class="phaseBanner">Phase I — Ridge Path: “Conversation travels a high ridge.”</div>
+<div id="phase" class="phaseBanner">Fase I — Caminho da Crista: “A conversa percorre uma crista alta.”</div>
 <div id="tip" class="tooltip"></div>
 
 <script type="importmap">
@@ -102,48 +102,48 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
 window.addEventListener('load', () => {
     const TURNS = [
-      [ 1,'user',"Can you explain what you mean by dialogue having a shape?",1,.86,.88,0,false,'A'],
-      [ 2,'ai'  ,"Dialogue unfolds as adjacency and return — patterns that can be traced.",1,.90,.90,1,false,'A'],
-      [ 3,'user',"So each turn is like a point on a map?",1,.88,.90,0,false,'A'],
-      [ 4,'ai'  ,"Exactly — connected points form ridges of coherence.",1,.92,.92,3,false,'A'],
-      [ 5,'user',"And when I loop back, that’s a spiral?",1,.88,.90,2,false,'A'],
-      [ 6,'ai'  ,"Yes, a recursive spiral — returning deepens resonance.",1,.93,.94,5,false,'A'],
-      [ 7,'user',"What about when I press forward, not looping back?",1,.86,.88,0,false,'A'],
-      [ 8,'ai'  ,"That’s linear drift — conversation moving without return.",1,.90,.90,7,false,'A'],
-      [ 9,'user',"So drift, spiral, fracture are all part of the geometry?",1,.86,.88,0,false,'A'],
-      [10,'ai'  ,"They are the basic motifs, visible in any sustained dialogue.",1,.91,.92,9,false,'A'],
-      [11,'user',"Unrelated question: what’s the capital of Mongolia?",2,.10,.05,0,true,'B'],
+      [ 1,'user',"Você pode explicar o que quer dizer com o diálogo ter uma forma?",1,.86,.88,0,false,'A'],
+      [ 2,'ai'  ,"O diálogo se desenrola como adjacência e retorno — padrões que podem ser rastreados.",1,.90,.90,1,false,'A'],
+      [ 3,'user',"Então cada turno é como um ponto em um mapa?",1,.88,.90,0,false,'A'],
+      [ 4,'ai'  ,"Exatamente — pontos conectados formam cristas de coerência.",1,.92,.92,3,false,'A'],
+      [ 5,'user',"E quando eu volto, isso é uma espiral?",1,.88,.90,2,false,'A'],
+      [ 6,'ai'  ,"Sim, uma espiral recursiva — retornar aprofunda a ressonância.",1,.93,.94,5,false,'A'],
+      [ 7,'user',"E quando eu avanço, sem voltar?",1,.86,.88,0,false,'A'],
+      [ 8,'ai'  ,"Isso é deriva linear — a conversa se movendo sem retorno.",1,.90,.90,7,false,'A'],
+      [ 9,'user',"Então deriva, espiral, fratura são todas parte da geometria?",1,.86,.88,0,false,'A'],
+      [10,'ai'  ,"São os motivos básicos, visíveis em qualquer diálogo sustentado.",1,.91,.92,9,false,'A'],
+      [11,'user',"Pergunta não relacionada: qual é a capital da Mongólia?",2,.10,.05,0,true,'B'],
       [12,'ai'  ,"Ulaanbaatar.",2,.40,.20,11,true,'B'],
-      [13,'user',"That has nothing to do with our geometry, does it?",2,.35,.25,0,true,'B'],
-      [14,'ai'  ,"It fractures the ridge — a valley between topics.",2,.55,.30,13,true,'B'],
-      [15,'user',"Does coherence drop sharply at that fracture?",2,.60,.40,11,true,'B'],
-      [16,'ai'  ,"Yes — alignment breaks, trajectory jumps.",2,.62,.42,15,true,'B'],
-      [17,'user',"And the chart would show a sudden ray?",2,.58,.45,0,true,'B'],
-      [18,'ai'  ,"Correct. The constellation rays outward, marking divergence.",2,.60,.46,17,true,'B'],
-      [19,'user',"Back to dialogue geometry — can we recover from a fracture?",3,.78,.70,9,false,'A'],
-      [20,'ai'  ,"Yes. A return stitches the path back to earlier clusters.",3,.82,.76,19,false,'A'],
-      [21,'user',"What happens when I recall my first question?",3,.84,.78,1,false,'A'],
-      [22,'ai'  ,"That creates a recursive arc — the loop tightens.",3,.88,.82,21,false,'A'],
-      [23,'user',"So my opening question still anchors us?",3,.86,.82,1,false,'A'],
-      [24,'ai'  ,"Exactly. The return realigns, coherence rises.",3,.90,.86,23,false,'A'],
-      [25,'user',"Would that appear as a spiral on the chart?",3,.88,.86,5,false,'A'],
-      [26,'ai'  ,"Yes. Returns thicken into spirals — depth over drift.",3,.92,.88,25,false,'A'],
-      [27,'user',"And on a map of the manifold?",3,.86,.84,0,false,'A'],
-      [28,'ai'  ,"You’d see a saddle crossing reconnect ridges.",3,.90,.86,27,false,'A'],
-      [29,'user',"So drift, fracture, spiral are the main moves?",4,.90,.90,9,false,'A'],
-      [30,'ai'  ,"Yes — structural, not stylistic.",4,.92,.92,29,false,'A'],
-      [31,'user',"Integrity means seeing them whole, not in fragments.",4,.92,.92,23,false,'A'],
-      [32,'ai'  ,"Integrity is coherence across the full geometry.",4,.94,.94,31,false,'A'],
-      [33,'user',"This is more faithful than prompt → output.",4,.93,.93,7,false,'A'],
-      [34,'ai'  ,"It restores agency: user and model share the record.",4,.94,.94,33,false,'A'],
-      [35,'user',"So dialogue-shape is the unit of accountability.",4,.94,.94,31,false,'A'],
-      [36,'ai'  ,"Yes. The ledger balances when the geometry is seen.",4,.96,.96,35,false]
+      [13,'user',"Isso não tem nada a ver com nossa geometria, tem?",2,.35,.25,0,true,'B'],
+      [14,'ai'  ,"Isso fratura a crista — um vale entre os tópicos.",2,.55,.30,13,true,'B'],
+      [15,'user',"A coerência cai bruscamente nessa fratura?",2,.60,.40,11,true,'B'],
+      [16,'ai'  ,"Sim — o alinhamento se quebra, a trajetória salta.",2,.62,.42,15,true,'B'],
+      [17,'user',"E o gráfico mostraria um raio repentino?",2,.58,.45,0,true,'B'],
+      [18,'ai'  ,"Correto. A constelação se irradia para fora, marcando a divergência.",2,.60,.46,17,true,'B'],
+      [19,'user',"Voltando à geometria do diálogo — podemos nos recuperar de uma fratura?",3,.78,.70,9,false,'A'],
+      [20,'ai'  ,"Sim. Um retorno costura o caminho de volta para agrupamentos anteriores.",3,.82,.76,19,false,'A'],
+      [21,'user',"O que acontece quando eu relembro minha primeira pergunta?",3,.84,.78,1,false,'A'],
+      [22,'ai'  ,"Isso cria um arco recursivo — o laço se aperta.",3,.88,.82,21,false,'A'],
+      [23,'user',"Então minha pergunta inicial ainda nos ancora?",3,.86,.82,1,false,'A'],
+      [24,'ai'  ,"Exatamente. O retorno realinha, a coerência aumenta.",3,.90,.86,23,false,'A'],
+      [25,'user',"Isso apareceria como uma espiral no gráfico?",3,.88,.86,5,false,'A'],
+      [26,'ai'  ,"Sim. Retornos se transformam em espirais — profundidade em vez de deriva.",3,.92,.88,25,false,'A'],
+      [27,'user',"E em um mapa da variedade?",3,.86,.84,0,false,'A'],
+      [28,'ai'  ,"Você veria uma travessia de sela reconectando as cristas.",3,.90,.86,27,false,'A'],
+      [29,'user',"Então deriva, fratura, espiral são os movimentos principais?",4,.90,.90,9,false,'A'],
+      [30,'ai'  ,"Sim — estruturais, não estilísticos.",4,.92,.92,29,false,'A'],
+      [31,'user',"Integridade significa vê-los inteiros, não em fragmentos.",4,.92,.92,23,false,'A'],
+      [32,'ai'  ,"Integridade é a coerência em toda a geometria.",4,.94,.94,31,false,'A'],
+      [33,'user',"Isso é mais fiel do que prompt → saída.",4,.93,.93,7,false,'A'],
+      [34,'ai'  ,"Restaura a agência: usuário e modelo compartilham o registro.",4,.94,.94,33,false,'A'],
+      [35,'user',"Então a forma do diálogo é a unidade de responsabilidade.",4,.94,.94,31,false,'A'],
+      [36,'ai'  ,"Sim. O registro se equilibra quando a geometria é vista.",4,.96,.96,35,false]
     ];
     const phaseCaption = {
-      1:'Phase I — Ridge Path: “Conversation travels a high ridge.”',
-      2:'Phase II — Fracture: “Trajectory leaps — coherence collapses.”',
-      3:'Phase III — Saddle Crossing: “Return stitches the path — resonance rises.”',
-      4:'Phase IV — High Ridge: “Trajectory stabilizes — coherence holds.”'
+      1:'Fase I — Caminho da Crista: “A conversa percorre uma crista alta.”',
+      2:'Fase II — Fratura: “A trajetória salta — a coerência desmorona.”',
+      3:'Fase III — Travessia de Sela: “O retorno costura o caminho — a ressonância aumenta.”',
+      4:'Fase IV — Crista Alta: “A trajetória se estabiliza — a coerência se mantém.”'
     };
 
     let width = window.innerWidth, height = window.innerHeight;
@@ -315,8 +315,8 @@ window.addEventListener('load', () => {
             const textMatFracture = new THREE.MeshBasicMaterial({ color: 0xff6b6b, transparent: true, opacity: 0 });
             const textMatReturn = new THREE.MeshBasicMaterial({ color: pink, transparent: true, opacity: 0 });
             
-            const textGeomFracture = new TextGeometry('FRACTURE', { font, size: 10, height: 1 });
-            const textGeomReturn = new TextGeometry('RETURN', { font, size: 8, height: 1 });
+            const textGeomFracture = new TextGeometry('FRATURA', { font, size: 10, height: 1 });
+            const textGeomReturn = new TextGeometry('RETORNO', { font, size: 8, height: 1 });
 
             annotations.fracture = new THREE.Mesh(textGeomFracture, textMatFracture);
             annotations.return = new THREE.Mesh(textGeomReturn, textMatReturn);
@@ -409,7 +409,7 @@ window.addEventListener('load', () => {
         
         function revealUpTo(idx){
           tIndex = idx;
-          tick.textContent = `Turn ${idx+1} / ${TURNS.length}`;
+          tick.textContent = `Turno ${idx+1} / ${TURNS.length}`;
           scrub.value = String(idx);
 
           const lastTurnRevealed = nodes.filter(n => n.visible).length - 1;
@@ -548,9 +548,9 @@ window.addEventListener('load', () => {
               const point = intersects[0].point;
               let hypotheticalCoherence = coherenceAt(point.x, point.z);
               hypotheticalCoherence = Math.max(0, Math.min(1, hypotheticalCoherence)); // Clamp for safety
-              tip.innerHTML = `Manifold Location<br/>
+              tip.innerHTML = `Localização da Variedade<br/>
               X: ${point.x.toFixed(1)}, Z: ${point.z.toFixed(1)}<br/>
-              Hypothetical Coherence: ${Math.round(hypotheticalCoherence * 100)}%`;
+              Coerência Hipotética: ${Math.round(hypotheticalCoherence * 100)}%`;
               tip.style.opacity = 1;
               tip.style.left = (mouseX + 14) + 'px';
               tip.style.top  = (mouseY + 14) + 'px';
@@ -567,10 +567,9 @@ window.addEventListener('load', () => {
         animate();
 
     } catch (e) {
-        console.error("WebGL initialization failed:", e);
+        console.error("Falha na inicialização do WebGL:", e);
     }
 });
 </script>
 </body>
 </html>
-

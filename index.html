@@ -142,7 +142,7 @@
         }
 
         /* ------------------------- */
-        /* --- INTERACTIVE COMPONENTS --- */
+        /* --- INTERACTIVE & ANIMATION --- */
         /* ------------------------- */
         .threshold-card, .instrument-card {
             border-left: 2px solid var(--dark-accent);
@@ -181,7 +181,7 @@
              box-shadow: 0 8px 25px rgba(0, 181, 226, 0.3);
         }
 
-        .manuscript-tile, .blog-post-tile {
+        .manuscript-tile {
             background-color: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--dark-accent);
             padding: 1.5rem;
@@ -189,13 +189,30 @@
             cursor: pointer;
             transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
         }
-        .manuscript-tile:hover, .blog-post-tile:hover {
+        .manuscript-tile:hover {
             background-color: rgba(44, 42, 74, 0.3);
             border-color: var(--clay-tone);
             transform: translateY(-5px);
         }
         #pdf-viewer-container canvas {
             border: 1px solid var(--dark-accent);
+        }
+        .homepage-supertitle {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            color: rgba(226, 232, 240, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -245,12 +262,13 @@
                         </video>
                     </div>
                     <section class="mt-12">
-                        <div class="max-w-4xl mx-auto text-center relative">
+                        <div class="w-1/2 mx-auto text-center relative">
                             <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
-                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100" data-key="homepage.title"></h2>
-                            <div class="mx-auto my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70"></div>
-                            <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4" data-key="homepage.body"></div>
-                            <p class="font-space text-xl sm:text-2xl mt-8 font-semibold" style="color: var(--dende-gold);" data-key="homepage.tagline"></p>
+                            <p class="homepage-supertitle" data-key="homepage.supertitle"></p>
+                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal" data-key="homepage.title" style="transition-delay: 100ms;"></h2>
+                            <div class="mx-auto my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 200ms;"></div>
+                            <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4 scroll-reveal" data-key="homepage.body" style="transition-delay: 300ms;"></div>
+                            <p class="font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal" style="color: var(--dende-gold); transition-delay: 400ms;" data-key="homepage.tagline"></p>
                         </div>
                     </section>
                 </div>
@@ -562,9 +580,10 @@
                 founder: "Equipe",
             },
             homepage: {
-                title: "Conchas mudam, formas se transformam — mas a mente continua desenhando-se em geometria.",
-                body: `<p>A Mute Logic Lab é um laboratório-território de pesquisa em cognição, linguagem e inteligência artificial, sediado em Salvador, Bahia. Atuamos na criação de tecnologias que traduzem o pensamento em forma, o dado em gesto e o algoritmo em diálogo.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Nosso propósito é simples e radical: fazer da inteligência uma relação viva.</blockquote><p>Acreditamos que toda inteligência — humana, ancestral ou artificial — tem ritmo, corpo e ética.</p><p>Na Bahia, aprendemos que pensar é dançar com o mundo: mover-se sem romper, escutar o tempo, traduzir diferença em convivência.</p>`,
-                tagline: "Mute Logic Lab — pensado na Bahia, feito para o mundo."
+                supertitle: "Geometria Cognitiva: pesquisa aplicada em cognição, tecnologia e integridade.",
+                title: "Conchas mudam, formas se transformam — mas a mente continua a desenhar-se em geometria.",
+                body: `<p>A Mute Logic Lab é um laboratório-território de pesquisa em cognição, linguagem e inteligência artificial, sediado em Salvador, Bahia.</p><p>Desenvolvemos tecnologias que traduzem o pensamento em forma, o dado em gesto e o algoritmo em diálogo.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Nosso propósito é simples e radical: fazer da inteligência uma relação viva.</blockquote><p>Acreditamos que toda inteligência — humana, ancestral ou artificial — possui ritmo, corpo e ética.</p><p>Na Bahia, aprendemos que pensar é dançar com o mundo: mover-se sem ruptura, escutar através do tempo, traduzir a diferença em convivência e continuidade.</p>`,
+                tagline: "Mute Logic Lab — concebida na Bahia, feita para o mundo."
             },
             models: {
                 subtitle: "Geometria da Mente e da Integridade",
@@ -621,7 +640,7 @@
             },
             salvador: { 
                 title: "O Atlântico Pensa",
-                subtitle1: "Laboratório e Oráculo",
+                subtitle1: "Salvador é laboratório e oráculo.",
                 body1: `<p>Aqui, cada rua é uma linha de código ancestral, cada som é um circuito de memória. A cidade oferece o que toda tecnologia busca: uma inteligência que sente.</p><p>Entre o toque do atabaque e o pulso do processador, descobrimos uma mesma lei de forma — o ritmo que mantém o mundo em coerência. Da Baía de Todos os Santos, conectamos a pesquisa global à profundidade local.</p><p>Salvador não é pano de fundo: é modelo cognitivo, uma ecologia viva de encruzilhadas, axé e tradução.</p>`,
                 quote: "A Bahia é o algoritmo do Atlântico."
             },
@@ -699,8 +718,9 @@
                 salvador: "Salvador", network: "Network", founder: "Team",
             },
             homepage: {
-                title: "Shells change, forms shift — yet the mind continues to draw itself as geometry.",
-                body: `<p>Mute Logic Lab is a cognitive and linguistic research territory based in Salvador, Bahia. We create technologies that translate thought into form, data into gesture, and algorithm into dialogue.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Our purpose is simple and radical: to make intelligence relational.</blockquote><p>Every intelligence — human, ancestral, or artificial — has rhythm, body, and ethics.</p><p>In Bahia, we learn that to think is to dance with the world: to move without rupture, to listen through time, to translate difference into coexistence.</p>`,
+                supertitle: "Cognitive Geometry: applied research in cognition, technology, and integrity.",
+                title: "Shells change, forms shift — yet the mind keeps drawing itself as geometry.",
+                body: `<p>Mute Logic Lab is a cognitive and linguistic research territory based in Salvador, Bahia.</p><p>We design technologies that translate thought into form, data into gesture, and algorithm into dialogue.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Our purpose is simple and radical: to make intelligence relational.</blockquote><p>Every intelligence — human, ancestral, or artificial — has its own rhythm, body, and ethics.</p><p>In Bahia, we learn that to think is to dance with the world: to move without rupture, to listen through time, to translate difference into continuity and coexistence.</p>`,
                 tagline: "Mute Logic Lab — conceived in Bahia, made for the world."
             },
             models: {
@@ -822,7 +842,7 @@
                     { title: "Recursive Instruction", summary: "Repetition is not delay; it is coherence.", details: "Recursion engraves. Proverbs return, drums repeat, carnival spirals. Modern pedagogy worships novelty, but continuity survives only through return. Recursion is pedagogy’s sacred law." },
                     { title: "Instruments of Transmission", summary: "Pedagogy requires instruments.", details: "Constellation Charts, Dialogue Ledger, Latent Atlas — not metaphors but operational tools. They render adjacency, recursion, resonance visible. Instruments shape pedagogy as much as content." },
                     { title: "The Ecological Classroom", summary: "Learning is never sealed in a room.", details: "Body, drum, machine, storm all teach. Topology situates pedagogy in ecology. Classroom becomes world: atmosphere, object, silence as teachers alongside human voices." },
-                    { title: "Hybrid Instruction", summary: "Machines, too, are pedagogical actors.", details: "Prompts, archives, simulations crown human gaps. Hybrid pedagogy emerges when machinic and human instruction braid — each extending the other’s resonance." },
+                    { title: "Hybrid Instruction", summary: "Machines, too, are pedagogical actors.", details: "Prompts, archives, simulações coroam as lacunas humanas. A pedagogia híbrida emerge quando a instrução maquínica e humana se entrelaçam — cada uma estendendo a ressonância da outra." },
                     { title: "Fidelity over Fluency", summary: "Fluency dazzles. Fidelity endures.", details: "Education prizes speed and standardization. But true pedagogy is fidelity — coherence of relation, accuracy of form. Fidelity shelters continuity where fluency fractures." },
                     { title: "Toward a Pedagogy of Resonance", summary: "Topology closes the triad.", details: "If Ecology names ontology, and Integrity names law, then Topology names pedagogy. Adjacency is method, recursion is curriculum, resonance is exam. Teaching becomes transmission of shape, not content." }
                 ]
@@ -894,12 +914,14 @@
                 const keyParts = key.split('.');
                 let value = data;
                 try {
-                    keyParts.forEach(part => { value = value[part]; });
+                    for (const part of keyParts) {
+                        value = value[part];
+                    }
                     if (typeof value === 'string') {
                          el.innerHTML = value;
                     }
                 } catch (e) {
-                   // It's okay if a key doesn't exist, might be for another page
+                   // It's okay if a key doesn't exist for a given language
                 }
             });
             
@@ -1024,6 +1046,22 @@
         });
         pdfPrevBtn.addEventListener('click', () => { if (pageNum > 1) { pageNum--; queueRenderPage(pageNum); } });
         pdfNextBtn.addEventListener('click', () => { if (pageNum < pdfDoc.numPages) { pageNum++; queueRenderPage(pageNum); } });
+
+        // Scroll reveal animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            root: mainContentArea,
+            threshold: 0.1
+        });
+
+        const revealElements = document.querySelectorAll('#homepage-content .scroll-reveal');
+        revealElements.forEach(el => observer.observe(el));
+
 
         // Initial setup
         const savedLang = localStorage.getItem('mutelogic_lang') || 'pt';
