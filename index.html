@@ -146,7 +146,7 @@
         /* ------------------------- */
         .threshold-card, .instrument-card {
             border-left: 2px solid var(--dark-accent);
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
             background-color: rgba(255, 255, 255, 0.03);
         }
         .threshold-card:hover, .instrument-card:hover {
@@ -166,7 +166,10 @@
             padding-top: 1.5rem;
             margin-top: 1.5rem;
         }
-        .toggle-icon { transition: transform 0.5s ease-in-out; }
+        .toggle-icon { 
+            transition: transform 0.5s ease-in-out;
+            cursor: pointer; 
+        }
         .expanded .toggle-icon { transform: rotate(45deg); }
 
         .action-btn {
@@ -294,7 +297,6 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst1_title"></h2>
-                                    <h3 class="font-space text-xl font-semibold mt-1" style="color: var(--deep-ocean);" data-key="prototypes.inst1_subtitle"></h3>
                                     <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst1_desc"></div>
                                 </div>
                                 <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
@@ -315,7 +317,6 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst2_title"></h2>
-                                    <h3 class="font-space text-xl font-semibold mt-1" style="color: var(--deep-ocean);" data-key="prototypes.inst2_subtitle"></h3>
                                     <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst2_desc"></div>
                                 </div>
                                 <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
@@ -336,7 +337,6 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst3_title"></h2>
-                                    <h3 class="font-space text-xl font-semibold mt-1" style="color: var(--deep-ocean);" data-key="prototypes.inst3_subtitle"></h3>
                                     <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst3_desc"></div>
                                 </div>
                                 <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
@@ -578,9 +578,9 @@
             },
             prototypes: {
                 subtitle: "As ferramentas da Mute Logic Lab são instrumentos de leitura cognitiva: visualizam como o sentido se forma, se deforma e se recompõe em cada interação.",
-                inst1_title: "Mapas de Conversas", inst1_subtitle: "Constellation Charts", inst1_desc: "<p>Plataforma interativa que revela padrões de coerência e adjacência em diálogos com IA. Cada conversa é um mapa de pensamento vivo.</p>",
-                inst2_title: "Atlas Latente da Língua Portuguesa", inst2_subtitle: "Latent Atlas", inst2_desc: "<p>Ferramenta que explora como significados se organizam em grandes modelos de linguagem. Cartografa as variações culturais e regionais do português e suas redes semânticas.</p>",
-                inst3_title: "Livro-Razão do Diálogo", inst3_subtitle: "Dialogue Ledger", inst3_desc: "<p>Protocolo de rastreabilidade ética das interações entre humanos e máquinas. Permite auditoria, confiança e continuidade narrativa.</p>",
+                inst1_title: "Mapas de Conversas", inst1_desc: "<p>Plataforma interativa que revela padrões de coerência e adjacência em diálogos com IA. Cada conversa é um mapa de pensamento vivo.</p>",
+                inst2_title: "Atlas Latente", inst2_desc: "<p>Ferramenta que explora como significados se organizam em grandes modelos de linguagem. Cartografa as variações culturais e regionais do português e suas redes semânticas.</p>",
+                inst3_title: "Livro-Razão do Diálogo", inst3_desc: "<p>Protocolo de rastreabilidade ética das interações entre humanos e máquinas. Permite auditoria, confiança e continuidade narrativa.</p>",
                 demo_button: "→ Ver Demo", footer: "<p>Todos os instrumentos são desenvolvidos em código aberto, com interface em português, reforçando o compromisso com a inclusão cognitiva e a soberania tecnológica brasileira.</p>",
                 details_purpose: "Propósito", details_what: "O que é", details_why: "Por que importa", details_use_case: "Caso de Uso",
                 inst1_details_purpose: "<p>Visualiza a forma do diálogo — adjacência, recursão, fratura — como constelações que qualquer pessoa pode ler.</p>",
@@ -715,9 +715,9 @@
             },
             prototypes: {
                 subtitle: "Mute Logic Lab builds cognitive instruments: tools that visualize how meaning arises, drifts, and returns within interaction.",
-                inst1_title: "Conversation Maps", inst1_subtitle: "Constellation Charts", inst1_desc: "<p>An interactive platform revealing coherence and adjacency patterns within AI dialogues. Every conversation becomes a living map of relation.</p>",
-                inst2_title: "Latent Atlas of the Portuguese Language", inst2_subtitle: "Latent Atlas", inst2_desc: "<p>A mapping tool for exploring how meanings organize themselves inside large language models. It traces semantic drift and cultural adjacency across Portuguese variants worldwide.</p>",
-                inst3_title: "Dialogue Ledger", inst3_subtitle: "Dialogue Ledger", inst3_desc: "<p>An ethical traceability protocol for human–machine interaction, enabling transparent auditing and narrative accountability.</p>",
+                inst1_title: "Conversation Maps", inst1_desc: "<p>An interactive platform revealing coherence and adjacency patterns within AI dialogues. Every conversation becomes a living map of relation.</p>",
+                inst2_title: "Latent Atlas", inst2_desc: "<p>A mapping tool for exploring how meanings organize themselves inside large language models. It traces semantic drift and cultural adjacency across Portuguese variants worldwide.</p>",
+                inst3_title: "Dialogue Ledger", inst3_desc: "<p>An ethical traceability protocol for human–machine interaction, enabling transparent auditing and narrative accountability.</p>",
                 demo_button: "→ View Demo", footer: "<p>All tools are developed in open source, with Portuguese interfaces, affirming our commitment to cognitive inclusion and Brazilian technological sovereignty.</p>",
                 details_purpose: "Purpose", details_what: "What it is", details_why: "Why it matters", details_use_case: "Use Case",
                 inst1_details_purpose: "<p>Visualizes the visible shape of dialogue — adjacency, recursion, fracture — as constellations anyone can read.</p>",
