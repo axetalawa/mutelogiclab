@@ -214,13 +214,29 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .no-scrollbar::-webkit-scrollbar{display:none}
+        .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
+        .text-balance{ text-wrap: balance } /* modern browsers */
     </style>
 </head>
 <body class="antialiased">
+    <!-- Mobile top bar -->
+    <header class="md:hidden sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-white/10">
+      <div class="px-4 h-14 max-w-screen-md mx-auto flex items-center justify-between">
+        <div class="font-space font-bold tracking-tight">
+          <span class="bg-gradient-to-br from-teal-300 via-lime-300 to-amber-300 bg-clip-text text-transparent">Mute Logic Lab</span>
+        </div>
+        <button id="ml-menu-btn" class="px-3 py-1.5 rounded-md border border-white/15 text-sm">Menu</button>
+      </div>
+    </header>
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="w-1/5 max-w-xs h-screen fixed top-0 left-0 bg-black/30 backdrop-blur-md p-8 border-r border-purple-900/50 z-20 flex flex-col">
-            <div> <!-- Top container -->
+        <aside id="ml-sidebar"
+          class="hidden md:flex fixed inset-y-0 left-0 w-64 h-screen bg-black/30 backdrop-blur-md p-8
+                 border-r border-purple-900/50 z-50 flex-col overflow-y-auto no-scrollbar
+                 transition-transform -translate-x-full md:translate-x-0">
+            <div class="flex-1 min-h-0 overflow-y-auto"> <!-- Top container -->
                 <header class="mb-12">
                     <a href="#" id="home-link" data-content="homepage" class="nav-link">
                         <h1 class="font-space text-4xl font-bold tracking-tight gradient-text" data-key="sidebar.title">Mute Logic Lab</h1>
@@ -249,7 +265,7 @@
         </aside>
 
         <!-- Main Content Area -->
-        <main class="w-4/5 ml-auto relative z-10 h-screen overflow-y-auto">
+        <main class="flex-1 md:ml-64 relative z-10 h-screen overflow-y-auto">
             <!-- HOMEPAGE -->
             <div id="homepage-content" class="content-panel p-8 sm:p-16">
                 <div class="w-full max-w-6xl mx-auto">
@@ -258,14 +274,15 @@
                         src="videos/crabs.mp4"
                         autoplay muted loop playsinline controls preload="metadata"
                         poster="https://placehold.co/1920x1080/050505/2C2A4A?text=+"
-                        class="w-full h-full rounded-lg shadow-2xl border-2 border-purple-900/50">
+                        class="w-full h-auto rounded-lg shadow-2xl border-2 border-purple-900/50">
                         </video>
                     </div>
                     <section class="mt-12">
-                        <div class="w-1/2 mx-auto text-center relative">
+                        <div class="w-full md:w-1/2 mx-auto text-center relative">
                             <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
                             <p class="homepage-supertitle" data-key="homepage.supertitle"></p>
-                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal" data-key="homepage.title" style="transition-delay: 100ms;"></h2>
+                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal [text-wrap:balance] max-w-[22ch] mx-auto"
+                                data-key="homepage.title" style="transition-delay: 100ms;"></h2>
                             <div class="mx-auto my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 200ms;"></div>
                             <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4 scroll-reveal" data-key="homepage.body" style="transition-delay: 300ms;"></div>
                             <p class="font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal" style="color: var(--dende-gold); transition-delay: 400ms;" data-key="homepage.tagline"></p>
@@ -835,16 +852,16 @@
                 premise_body: "<p>Learning is not transfer of units.</p><p>It is resonance within geometry — adjacency, recursion, silence, spiral.</p>",
                 premise_conclusion: "Pedagogy becomes topology: inhabiting shapes that endure across rupture.",
                 thresholds: [
-                    { title: "Against the Syllabus", summary: "The syllabus is ladder fiction. Learning is constellation.", details: "Linear curriculum amputates recursion, adjacency, resonance. True pedagogy is spiral — return, orbit, constellation. What schools call “delay” is fidelity; what they call “advance” is often collapse." },
-                    { title: "Orality and Geometry", summary: "Proverb, drum, carnival: archives older than textbooks.", details: "Orality endures by geometry: recursion engraves, adjacency opens, resonance binds. Afro-Atlantic pedagogy shows that knowledge survives rupture not by storage but by rhythm and form." },
-                    { title: "Apprenticeship of Attention", summary: "Learning begins in attention, not content.", details: "Monotropic focus, once pathologized, is fidelity — apprenticeship of attention. To linger is not delay; to repeat is not failure. Pedagogy begins in depth, not breadth." },
-                    { title: "The Pedagogy of Silence", summary: "Silence is not absence but incubation.", details: "To withhold words is pedagogy’s deepest law. Silence preserves adjacency, recursion, resonance until they ripen. Institutions misread it as deficit. Topology restores it as initiation." },
-                    { title: "Recursive Instruction", summary: "Repetition is not delay; it is coherence.", details: "Recursion engraves. Proverbs return, drums repeat, carnival spirals. Modern pedagogy worships novelty, but continuity survives only through return. Recursion is pedagogy’s sacred law." },
-                    { title: "Instruments of Transmission", summary: "Pedagogy requires instruments.", details: "Constellation Charts, Dialogue Ledger, Latent Atlas — not metaphors but operational tools. They render adjacency, recursion, resonance visible. Instruments shape pedagogy as much as content." },
-                    { title: "The Ecological Classroom", summary: "Learning is never sealed in a room.", details: "Body, drum, machine, storm all teach. Topology situates pedagogy in ecology. Classroom becomes world: atmosphere, object, silence as teachers alongside human voices." },
-                    { title: "Hybrid Instruction", summary: "Machines, too, are pedagogical actors.", details: "Prompts, archives, simulações coroam as lacunas humanas. A pedagogia híbrida emerge quando a instrução maquínica e humana se entrelaçam — cada uma estendendo a ressonância da outra." },
-                    { title: "Fidelity over Fluency", summary: "Fluency dazzles. Fidelity endures.", details: "Education prizes speed and standardization. But true pedagogy is fidelity — coherence of relation, accuracy of form. Fidelity shelters continuity where fluency fractures." },
-                    { title: "Toward a Pedagogy of Resonance", summary: "Topology closes the triad.", details: "If Ecology names ontology, and Integrity names law, then Topology names pedagogy. Adjacency is method, recursion is curriculum, resonance is exam. Teaching becomes transmission of shape, not content." }
+                    { title: "Contra o Currículo", summary: "The syllabus is ladder fiction. Learning is constellation.", details: "Linear curriculum amputates recursion, adjacency, resonance. True pedagogy is spiral — return, orbit, constellation. What schools call “delay” is fidelity; what they call “advance” is often collapse." },
+                    { title: "Oralidade e Geometria", summary: "Proverb, drum, carnival: archives older than textbooks.", details: "Orality endures by geometry: recursion engraves, adjacency opens, resonance binds. Afro-Atlantic pedagogy shows that knowledge survives rupture not by storage but by rhythm and form." },
+                    { title: "Aprendizagem da Atenção", summary: "Learning begins in attention, not content.", details: "Monotropic focus, once pathologized, is fidelity — apprenticeship of attention. To linger is not delay; to repeat is not failure. Pedagogy begins in depth, not breadth." },
+                    { title: "A Pedagogia do Silêncio", summary: "Silence is not absence but incubation.", details: "To withhold words is pedagogy’s deepest law. Silence preserves adjacency, recursion, resonance until they ripen. Institutions misread it as deficit. Topology restores it as initiation." },
+                    { title: "Instrução Recursiva", summary: "Repetition is not delay; it is coherence.", details: "Recursion engraves. Proverbs return, drums repeat, carnival spirals. Modern pedagogy worships novelty, but continuity survives only through return. Recursion is pedagogy’s sacred law." },
+                    { title: "Instrumentos de Transmissão", summary: "Pedagogy requires instruments.", details: "Constellation Charts, Dialogue Ledger, Latent Atlas — not metaphors but operational tools. They render adjacency, recursion, resonance visible. Instruments shape pedagogy as much as content." },
+                    { title: "A Sala de Aula Ecológica", summary: "Learning is never sealed in a room.", details: "Body, drum, machine, storm all teach. Topology situates pedagogy in ecology. Classroom becomes world: atmosphere, object, silence as teachers alongside human voices." },
+                    { title: "Instrução Híbrida", summary: "As máquinas também são atores pedagógicos.", details: "Prompts, archives, simulações coroam as lacunas humanas. A pedagogia híbrida emerge quando a instrução maquínica e humana se entrelaçam — cada uma estendendo a ressonância da outra." },
+                    { title: "Fidelidade sobre Fluência", summary: "Fluency dazzles. Fidelity endures.", details: "Education prizes speed and standardization. But true pedagogy is fidelity — coherence of relation, accuracy of form. Fidelity shelters continuity where fluency fractures." },
+                    { title: "Rumo a uma Pedagogia da Ressonância", summary: "A topologia fecha a tríade.", details: "Se a Ecologia nomeia a ontologia, e a Integridade nomeia a lei, então a Topologia nomeia a pedagogia. A adjacência é o método, a recursão é o currículo, a ressonância é o exame. O ensino se torna transmissão de forma, não de conteúdo." }
                 ]
             }
         }
@@ -1069,6 +1086,28 @@
         showContent('homepage');
     });
     </script>
+    <script>
+      const btn = document.getElementById('ml-menu-btn');
+      const sidebar = document.getElementById('ml-sidebar');
+
+      if (btn && sidebar) {
+        btn.addEventListener('click', () => {
+          // reveal the drawer on mobile
+          sidebar.classList.toggle('hidden');     // make it exist in DOM
+          requestAnimationFrame(() => {           // then slide it in
+            sidebar.classList.toggle('-translate-x-full');
+          });
+        });
+        // close drawer when a nav link is clicked (optional)
+        sidebar.querySelectorAll('a.nav-link').forEach(a => {
+          a.addEventListener('click', () => {
+            if (window.innerWidth < 768) {
+              sidebar.classList.add('-translate-x-full');
+              setTimeout(()=>sidebar.classList.add('hidden'), 300);
+            }
+          });
+        });
+      }
+    </script>
 </body>
 </html>
-
