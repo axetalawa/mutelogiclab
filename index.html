@@ -37,11 +37,18 @@
         }
 
         .gradient-text {
-            background: linear-gradient(90deg, var(--dende-gold), var(--deep-ocean), var(--dende-gold));
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-flow 5s ease-in-out infinite;
+        display: inline-block;
+        text-align: left;
+        line-height: 1.05;
+        }
+
+        .gradient-text span {
+        display: block; /* forces each span onto its own line */
+        background: linear-gradient(90deg, var(--dende-gold), var(--deep-ocean), var(--dende-gold));
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 5s ease-in-out infinite;
         }
 
         @keyframes gradient-flow {
@@ -239,7 +246,12 @@
             <div class="flex-1 min-h-0 overflow-y-auto"> <!-- Top container -->
                 <header class="mb-12">
                     <a href="#" id="home-link" data-content="homepage" class="nav-link">
-                        <h1 class="font-space text-4xl font-bold tracking-tight gradient-text" data-key="sidebar.title">Mute Logic Lab</h1>
+                        <h1 class="font-space text-4xl font-bold gradient-text">
+                        <span>Mute</span>
+                        <span>Logic</span>
+                        <span>Lab</span>
+                        </h1>
+
                     </a>
                 </header>
                 <nav class="space-y-2 sidebar-nav">
