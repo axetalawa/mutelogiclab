@@ -1044,7 +1044,7 @@
             const navLink = e.target.closest('.nav-link');
             const manuscriptTile = e.target.closest('.manuscript-tile');
             const demoBtn = e.target.closest('.view-demo-btn');
-            const expandableCard = e.target.closest('.instrument-card, .threshold-card');
+            const toggleIcon = e.target.closest('.toggle-icon');
             const codexPdfBtn = e.target.closest('.read-codex-pdf-btn');
 
             if (navLink) {
@@ -1054,8 +1054,11 @@
                  showContent(manuscriptTile.dataset.content);
             } else if (demoBtn) {
                 openSimModal(demoBtn.dataset.src);
-            } else if (expandableCard) {
-                 expandableCard.classList.toggle('expanded');
+            } else if (toggleIcon) {
+                const parentCard = toggleIcon.closest('.instrument-card, .threshold-card');
+                if (parentCard) {
+                    parentCard.classList.toggle('expanded');
+                }
             } else if (codexPdfBtn) {
                 e.preventDefault();
                 openPdfModal(codexPdfBtn.dataset.pdf);
