@@ -169,7 +169,7 @@
             margin-top: 0;
         }
         .expanded .expandable-content {
-            max-height: 1000px; /* Adjust as needed */
+            max-height: 150vh; /* Use viewport height for flexible content that won't get cut off */
             padding-top: 1.5rem;
             margin-top: 1.5rem;
         }
@@ -340,13 +340,16 @@
                     </header>
                     <div class="space-y-12">
                         <!-- Instrument 1: Constellation Charts -->
-                        <div class="instrument-card p-6 rounded-r-lg cursor-pointer">
-                            <div class="flex justify-between items-start">
-                                <div>
+                        <div class="instrument-card p-6 rounded-r-lg">
+                            <div class="flex justify-between items-start gap-4">
+                                <div class="flex-grow">
                                     <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst1_title"></h2>
                                     <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst1_desc"></div>
                                 </div>
-                                <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
+                                <div class="toggle-icon text-2xl flex-shrink-0" style="color: var(--deep-ocean);">+</div>
+                            </div>
+                             <div class="mt-6">
+                                <button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-6 py-3 rounded-lg" data-src="constellation.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button>
                             </div>
                             <div class="expandable-content border-t border-purple-900/50 text-slate-300">
                                 <div class="space-y-6 text-lg leading-relaxed">
@@ -355,18 +358,20 @@
                                     <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_why"></h4><div data-key="prototypes.inst1_details_why"></div></div>
                                     <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_use_case"></h4><div data-key="prototypes.inst1_details_use_case"></div></div>
                                 </div>
-                                <div class="mt-8 text-center"><button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" data-src="constellation.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button></div>
                             </div>
                         </div>
 
                         <!-- Instrument 2: Latent Atlas -->
-                        <div class="instrument-card p-6 rounded-r-lg cursor-pointer">
-                            <div class="flex justify-between items-start">
-                                <div>
+                        <div class="instrument-card p-6 rounded-r-lg">
+                            <div class="flex justify-between items-start gap-4">
+                                <div class="flex-grow">
                                     <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst2_title"></h2>
                                     <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst2_desc"></div>
                                 </div>
-                                <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
+                                <div class="toggle-icon text-2xl flex-shrink-0" style="color: var(--deep-ocean);">+</div>
+                            </div>
+                             <div class="mt-6">
+                                <button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-6 py-3 rounded-lg" data-src="atlas.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button>
                             </div>
                             <div class="expandable-content border-t border-purple-900/50 text-slate-300">
                                 <div class="space-y-6 text-lg leading-relaxed">
@@ -375,18 +380,20 @@
                                     <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_why"></h4><div data-key="prototypes.inst2_details_why"></div></div>
                                     <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_use_case"></h4><div data-key="prototypes.inst2_details_use_case"></div></div>
                                 </div>
-                                <div class="mt-8 text-center"><button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" data-src="atlas.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button></div>
                             </div>
                         </div>
                         
                         <!-- Instrument 3: Dialogue Ledger -->
-                        <div class="instrument-card p-6 rounded-r-lg cursor-pointer">
-                            <div class="flex justify-between items-start">
-                                <div>
+                        <div class="instrument-card p-6 rounded-r-lg">
+                            <div class="flex justify-between items-start gap-4">
+                                <div class="flex-grow">
                                     <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst3_title"></h2>
                                     <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst3_desc"></div>
                                 </div>
-                                <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
+                                <div class="toggle-icon text-2xl flex-shrink-0" style="color: var(--deep-ocean);">+</div>
+                            </div>
+                            <div class="mt-6">
+                                <button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-6 py-3 rounded-lg" data-src="ledger.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button>
                             </div>
                             <div class="expandable-content border-t border-purple-900/50 text-slate-300">
                                 <div class="space-y-6 text-lg leading-relaxed">
@@ -395,7 +402,6 @@
                                     <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_why"></h4><div data-key="prototypes.inst3_details_why"></div></div>
                                     <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_use_case"></h4><div data-key="prototypes.inst3_details_use_case"></div></div>
                                 </div>
-                                <div class="mt-8 text-center"><button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" data-src="ledger.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button></div>
                             </div>
                         </div>
 
@@ -855,7 +861,7 @@
                     { title: "Literacy for the Public", summary: "People don’t need more metaphors of opacity. They need literacy in dialogue-shapes.", details: "Black box, hallucination, parrot — each metaphor breeds fear. Integrity equips publics with maps: adjacency, recursion, resonance, divergence. Literacy replaces panic with agency. Like weather charts or print literacy, dialogue literacy becomes survival." },
                     { title: "The Ethical Turn", summary: "Flattening dialogue is not neutral. It is an ethical failure.", details: "Prompt → output → harm amputates co-agency. It is a lie of convenience. Mapping integrity restores truth: responsibility shared across turns. Ethics here is fidelity to form — justice enacted as geometry." },
                     { title: "Institutions in Orbit", summary: "Labs, courts, universities, publics — all orbit integrity. Without it, they drift into caricature.", details: "Each silo clings to the black box. Integrity Geometry becomes gravity, binding them through a shared lingua franca of form. With it, research gains coherence, courts gain justice, publics gain literacy, universities gain relevance." },
-                    { title: "The Long Horizon", summary: "In 2125, no one will care about transformer wiring. What will matter is how we treated dialogue.", details: "Architectures fade; ontologias endure. Integrity Geometry will be remembered as the stance that refused caricature, preserved wholeness, and bound human, machinic, and hybrid minds. The step that kept us whole." }
+                    { title: "The Long Horizon", summary: "In 2125, no one will care about transformer wiring. What will matter is how we treated dialogue.", details: "Arquiteturas fade; ontologias endure. Integrity Geometry will be remembered as the stance that refused caricature, preserved wholeness, and bound human, machinic, and hybrid minds. The step that kept us whole." }
                 ]
             },
             topology_of_learning: {
@@ -916,7 +922,7 @@
             }
 
             container.innerHTML = codexData.thresholds.map((threshold, index) => `
-                <div class="threshold-card p-6 rounded-r-lg cursor-pointer">
+                <div class="threshold-card p-6 rounded-r-lg">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-sm font-semibold" style="color: var(--light-accent);">THRESHOLD ${index + 1}</p>
