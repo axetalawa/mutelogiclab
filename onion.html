@@ -27,7 +27,7 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
+        }a
         
         #controls-container {
             position: absolute;
@@ -53,7 +53,7 @@
             transition: color 0.5s ease;
         }
 
-        #regen-button {
+        #regen-button, #mute-button {
             background-color: transparent;
             border: 1px solid var(--purple-accent);
             color: #fff;
@@ -70,9 +70,12 @@
             transition: all 0.3s ease;
         }
 
-        #regen-button:hover:not(:disabled) {
+        #regen-button:hover:not(:disabled), #mute-button:hover {
             background-color: rgba(74, 0, 111, 0.7);
             box-shadow: 0 0 15px var(--primary-pink);
+        }
+
+        #regen-button:hover:not(:disabled) {
             transform: rotate(90deg);
         }
 
@@ -90,11 +93,12 @@
         }
 
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="controls-container">
         <div id="status-display">Status: Inicializando...</div>
+        <button id="mute-button" title="Ativar/Desativar Som">🔇</button>
         <button id="regen-button" title="Gerar Novo Sistema">↺</button>
     </div>
 
@@ -118,7 +122,9 @@
         let nodeInstances = {}; // { core_8: InstancedMesh, shell_8: InstancedMesh, ... }
         let pathfinder, pathfinderHistory = [], currentNodeIndex = 0, isMoving = false;
         let moveInterval, clock = new THREE.Clock();
-        let audioContext, statusDisplay, regenButton;
+        let audioContext, statusDisplay, regenButton, muteButton;
+        // --- SOUND CONTROL: Start muted by default ---
+        let isMuted = true;
 
         // Color Palette
         const RECURSION_COLOR = 0xA6FF00;
@@ -155,12 +161,31 @@
 
             statusDisplay = document.getElementById('status-display');
             regenButton = document.getElementById('regen-button');
+            muteButton = document.getElementById('mute-button');
+            
             regenButton.addEventListener('click', handleNewSystemClick);
+            muteButton.addEventListener('click', toggleMute);
             
             window.addEventListener('resize', onWindowResize);
+            // First click on body will initialize audio context
             document.body.addEventListener('click', initAudio, { once: true });
             
+            // --- SOUND CONTROL: Listen for messages from the parent window ---
+            window.addEventListener('message', (event) => {
+                if (event.data === 'stopSound') {
+                    isMuted = true;
+                    muteButton.textContent = '🔇';
+                }
+            });
+
             animate();
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            muteButton.textContent = isMuted ? '🔇' : '🔊';
+            // Ensure audio context is ready if user's first click is mute
+            if (!audioContext) initAudio(); 
         }
         
         function updateStatus(message, color = '#A6FF00') {
@@ -177,6 +202,14 @@
         }
         
         async function handleNewSystemClick() {
+            // --- SOUND CONTROL: First "regenerate" click enables sound ---
+            if (isMuted) {
+                isMuted = false;
+                muteButton.textContent = '🔊';
+            }
+
+            if (!audioContext) initAudio();
+
             regenButton.disabled = true;
             regenButton.innerHTML = '...';
 
@@ -492,6 +525,7 @@
             }
         }
         function playSound(type) {
+            if (isMuted && type !== 'init') return;
             if (!audioContext || audioContext.state === 'suspended') return;
             const now = audioContext.currentTime;
             switch (type) {
@@ -560,3 +594,4 @@
     </script>
 </body>
 </html>
+
