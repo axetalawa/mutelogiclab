@@ -303,6 +303,21 @@
                         class="w-full h-auto rounded-lg shadow-2xl border-2 border-purple-900/50">
                         </video>
                     </div>
+                    
+                    <!-- Joojit Launch Banner -->
+                    <section class="mt-16 max-w-4xl mx-auto text-center scroll-reveal">
+                        <div class="relative border border-purple-900/50 rounded-lg p-8 bg-black/20 overflow-hidden">
+                            <div class="absolute inset-0 blur-3xl bg-dende-gold/10 -z-10"></div>
+                            <p class="font-space text-sm tracking-widest uppercase mb-4" style="color: var(--dende-gold);" data-key="joojit_banner.supertitle"></p>
+                            <h2 class="font-space text-4xl sm:text-5xl font-bold gradient-text">
+                                <span data-key="joojit_banner.title"></span>
+                            </h2>
+                            <p class="mt-4 text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto text-balance" data-key="joojit_banner.description"></p>
+                            <a href="https://joojit.com" target="_blank" rel="noopener noreferrer" class="action-btn inline-block font-space font-semibold text-lg px-8 py-3 rounded-lg mt-8 text-black" style="background-color: var(--dende-gold);" data-key="joojit_banner.cta">
+                            </a>
+                        </div>
+                    </section>
+
                     <section class="mt-12">
                         <div class="w-full md:w-1/2 mx-auto text-center relative">
                             <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
@@ -668,6 +683,12 @@
     const i18nData = {
         pt: {
             meta: { title: "Mute Logic Lab — Laboratório-Território de Cognição e Linguagem" },
+            joojit_banner: {
+                supertitle: "AGORA DISPONÍVEL",
+                title: "Joojit",
+                description: "Uma interface cognitiva que visualiza a geometria do diálogo — traçando emoção, coerência e ressonância na troca humano-máquina.",
+                cta: "Teste o Protótipo →"
+            },
             sidebar: { title: "Mute Logic Lab" },
             nav: {
                 origin: "Origem",
@@ -891,6 +912,12 @@
         },
         en: {
             meta: { title: "Mute Logic Lab — A Research Territory for Cognitive and Linguistic Integrity" },
+             joojit_banner: {
+                supertitle: "NOW LIVE FOR TESTING",
+                title: "Joojit",
+                description: "A cognitive interface that visualizes the geometry of dialogue — tracing emotion, coherence, and resonance across human–machine exchange.",
+                cta: "Test the Prototype →"
+            },
             sidebar: { title: "Mute Logic Lab" },
             nav: {
                 origin: "Origin", models: "Models", prototypes: "Instruments", manuscripts: "Codices",
@@ -1406,4 +1433,3 @@
     </script>
 </body>
 </html>
-
