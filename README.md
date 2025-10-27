@@ -106,7 +106,3 @@ Together they form a **browser ecology**, showing how intelligence can inhabit t
 > *“Every interface is a cosmology in disguise.”*
 
 ---
-
-```
-
----
