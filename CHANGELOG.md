@@ -4,7 +4,7 @@
 
 ---
 
-## 🌑 Phase I — Manifest & Ground (July 2025)
+## Phase I — Manifest & Ground (July 2025)
 
 **Objective:** establish a static scaffold to house the browser prototypes — a living index.
 
@@ -25,7 +25,7 @@
 
 ---
 
-## 🌒 Phase II — Prototype Integration (August 2025)
+## Phase II — Prototype Integration (August 2025)
 
 **Objective:** embed existing instruments — *Constellation*, *Atlas*, *Ledger*, and *Onion* — into the meta-frame.
 
@@ -48,7 +48,7 @@
 
 ---
 
-## 🌓 Phase III — Local Deployment & Serve (September 2025)
+## Phase III — Local Deployment & Serve (September 2025)
 
 **Objective:** make the system trivially runnable on any machine.
 
@@ -68,7 +68,7 @@
 
 ---
 
-## 🌔 Phase IV — Aesthetic & Interaction Refinement (October 2025)
+## Phase IV — Aesthetic & Interaction Refinement (October 2025)
 
 **Objective:** tune the interfaces for coherence and cinematic unity.
 
@@ -86,7 +86,7 @@
 
 ---
 
-## 🌕 Phase V — Documentation & Release (October 2025)
+## Phase V — Documentation & Release (October 2025)
 
 **Objective:** prepare repository for public viewing and professional review.
 
@@ -112,7 +112,7 @@ fix: object — correction
 refactor: object — reasoning
 docs: section — update
 
-## 🪶 Forward Trajectory
+## Forward Trajectory
 
 - [ ] Integrate live data stream from **Chroma / Local Embeddings** for interactive semantic search.  
 - [ ] Add lightweight **Module Indexer** to auto-generate gallery manifests.  
