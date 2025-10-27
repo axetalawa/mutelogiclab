@@ -1,14 +1,7 @@
-Perfect — here’s a full **`README.md`** for your **meta-repository**, designed to align with your site’s tone and to read elegantly to both developers and curators.
-It blends the professional clarity expected by recruiters with your mythic voice and cosmological palette.
 
----
-
-````markdown
 # Mute Logic Meta — Browser Ecologies of Thought
 
 > *A constellation of standalone prototypes — each one a small world mapping the geometry of dialogue, coherence, and recursion.*
-
----
 
 ## Overview
 
