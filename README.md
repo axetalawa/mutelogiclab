@@ -10,7 +10,7 @@ It blends the professional clarity expected by recruiters with your mythic voice
 
 ---
 
-## 🌐 Overview
+## Overview
 
 This repository functions as the **meta-index** for the **Mute Logic Lab** browser experiments — lightweight, self-contained simulations exploring how cognition takes shape in visible form.  
 Each HTML file is a complete environment: no build step, no backend, only the browser as medium.
@@ -20,7 +20,7 @@ They visualize concepts central to the Lab’s research: adjacency, return, cohe
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 Clone the repo and serve it locally:
 
@@ -46,7 +46,7 @@ Each page runs independently; no database or server process is required.
 
 ---
 
-## 🗺️ Contents
+## Contents
 
 | Prototype                | Description                                                            | Core Libraries           |
 | ------------------------ | ---------------------------------------------------------------------- | ------------------------ |
@@ -58,7 +58,7 @@ Each page runs independently; no database or server process is required.
 
 ---
 
-## 🧠 Conceptual Spine
+## Conceptual Spine
 
 > *Cognition is not line — it is lattice, echo, and fold.*
 
@@ -74,7 +74,7 @@ Together they form a **browser ecology**, showing how intelligence can inhabit t
 
 ---
 
-## ⚙️ Technical Notes
+## Technical Notes
 
 * **Tech stack:** HTML 5, CSS 3, ES Modules, [Three.js](https://threejs.org), [TWEEN.js](https://github.com/tweenjs/tween.js), [Tailwind CSS](https://tailwindcss.com)
 * **Deployment:** works on any static host (GitHub Pages, Vercel, Cloudflare Pages)
@@ -83,7 +83,7 @@ Together they form a **browser ecology**, showing how intelligence can inhabit t
 
 ---
 
-## 🌒 Philosophy
+## Philosophy
 
 > The browser is not a window — it is a membrane.
 > Each experiment is a *ritual machine* translating between cognition and form.
@@ -91,7 +91,7 @@ Together they form a **browser ecology**, showing how intelligence can inhabit t
 
 ---
 
-## 🪶 Credits
+## Credits
 
 * **Concept & Design:** Javed Saunja Jaghai / Mute Logic Lab
 * **Languages:** English / Português (BR)
