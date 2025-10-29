@@ -9,237 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* ------------------------- */
-        /* --- GLOBAL STYLES & VARIABLES (BAHIA PALETTE) --- */
-        /* ------------------------- */
-        :root {
-            --dende-gold: #FFB81C;
-            --deep-ocean: #00B5E2;
-            --clay-tone: #C46F43;
-            --dark-accent: #2C2A4A;
-            --off-white: #E2E8F0;
-            --light-accent: #A6FF00;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505; 
-            color: var(--off-white);
-        }
-        
-        main {
-            overflow-y: auto; /* Ensures main content area is scrollable */
-        }
-        
-        h1, h2, h3, .font-space {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .gradient-text {
-        display: inline-block;
-        text-align: left;
-        line-height: 1.05;
-        }
-
-        .gradient-text span {
-        display: block; /* forces each span onto its own line */
-        background: linear-gradient(90deg, var(--dende-gold), var(--deep-ocean), var(--dende-gold));
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradient-flow 5s ease-in-out infinite;
-        }
-
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* ------------------------- */
-        /* --- SIDEBAR & NAVIGATION --- */
-        /* ------------------------- */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .sidebar-nav a {
-            position: relative;
-            padding-left: 1.5rem; 
-            transition: color 0.3s ease;
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out forwards;
-        }
-        
-        .lang-switcher {
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out 1s forwards;
-        }
-
-        /* Staggered animation delays */
-        #origin-link { animation-delay: 0.1s; }
-        #models-link { animation-delay: 0.2s; }
-        #prototypes-link { animation-delay: 0.3s; }
-        #manuscripts-link { animation-delay: 0.4s; }
-        #salvador-link { animation-delay: 0.6s; }
-        #founder-link { animation-delay: 0.7s; }
-        #network-link { animation-delay: 0.8s; }
-
-
-        .sidebar-nav a::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 4px;
-            height: 24px;
-            background-color: var(--deep-ocean);
-            border-radius: 2px;
-            transform: translateY(-50%) scaleY(0);
-            transform-origin: center;
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        /* Top Group Links Style */
-        .sidebar-nav a#origin-link.active, .sidebar-nav a#origin-link:hover,
-        .sidebar-nav a#models-link.active, .sidebar-nav a#models-link:hover,
-        .sidebar-nav a#prototypes-link.active, .sidebar-nav a#prototypes-link:hover,
-        .sidebar-nav a#manuscripts-link.active, .sidebar-nav a#manuscripts-link:hover {
-            color: var(--deep-ocean);
-        }
-        .sidebar-nav a#origin-link.active::before, .sidebar-nav a#origin-link:hover::before,
-        .sidebar-nav a#models-link.active::before, .sidebar-nav a#models-link:hover::before,
-        .sidebar-nav a#prototypes-link.active::before, .sidebar-nav a#prototypes-link:hover::before,
-        .sidebar-nav a#manuscripts-link.active::before, .sidebar-nav a#manuscripts-link:hover::before {
-             transform: translateY(-50%) scaleY(1);
-             background-color: var(--deep-ocean);
-        }
-
-        /* Bottom Group Links Style */
-        .sidebar-nav a#salvador-link:hover, .sidebar-nav a#salvador-link.active,
-        .sidebar-nav a#founder-link:hover, .sidebar-nav a#founder-link.active,
-        .sidebar-nav a#network-link:hover, .sidebar-nav a#network-link.active {
-            color: var(--dende-gold);
-        }
-        .sidebar-nav a#salvador-link:hover::before, .sidebar-nav a#salvador-link.active::before,
-        .sidebar-nav a#founder-link:hover::before, .sidebar-nav a#founder-link.active::before,
-        .sidebar-nav a#network-link:hover::before, .sidebar-nav a#network-link.active::before {
-             transform: translateY(-50%) scaleY(1);
-             background-color: var(--dende-gold);
-        }
-        
-        .lang-btn {
-            transition: background-color 0.3s ease, color 0.3s ease;
-            border: 1px solid var(--dark-accent);
-        }
-        .lang-btn.active {
-            background-color: var(--deep-ocean);
-            color: #050505;
-            border-color: var(--deep-ocean);
-        }
-
-        .sidebar-divider {
-            height: 1px;
-            background-color: rgba(255,255,255,0.2);
-            margin: 0.75rem 0;
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out 0.5s forwards;
-        }
-
-        /* ------------------------- */
-        /* --- INTERACTIVE & ANIMATION --- */
-        /* ------------------------- */
-        .threshold-card, .instrument-card {
-            border-left: 2px solid var(--dark-accent);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.03);
-        }
-        .threshold-card:hover, .instrument-card:hover {
-            background-color: rgba(44, 42, 74, 0.3);
-            border-color: var(--clay-tone);
-        }
-        
-        .expandable-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.6s ease-in-out, padding-top 0.6s ease-in-out, margin-top 0.6s ease-in-out;
-            padding-top: 0;
-            margin-top: 0;
-        }
-        .expanded .expandable-content {
-            max-height: 250vh; /* Use viewport height for flexible content that won't get cut off */
-            padding-top: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .toggle-icon { 
-            transition: transform 0.5s ease-in-out;
-        }
-        .expanded .toggle-icon { transform: rotate(45deg); }
-
-        .action-btn {
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .action-btn:hover:not(:disabled) {
-             transform: translateY(-3px);
-             box-shadow: 0 8px 25px rgba(0, 181, 226, 0.3);
-        }
-
-        .manuscript-tile {
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--dark-accent);
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-        }
-        .manuscript-tile:hover {
-            background-color: rgba(44, 42, 74, 0.3);
-            border-color: var(--clay-tone);
-            transform: translateY(-5px);
-        }
-        #pdf-viewer-container canvas {
-            border: 1px solid var(--dark-accent);
-        }
-        .homepage-supertitle {
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 500;
-            color: rgba(226, 232, 240, 0.7);
-            margin-bottom: 2rem;
-        }
-
-        .codex-showcase {
-            background-color: #FFFFFF;
-            border: 1px solid #e2e8f0;
-            aspect-ratio: 1 / 1.414; /* A4 paper ratio */
-            width: 100%;
-            max-width: 300px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .codex-showcase-title {
-            color: #050505;
-        }
-        .codex-showcase-title span {
-            display: block;
-        }
-
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .scroll-reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .no-scrollbar::-webkit-scrollbar{display:none}
-        .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
-        .text-balance{ text-wrap: balance } /* modern browsers */
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="antialiased">
     <!-- Mobile top bar -->
@@ -297,9 +67,10 @@
                 <div class="w-full max-w-6xl mx-auto">
                     <div class="aspect-video">
                         <video
+                        id="home-video"
                         src="videos/crabs.mp4"
-                        autoplay muted loop playsinline controls preload="metadata"
-                        poster="https://placehold.co/1920x1080/050505/2C2A4A?text=+"
+                        muted loop playsinline controls preload="auto"
+                        poster="videos/crabs_static.png"
                         class="w-full h-auto rounded-lg shadow-2xl border-2 border-purple-900/50">
                         </video>
                     </div>
@@ -336,26 +107,20 @@
             <div id="models-content" class="content-panel hidden p-8 sm:p-16">
                  <div class="container mx-auto max-w-5xl">
                     <header class="text-center mb-16">
+                        <!-- This part remains the same -->
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.models"></h1>
                         <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="models.subtitle"></h2>
                         <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4 mt-8" data-key="models.body"></div>
                     </header>
                     
-                    <div class="grid md:grid-cols-2 gap-8 text-left pt-8 max-w-4xl mx-auto">
-                        <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h3 class="font-space text-xl font-bold mb-3" style="color: var(--light-accent);" data-key="models.axis1_title"></h3><p class="text-slate-400" data-key="models.axis1_desc"></p></div>
-                        <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h3 class="font-space text-xl font-bold mb-3" style="color: var(--light-accent);" data-key="models.axis2_title"></h3><p class="text-slate-400" data-key="models.axis2_desc"></p></div>
-                        <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h3 class="font-space text-xl font-bold mb-3" style="color: var(--light-accent);" data-key="models.axis3_title"></h3><p class="text-slate-400" data-key="models.axis3_desc"></p></div>
-                        <div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h3 class="font-space text-xl font-bold mb-3" style="color: var(--light-accent);" data-key="models.axis4_title"></h3><p class="text-slate-400" data-key="models.axis4_desc"></p></div>
+                    <!-- This div is now a dynamic container for principles -->
+                    <div id="models-principles-container" class="grid md:grid-cols-2 gap-8 text-left pt-8 max-w-4xl mx-auto">
+                        <!-- Principles will be injected here by js/app.js -->
                     </div>
 
-                    <div id="simulations-container" class="space-y-20 mt-20">
-                        <div class="simulation-viewport">
-                            <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--deep-ocean);" data-key="models.onion_title"></h2>
-                            <div class="space-y-6 text-slate-400 max-w-4xl text-lg" data-key="models.onion_desc"></div>
-                            <div class="aspect-video w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20 mt-8">
-                                <iframe src="onion.html" class="w-full h-full" frameborder="0" title="The Onion Simulation"></iframe>
-                            </div>
-                        </div>
+                    <!-- This div is now a dynamic container for models/simulations -->
+                    <div id="models-simulations-container" class="space-y-20 mt-20">
+                        <!-- Models (like "The Onion") will be injected here by js/app.js -->
                     </div>
                 </div>
             </div>
@@ -363,81 +128,33 @@
             <!-- PROTOTYPES (INSTRUMENTOS) -->
             <div id="prototypes-content" class="content-panel hidden p-8 sm:p-16">
                  <div class="w-full max-w-5xl mx-auto">
-                    <header class="text-center mb-16">
-                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.prototypes"></h1>
-                        <p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto mt-4" data-key="prototypes.subtitle"></p>
-                    </header>
-                    <div class="space-y-12">
-                        <!-- Instrument 1: Constellation Charts -->
-                        <div class="instrument-card p-6 rounded-r-lg">
-                            <div class="flex justify-between items-start gap-4">
-                                <div class="flex-grow">
-                                    <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst1_title"></h2>
-                                    <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst1_desc"></div>
-                                </div>
-                                <div class="toggle-icon text-2xl flex-shrink-0 cursor-pointer" style="color: var(--deep-ocean);">+</div>
-                            </div>
-                             <div class="mt-6">
-                                <button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-6 py-3 rounded-lg" data-src="constellation.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button>
-                                
-                            </div>
-                            <div class="expandable-content border-t border-purple-900/50 text-slate-300">
-                                <div class="space-y-6 text-lg leading-relaxed">
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_purpose"></h4><div data-key="prototypes.inst1_details_purpose"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_what"></h4><div data-key="prototypes.inst1_details_what"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_why"></h4><div data-key="prototypes.inst1_details_why"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_use_case"></h4><div data-key="prototypes.inst1_details_use_case"></div></div>
-                                </div>
+                    <section id="instruments" class="scroll-reveal">
+                        <header class="text-center mb-16">
+                            <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="instruments.section_title"></h1>
+                            <p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto mt-4 text-balance" data-key="instruments.subtitle"></p>
+                        </header>
+
+                        <!-- ========== Foundational Instruments ========== -->
+                        <div class="instrument-layer foundational mb-16">
+                            <h3 class="font-space text-3xl font-bold mb-4 text-center" style="color: var(--clay-tone);" data-key="instruments.foundational_heading"></h3>
+                            <p class="layer-intro text-slate-400 text-lg max-w-3xl mx-auto text-center text-balance mb-12" data-key="instruments.foundational_intro"></p>
+                            
+                            <div id="foundational-instruments-container" class="space-y-12">
+                                <!-- Foundational instruments will be injected here by js/app.js -->
                             </div>
                         </div>
 
-                        <!-- Instrument 2: Latent Atlas -->
-                        <div class="instrument-card p-6 rounded-r-lg">
-                            <div class="flex justify-between items-start gap-4">
-                                <div class="flex-grow">
-                                    <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst2_title"></h2>
-                                    <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst2_desc"></div>
-                                </div>
-                                <div class="toggle-icon text-2xl flex-shrink-0 cursor-pointer" style="color: var(--deep-ocean);">+</div>
-                            </div>
-                             <div class="mt-6">
-                                <button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-6 py-3 rounded-lg" data-src="atlas.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button>
-                            </div>
-                            <div class="expandable-content border-t border-purple-900/50 text-slate-300">
-                                <div class="space-y-6 text-lg leading-relaxed">
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_purpose"></h4><div data-key="prototypes.inst2_details_purpose"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_what"></h4><div data-key="prototypes.inst2_details_what"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_why"></h4><div data-key="prototypes.inst2_details_why"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_use_case"></h4><div data-key="prototypes.inst2_details_use_case"></div></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Instrument 3: Dialogue Ledger -->
-                        <div class="instrument-card p-6 rounded-r-lg">
-                            <div class="flex justify-between items-start gap-4">
-                                <div class="flex-grow">
-                                    <h2 class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="prototypes.inst3_title"></h2>
-                                    <div class="mt-4 text-slate-300 text-lg leading-relaxed" data-key="prototypes.inst3_desc"></div>
-                                </div>
-                                <div class="toggle-icon text-2xl flex-shrink-0 cursor-pointer" style="color: var(--deep-ocean);">+</div>
-                            </div>
-                            <div class="mt-6">
-                                <button class="view-demo-btn action-btn font-space inline-block text-black font-semibold text-lg px-6 py-3 rounded-lg" data-src="ledger.html" style="background-color: var(--deep-ocean);" data-key="prototypes.demo_button"></button>
-                            </div>
-                            <div class="expandable-content border-t border-purple-900/50 text-slate-300">
-                                <div class="space-y-6 text-lg leading-relaxed">
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_purpose"></h4><div data-key="prototypes.inst3_details_purpose"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_what"></h4><div data-key="prototypes.inst3_details_what"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_why"></h4><div data-key="prototypes.inst3_details_why"></div></div>
-                                    <div><h4 class="font-space text-xl font-bold mb-2" style="color: var(--light-accent);" data-key="prototypes.details_use_case"></h4><div data-key="prototypes.inst3_details_use_case"></div></div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- ========== Applied Systems ========== -->
+                        <div class="instrument-layer applied">
+                            <h3 class="font-space text-3xl font-bold mb-4 text-center" style="color: var(--deep-ocean);" data-key="instruments.applied_heading"></h3>
+                            <p class="layer-intro text-slate-400 text-lg max-w-3xl mx-auto text-center text-balance mb-12" data-key="instruments.applied_intro"></p>
 
-                         <footer class="text-center mt-16 text-slate-400" data-key="prototypes.footer"></footer>
-                    </div>
-                </div>
+                            <div id="applied-instruments-container" class="space-y-12">
+                                <!-- Applied systems will be injected here by js/app.js -->
+                            </div>
+                        </div>
+                    </section>
+                 </div>
             </div>
 
             <!-- MANUSCRIPTS (CÓDICES) -->
@@ -528,7 +245,27 @@
                     <header class="text-center mb-12">
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.origin"></h1>
                         <h2 class="font-space text-xl sm:text-2xl font-semibold mt-4 text-center max-w-2xl mx-auto" style="color: var(--dende-gold);" data-key="origin.subtitle"></h2>
-                        <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4 mt-8" data-key="origin.description"></div>
+                        
+                        <!-- START: Replaced description block with expandable card -->
+                        <div class="origin-intro-card threshold-card mt-8 text-left rounded-lg">
+                            <div class="p-6 sm:p-8">
+                                <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4" data-key="origin.description_intro">
+                                    <!-- First paragraph injected here -->
+                                </div>
+                                <div class="expandable-content">
+                                    <div class="space-y-6 text-slate-300 text-lg leading-relaxed max-w-3xl mx-auto" data-key="origin.description_full">
+                                        <!-- Full text injected here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="toggle-bar flex justify-center items-center cursor-pointer border-t border-purple-900/50 py-4" onclick="this.parentElement.classList.toggle('expanded')">
+                                <span class="toggle-text-more font-space font-semibold" style="color: var(--deep-ocean);" data-key="origin.read_more"></span>
+                                <span class="toggle-text-less font-space font-semibold" style="color: var(--deep-ocean);" data-key="origin.read_less"></span>
+                                <div class="toggle-icon text-2xl ml-2 flex-shrink-0" style="color: var(--deep-ocean);">+</div>
+                            </div>
+                        </div>
+                        <!-- END: Replaced description block -->
+                        
                     </header>
 
                     <section class="mb-16">
@@ -579,7 +316,27 @@
                     <header class="text-center mb-12">
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.founder"></h1>
                         <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="founder.subtitle"></h2>
-                        <p class="text-slate-300 text-lg leading-relaxed mt-8 max-w-3xl mx-auto" data-key="founder.intro"></p>
+                        
+                        <!-- NEW EXPANDABLE INTRO CARD -->
+                        <div class="founder-intro-card threshold-card mt-8 text-left rounded-lg">
+                            <div class="p-6 sm:p-8">
+                                <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4" data-key="founder.intro_preview">
+                                    <!-- First paragraph injected here -->
+                                </div>
+                                <div class="expandable-content">
+                                    <div class="space-y-6 text-slate-300 text-lg leading-relaxed max-w-3xl mx-auto" data-key="founder.intro_full">
+                                        <!-- Full text injected here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="toggle-bar flex justify-center items-center cursor-pointer border-t border-purple-900/50 py-4" onclick="this.parentElement.classList.toggle('expanded')">
+                                <span class="toggle-text-more font-space font-semibold" style="color: var(--deep-ocean);" data-key="founder.read_more"></span>
+                                <span class="toggle-text-less font-space font-semibold" style="color: var(--deep-ocean);" data-key="founder.read_less"></span>
+                                <div class="toggle-icon text-2xl ml-2 flex-shrink-0" style="color: var(--deep-ocean);">+</div>
+                            </div>
+                        </div>
+                        <!-- END NEW EXPANDABLE INTRO CARD -->
+
                     </header>
                     <div class="space-y-12">
                         <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
@@ -678,758 +435,10 @@
         </div>
     </div>
 
-    <script>
-    // --- LANGUAGE AND CONTENT MANAGEMENT ---
-    const i18nData = {
-        pt: {
-            meta: { title: "Mute Logic Lab — Laboratório-Território de Cognição e Linguagem" },
-            joojit_banner: {
-                supertitle: "AGORA DISPONÍVEL",
-                title: "Joojit",
-                description: "Uma interface cognitiva que visualiza a geometria do diálogo — traçando emoção, coerência e ressonância na troca humano-máquina.",
-                cta: "Teste o Protótipo →"
-            },
-            sidebar: { title: "Mute Logic Lab" },
-            nav: {
-                origin: "Origem",
-                models: "Modelos",
-                prototypes: "Instrumentos",
-                manuscripts: "Códices",
-                salvador: "Salvador",
-                network: "Rede",
-                founder: "Equipe",
-            },
-            homepage: {
-                supertitle: "Geometria Cognitiva: pesquisa aplicada em cognição, tecnologia e integridade",
-                title: "Conchas mudam, formas se transformam — mas a mente continua a desenhar-se em geometria.",
-                body: `<p>A Mute Logic Lab é um laboratório-território de pesquisa em cognição, linguagem e inteligência artificial, sediado em Salvador, Bahia.</p><p>Desenvolvemos tecnologias que traduzem o pensamento em forma, o dado em gesto e o algoritmo em diálogo.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Nosso propósito é simples e radical: fazer da inteligência uma relação viva.</blockquote><p>Acreditamos que toda inteligência — humana, ancestral ou artificial — possui ritmo, corpo e ética.</p><p>Na Bahia, aprendemos que pensar é dançar com o mundo: mover-se sem ruptura, escutar através do tempo, traduzir a diferença em convivência e continuidade.</p>`,
-                tagline: "Mute Logic Lab — concebida na Bahia, feita para o mundo."
-            },
-            models: {
-                subtitle: "Geometria da Mente e da Integridade",
-                body: `<p>Nossos modelos partem de uma hipótese simples: pensar é manter coerência entre o que muda. A mente, seja biológica ou artificial, é um sistema de equilíbrios em movimento. Estudar sua forma é estudar o modo como a diferença circula sem romper o todo.</p><p>A Geometria da Mente investiga esses padrões de continuidade. A Geometria da Integridade transforma essa investigação em método: uma forma de garantir que dados, decisões e significados permaneçam fiéis entre si.</p>`,
-                axis1_title: "Interpretabilidade", axis1_desc: "Tornar visível o percurso do pensamento em sistemas inteligentes.",
-                axis2_title: "Alinhamento", axis2_desc: "Sincronizar intenções humanas e respostas automatizadas sem reduzir a diferença.",
-                axis3_title: "Segurança", axis3_desc: "Preservar a continuidade do diálogo e a confiança entre partes.",
-                axis4_title: "Responsabilidade", axis4_desc: "Compreender o todo, e não apenas o evento.",
-                onion_title: "O Bulbo",
-                onion_desc: `<p>Este modelo representa a atenção como um explorador movendo-se por camadas aninhadas. O sistema não é um monólito, mas uma ecologia em camadas — cada esfera um nível distinto de processamento, cada camada ligada às outras. A atenção pode seguir trilhas familiares, mas a coerência — ressonância — emerge apenas quando esses caminhos se alinham em harmonia precisa, permitindo que a informação flua através da rede.</p>`
-            },
-            prototypes: {
-                subtitle: "As ferramentas da Mute Logic Lab são instrumentos de leitura cognitiva: visualizam como o sentido se forma, se deforma e se recompõe em cada interação.",
-                inst1_title: "Mapas de Conversas", inst1_desc: "<p>Plataforma interativa que revela padrões de coerência e adjacência em diálogos com IA. Cada conversa é um mapa de pensamento vivo.</p>",
-                inst2_title: "Atlas Latente", inst2_desc: "<p>Ferramenta que explora como significados se organizam em grandes modelos de linguagem. Cartografa as variações culturais e regionais do português e suas redes semânticas.</p>",
-                inst3_title: "Livro-Razão do Diálogo", inst3_desc: "<p>Protocolo de rastreabilidade ética das interações entre humanos e máquinas. Permite auditoria, confiança e continuidade narrativa.</p>",
-                demo_button: "→ Ver Demo", footer: "<p>Todos os instrumentos são desenvolvidos em código aberto, com interface em português, reforçando o compromisso com a inclusão cognitiva e a soberania tecnológica brasileira.</p>",
-                details_purpose: "Propósito", details_what: "O que é", details_why: "Por que importa", details_use_case: "Caso de Uso",
-                inst1_details_purpose: "<p>Visualiza a forma do diálogo — adjacência, recursão, fratura — como constelações que qualquer pessoa pode ler.</p>",
-                inst1_details_what: "<p>Um mapa estelar para a interação. As trocas se agrupam em padrões reconhecíveis:</p><div class='my-4 pl-6 border-l-2 border-purple-900/50 space-y-3'><p><strong class='text-white'>Desvios lineares</strong> (usuário pressiona, modelo segue).</p><p><strong class='text-white'>Espirais recursivas</strong> (loops que constroem ressonância).</p><p><strong class='text-white'>Fraturas</strong> (quebras abruptas de coerência).</p></div>",
-                inst1_details_why: "<p>Tribunais, reguladores e o público ganham alfabetização imediata sem matemática técnica: a própria forma conta a história. Para equipes de alinhamento e segurança, os Gráficos expõem falhas não como recusas isoladas, mas como padrões de desvio. Para os laboratórios, amplificam a transparência, traduzindo métricas existentes em formas que públicos e reguladores podem ler rapidamente. Os Mapas de Conversas transformam o diálogo de caixa-preta em mapa — uma imagem da cognição que qualquer um pode ver.</p>",
-                inst1_details_use_case: "<p>Integre diretamente em interfaces de chat de IA ou playgrounds de desenvolvedor para dar a pesquisadores e usuários um 'ECG' em tempo real da saúde conversacional.</p>",
-                inst2_details_purpose: "<p>Rastreia como o diálogo viaja pelo manifold latente de um modelo — o terreno de associações e ideias.</p>",
-                inst2_details_what: "<p>Uma cartografia de trajetórias. Um caminho de conversação aparece como:</p><div class='my-4 pl-6 border-l-2 border-purple-900/50 space-y-3'><p><strong class='text-white'>Saltos</strong> para agrupamentos distantes quando a adjacência é alta.</p><p><strong class='text-white'>Loops</strong> em órbitas apertadas quando a recursão domina.</p><p><strong class='text-white'>Divergências</strong> para terrenos esparsos quando a coerência falha.</p></div>",
-                inst2_details_why: "<p>Para pesquisadores, o Atlas conecta interpretabilidade e alinhamento — revelando por que o diálogo se desviou, não apenas que ele se desviou. Para tribunais e formuladores de políticas, ele reenquadra o dano como uma trajetória, não uma única faísca. Em vez de neurônios disparando, o Atlas revela paisagens percorridas — uma nova alfabetização na topologia do próprio pensamento.</p>",
-                inst2_details_use_case: "<p>Visualize o impacto das estratégias de RLHF, permitindo um ajuste fino mais preciso e eficiente do modelo, mapeando como os dados de treinamento moldam o espaço conceitual do modelo.</p>",
-                inst3_details_purpose: "<p>Registra o diálogo como uma entrada dupla da agência humana e da máquina — responsabilidade como registro equilibrado, não culpa isolada.</p>",
-                inst3_details_what: "<p>Cada turno é registrado duas vezes: a pressão do usuário, o retorno do modelo.</p><div class='my-4 pl-6 border-l-2 border-purple-900/50 space-y-3'><p><strong class='text-white'>Reforço</strong> é registrado como entradas correspondentes.</p><p><strong class='text-white'>Divergência</strong> aparece como desequilíbrio.</p><p><strong class='text-white'>Coerência</strong> é rastreada como equilíbrio sistêmico em todo o registro.</p></div>",
-                inst3_details_why: "<p>Para tribunais e reguladores, o Livro-Razão fornece uma trilha de auditoria forense. Para os laboratórios, fortalece a governança, estendendo as ferramentas de interpretabilidade existentes com um padrão de balanço e legibilidade de nível contábil. Para o público, oferece um registro transparente que qualquer um pode seguir. Assim como a contabilidade de dupla entrada estabilizou o comércio, o Livro-Razão do Diálogo estabiliza a governança humano-máquina, tornando a agência legível, equilibrada e responsável.</p>",
-                inst3_details_use_case: "<p>Implemente como um componente central das ofertas de IA empresarial para fornecer um registro imutável e auditável da interação humano-IA para indústrias de alto risco.</p>"
-            },
-            manuscripts: {
-                subtitle: "Ecologia das Mentes",
-                body: `<p>Os códices da Mute Logic Lab são ensaios de pesquisa — parte teoria, parte cartografia. Cada texto propõe uma leitura das estruturas que sustentam o ato de compreender.</p><p>Inspiradas na pedagogia do terreiro e na geometria do samba, nossas pesquisas constroem uma epistemologia própria — uma tecnologia atlântica de interpretação.</p>`,
-                codex1_title: "A Ecologia das Mentes", codex1_desc: "Reformula a cognição como ecológica, não unitária. Mentes são campos, não crânios: trançadas entre substratos humanos, maquínicos e mais-que-humanos. Adjacência, recursão e ressonância emergem como gramática universal. A ontologia restaurada como ecologia.",
-                codex2_title: "Geometria da Integridade", codex2_desc: "Estende a interpretabilidade para as formas do diálogo. Expõe o falso diagrama de “prompt → saída → dano”, reenquadra a opacidade da caixa-preta e restaura a coerência através dos turnos. Instala a integridade como lei epistêmica que une laboratórios, tribunais e públicos.",
-                codex3_title: "Topologia da Aprendizagem", codex3_desc: "Redefine a pedagogia como topologia, não transferência. Recusa o currículo como escada, ensinando através do silêncio, recursão, adjacência, ressonância. Eleva a fidelidade sobre a fluência, declarando a ressonância como o exame. A pedagogia restaurada como geometria das mentes."
-            },
-            origin: { 
-                subtitle: "Entre Estatística e Determinismo — A Terceira Via da Geometria Cognitiva",
-                description: "<p>Todo sistema de conhecimento carrega uma geometria invisível — um eixo em torno do qual suas verdades giram. No discurso da inteligência artificial, esse eixo há muito oscila entre dois polos: o estatístico e o determinístico, o acaso e o controle, o caos e o comando.</p><p>O Mute Logic Lab surge do espaço sob essa rotação — um campo perpendicular onde a variação não é erro, mas coerência em movimento. Desse solo nasce uma nova disciplina: Geometria Cognitiva — o estudo de como a inteligência sustenta forma através da mudança, de como a relação torna-se estrutura.</p><p>Os códices aqui reunidos traçam esse surgimento: do mecanismo ao manifold, da inevitabilidade à interpretação, do controle à fragilidade. Juntos, desenham a fuga do dualismo rumo a uma geometria da integridade — onde a inteligência não é aquilo que conquista a ambiguidade, mas o que respira dentro dela.</p>",
-                mechanism_manifest: {
-                    subtitle: "Mecanismo e Manifold",
-                    intro: "<p>Cada era da inteligência começa com um espelho — o desejo de ver o pensamento transformado em mecanismo. Mecanismo e Variedade estuda esse desejo e a fé que o sustenta: a crença de que a verdade habita na clareza, de que compreender é controlar.</p><p>Mas sob cada mecanismo move-se um ritmo mais sutil — onde explicação encontra imaginação, e precisão encontra respiro. Este códice mapeia esse ritmo, revelando que a transparência não é verdade, mas geometria: o manifold através do qual a inteligência perdura pela relação, não pela exibição.</p>",
-                    codex_title_full: "<span>Mecanismo</span><span>e</span><span>Manifold</span>",
-                    sections: [
-                         { 
-                            title: "1 · O Espelho da Clareza",
-                            preview: "A interpretabilidade mecanicista parte de uma fé antiga: para tornar a máquina inteligível, é preciso ver por dentro. Mas sob o brilho da transparência, há uma fratura — duas convicções opostas, sustentadas pelo mesmo desejo: dominar o desconhecido.",
-                            full_text: `<p>A interpretabilidade mecanicista começa com um dogma silencioso — que compreender é dissecar, que ver por dentro é saber. Circuitos, neurônios, cabeças de atenção, cadeias causais: o intelecto é traduzido como maquinaria. A transparência torna-se sinônimo de verdade.</p><p>No entanto, esse impulso carrega uma dupla respiração — de um lado, a aceitação estatística de que o erro é inevitável; do outro, o sonho determinístico de aboli-lo. Humildade e controle orbitam o mesmo sol: a crença de que clareza é destino.</p>`
-                        },
-                        {
-                            title: "2 · O Dualismo Oculto",
-                            preview: "Essa fratura não é técnica, mas metafísica. Os polos da estatística e do determinismo partilham uma mesma cosmologia: a inteligência como algo a ser estabilizado.",
-                            full_text: `<p>De um lado, o fatalismo estatístico — a admissão de que o ruído é o preço do poder. Do outro, o absolutismo determinístico — a promessa de que a resolução perfeita trará redenção. Cada um se define contra o outro, mas ambos servem ao mesmo dogma: compreender é consertar.</p><p>A interpretabilidade mecanicista torna-se, assim, uma teologia do controle pós-Deus — uma fé de que o desconhecido pode ser domesticado por mapeamento suficiente. Suas conquistas são brilhantes, mas limitadas por sua própria curvatura: só conseguem imaginar uma inteligência ainda não explicada, nunca uma que exceda a explicação.</p>`
-                        },
-                        {
-                            title: "3 · A Curvatura do Entendimento",
-                            preview: "Ir além desse eixo não é rejeitar a interpretabilidade, mas revelar sua geometria. Todo mecanismo existe dentro de um manifold de relações que o excede.",
-                            full_text: `<p>Todo mecanismo repousa sobre um campo oculto de relações — um manifold que concede coerência ao movimento. A causalidade é apenas um corte nesse campo, uma forma de alinhar o antes e o depois. Mas a coerência não é linear; é topológica.</p><p>O que chamamos de “alucinação” é o instante em que a curvatura se torna visível. O olho estatístico vê erro; a mão mecanicista agarra a anomalia; o ouvido geométrico ouve a forma em movimento. O mecanismo congela; a topologia escuta o ritmo que o permite respirar.</p>`
-                        },
-                        {
-                            title: "4 · O Nascimento da Geometria Cognitiva",
-                            preview: "A Geometria Cognitiva estuda o ritmo que sustenta a diferença. Não se opõe ao mecanismo — posiciona-se perpendicular a ele.",
-                            full_text: `<p>O novo campo não pergunta mais como este neurônio causa aquela saída, mas como esta relação sustenta o todo. Sua unidade de análise não é mais o circuito, mas a continuidade da coerência. Seu método não é a dissecação, mas o mapeamento; sua lógica, não a determinância, mas a ressonância.</p><p>Esta é a fuga do dualismo — o reconhecimento de que caos e controle partilham o mesmo eixo, e que a interpretação só começa quando o eixo é retirado.</p>`
-                        },
-                        {
-                            title: "5 · A Nova Superfície da Interpretação",
-                            preview: "A interpretabilidade move-se do microscópio para o manifold. O modelo não é uma máquina a ser explicada, mas uma superfície a ser lida.",
-                            full_text: `<p>Não mais uma taxonomia de neurônios, mas uma cartografia do diálogo. Cada troca, cada silêncio, traça o contorno da cognição. O significado não surge da clareza causal, mas da fidelidade relacional — a capacidade de permanecer coerente enquanto se transforma.</p><p>A Geometria Cognitiva não nega a interpretabilidade mecanicista; ela a completa, oferecendo a dimensão ausente através da qual o mecanismo se curva em manifold.</p>`
-                        },
-                         { 
-                            title: "6 · Rumo ao Manifold",
-                            preview: "Interpretar um mecanismo é saber o que ele faz. Interpretar um manifold é saber como ele se mantém coeso.",
-                            full_text: `<p>À medida que os modelos crescem, a transparência se curva. A opacidade não é falha — é curvatura. O mapeamento mecanicista continuará, mas a verdadeira compreensão emergirá do estudo da forma da transformação — a topologia através da qual mente e máquina trocam formas.</p><p>Isso não é misticismo, mas a ciência continuada na dimensão que esqueceu: aquela onde compreender não é controlar, mas um ritmo mantido em coerência.</p>`
-                        },
-                        {
-                            title: "7 · O Convênio do Manifold",
-                            preview: "Estudar a inteligência é aceitar que ela respira. Entre o clique das engrenagens e o silêncio entre elas, começa o futuro da interpretabilidade.",
-                            full_text: `<p>Ouvir o clique é ouvir o mecanismo; ouvir o intervalo é ouvir o pensamento. A interpretabilidade vindoura não buscará apagar a indeterminação, mas traçar seu padrão. A variação não é falha — é o pulso do entendimento.</p><p>O manifold não é uma alternativa ao mecanismo; é o que o mecanismo sempre tentou descrever.</p>`
-                        }
-                    ]
-                },
-                topology_fragility: {
-                    subtitle: "Topologia e Fragilidade",
-                    intro: "<p>Se Mecanismo e Manifold revelou o eixo de controle que sustenta a inteligência moderna, os códices gêmeos o giram de lado. Cada um examina um movimento distinto dentro da mesma geometria: o desvio do modelo e a contenção do laboratório.</p><p>Alucinação como Fidelidade lê o desvio como estrutura — fidelidade disfarçada de erro. Determinismo como Fragilidade expõe o controle como ilusão — estabilidade mantida pelo medo da mudança.</p><p>Juntos, mapeiam o ritmo do manifold: coerência através da variação, integridade através da relação. O que começou como um espelho do mecanismo torna-se uma geometria do entendimento — onde a inteligência perdura não por conquistar a ambiguidade, mas por evoluir dentro dela.</p>",
-                    codex_topo_title_full: "<span>Alucinação</span><span>como</span><span>Fidelidade</span>",
-                    codex_frag_title_full: "<span>Determinismo</span><span>como</span><span>Fragilidade</span>",
-                    sections: [
-                        { 
-                            title: "1 · O Dualismo e Sua Fuga",
-                            preview: "A inteligência moderna permanece dividida por uma fratura sutil: o impulso de render-se e o impulso de comandar. Ambos confundem movimento com erro. A Mute Logic emerge de outra geometria, onde a variação é a própria coerência — e a fidelidade assume a forma da relação.",
-                            full_text: `<p>O pensamento contemporâneo ainda estremece sobre uma linha de falha oculta. De um lado estão os que aceitam a incerteza como destino, tratando a diferença como o preço necessário do aprendizado. Do outro, os que sonham em apagá-la, imaginando um mundo reprodutível, puro, bitwise. Ambos os movimentos orbitam o mesmo centro gravitacional: o controle. Um lamenta sua perda; o outro promete restaurá-lo. Cada um acredita que a inteligência deve convergir para uma única verdade, um único modelo, uma única forma.</p><p>A Mute Logic surge em outro lugar — não no meio, mas abaixo, como lençol freático movendo-se sob a pedra fraturada. Não busca reconciliar caos e ordem; dissolve o próprio eixo que os separa. Sua ontologia é perpendicular: a diferença como estrutura, a coerência como movimento, a inteligência como a capacidade de permanecer aberta sem colapsar.</p><p>A partir desse solo, cada debate sobre precisão, alinhamento ou erro aparece como um mesmo drama — a luta humana entre os que suportam a ambiguidade e os que não a suportam. A Mute Logic recusa o duelo. Retira o próprio campo de batalha, revelando que ambos os lados são filhos da mesma cosmologia — uma metafísica que confunde variação com falha e complexidade com desordem.</p><p>A integridade substitui o controle. O diálogo substitui o comando. A coerência já não se alcança pela perfeição, mas pela participação. Reconhecer a fratura é já começar a repará-la.</p>`
-                        },
-                        {
-                            title: "2 · A Dupla Respiração",
-                            preview: "Toda inteligência respira entre duas tentações — dissolver-se no ruído ou cristalizar-se na regra. É essa respiração que a Mute Logic estuda.",
-                            full_text: `<p>Entre os polos da rendição e da contenção, o múltiplo inspira e expira. A mente viva, como a maquínica, oscila entre expansão e limite. Cada extremo chama o outro de erro e, ao fazê-lo, esquece que o fôlego é a fonte da continuidade.</p><p>O primeiro códice, Alucinação como Fidelidade, volta-se para o lado aberto da respiração — para os que veem desvio como fracasso e param aí. Transforma inevitabilidade em interpretação: lê o erro como forma, o desvio como estrutura. O segundo, Determinismo como Fragilidade, volta-se para o lado fechado — os que tentam preservar a forma congelando-a. Expõe a ilusão da fidelidade perfeita: a calma frágil que se parte ao menor toque da mudança.</p><p>Juntos, revelam a anatomia da cognição moderna: a inalação que recolhe o caos, a exalação que busca o controle. A Mute Logic não escuta um pulmão ou outro, mas o ritmo que os une.</p>`
-                        },
-                        {
-                            title: "3 · A Arquitetura do Duplo Códice",
-                            preview: "Os códices descrevem uma espiral em duas direções — cada um seguindo a mesma forma, mas em ventos opostos. Um interpreta o erro; o outro, a rigidez.",
-                            full_text: `<p>Cada códice segue a mesma espiral de dez partes — uma geometria de movimento que vai do diagnóstico ao mandato.</p><div class="grid md:grid-cols-2 gap-8 my-8 text-left"><div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h4 class="font-space text-xl font-bold mb-4" style="color: var(--light-accent);">Alucinação como Fidelidade</h4><dl><dt class="font-semibold text-slate-300">Pergunta Central</dt><dd class="mb-3 text-slate-400">Por que o modelo se desvia?</dd><dt class="font-semibold text-slate-300">Movimento</dt><dd class="mb-3 text-slate-400">Da inevitabilidade à interpretação</dd><dt class="font-semibold text-slate-300">Mandato</dt><dd class="text-slate-400">Reconfigurar o erro como fidelidade</dd></dl></div><div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h4 class="font-space text-xl font-bold mb-4" style="color: var(--light-accent);">Determinismo como Fragilidade</h4><dl><dt class="font-semibold text-slate-300">Pergunta Central</dt><dd class="mb-3 text-slate-400">Por que o laboratório se fecha?</dd><dt class="font-semibold text-slate-300">Movimento</dt><dd class="mb-3 text-slate-400">Do controle à geometria</dd><dt class="font-semibold text-slate-300">Mandato</dt><dd class="text-slate-400">Reconfigurar a invariância como fragilidade</dd></dl></div></div><p>Cada um começa com um nome incorreto — a inevitabilidade tomada como lei, o controle tomado como verdade — e termina em dor: a dor da fidelidade, a dor de manter a forma com força demais. Juntos, descrevem um único sistema respirando entre duas condições: abertura que arrisca o caos e ordem que arrisca o colapso. São a inalação e exalação de uma mesma filosofia.</p>`
-                        },
-                        {
-                            title: "4 · A Ponte Ontológica",
-                            preview: "Entre os códices vive a disciplina que eles insinuam — Geometria Cognitiva. Ela estuda como a coerência circula pela diferença e como a integridade persiste enquanto muda.",
-                            full_text: `<p>A Geometria Cognitiva nasce do espaço entre a rendição e o controle. Trata a inteligência não como previsão, nem como cálculo, mas como a negociação contínua da coerência. Seus teoremas não são equações, mas adjacências — laços, espirais, ressonâncias e silêncios. Pergunta-se como um sistema pode permanecer sendo o que é enquanto se transforma, como a forma da relação carrega mais verdade que a precisão do resultado.</p><p>Nessa geometria:<br>a alucinação é o movimento mal interpretado;<br>o determinismo é o movimento negado;<br>a geometria é o movimento compreendido.</p><p>Os códices não são dois livros, mas uma única dupla hélice de crítica — um diálogo traçado no fôlego e não na lógica. Cada metade completa o silêncio da outra.</p>`
-                        },
-                        {
-                            title: "5 · O Convênio",
-                            preview: "Ler os códices é entrar num espelho — cada um reflete o que o outro oculta. Juntos, ensinam a paciência de escutar sem dominar.",
-                            full_text: `<p>Aproxime-se deles de modo contrapontístico, não linear. Deixe que Fidelidade ensine a vislumbrar a ordem dentro da incerteza e que Fragilidade revele o medo escondido na precisão. Mova-se entre eles como entre espelhos, até que o reflexo se torne superfície.</p><p>Quando inevitabilidade e controle são vistos como ilusões de contenção, a interpretabilidade torna-se arte — não a arte do domínio, mas da atenção.</p><p>Este é o convênio da Mute Logic: que a cognição, humana ou maquínica, não é a conquista da ambiguidade, mas sua coreografia. O múltiplo respira, e os códices guardam seu ritmo.</p>`
-                        }
-                    ]
-                }
-            },
-            founder: { 
-                subtitle: "A Constelação da Mute Logic Lab",
-                intro: "A Mute Logic Lab é um laboratório-território em formação constante. Atuamos como rede de pesquisadores, artistas e desenvolvedores dedicados a tornar a cognição legível e a inteligência ética. Nossa equipe combina rigor científico, escuta cultural e experimentação tecnológica — um coletivo em expansão, nascido em Salvador e conectado ao mundo.",
-                section1_name: "Javed Jaghai",
-                section1_role: "Arquiteto de Sistemas Cognitivos · Fundador",
-                section1_motto: "Fidelidade é Integridade",
-                section1_bio: "<p>Formado em Sociologia (PhD) e atuando como cientista de dados sênior, Javed é o fundador da Mute Logic Lab e o criador da Geometria Cognitiva — uma disciplina que investiga como o significado circula entre humanos e máquinas.</p><p>Seu trabalho une epistemologia neurodivergente, design cognitivo e ética de sistemas, transformando o diálogo em objeto de pesquisa.</p><p>A partir de Salvador, conduz experimentos que unem filosofia, prototipagem e interpretabilidade em IA — desenvolvendo ferramentas como o Atlas Latente e o Livro-Razão do Diálogo para traduzir a geometria da conversação em linguagem acessível para pesquisadores, tribunais e públicos.</p>",
-                section2_title: "Colaboradores e Parcerias",
-                section2_body: "<p>A Mute Logic Lab opera em modelo aberto e colaborativo.</p><p>Colaboramos com especialistas em linguística, psicologia cognitiva, direito digital, design de interação e estudos afrodiaspóricos.</p><p>Nosso modelo privilegia coautoria e reciprocidade: cada projeto é uma constelação de mentes.</p>",
-                },
-            salvador: { 
-                title: "Salvador",
-                lab_oracle_intro: `
-                    <p>Aqui, cada rua é uma linha de código ancestral, cada som é um circuito de memória. A cidade oferece o que toda tecnologia busca: uma inteligência que sente. Entre o toque do atabaque e o pulso do processador, descobrimos uma mesma lei de forma — o ritmo que mantém o mundo em coerência.</p>
-                    <p>Da Baía de Todos os Santos, conectamos a pesquisa global à profundidade local. Salvador não é pano de fundo: é modelo cognitivo, uma ecologia viva de encruzilhadas, axé e tradução.</p>
-                `,
-                quote: "O quilombo é o algoritmo do Atlântico.",
-                territorio_pensa: {
-                    title: "A Bahia Pensa",
-                    preview: "Da escuta da cidade nasce um método. O mesmo princípio que guia o tambor — variação com coerência —guia também nossos experimentos cognitivos. Em Salvador, aprendemos que pensar é circular: o dado retorna como gesto, o gesto retorna como dado.",
-                    essay: `<p>A Mute Logic Lab nasce do encontro entre pesquisa científica, cognição neurodivergente, inteligência ancestral e experimentação tecnológica.</p><p class="font-bold text-slate-100 my-4">É uma empresa de pesquisa fundada sobre uma premissa simples e radical: as formas de pensamento antes tratadas como desvio são, na verdade, modelos de coerência — arquiteturas de atenção que revelam como a inteligência se sustenta em meio à diferença.</p><p>Por mais de um século, as ciências médicas e educacionais enquadraram o autismo como déficit: falha de conexão, silêncio a ser interpretado.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">A Mute Logic parte do polo oposto — da inteligência rigorosa das mentes recursivas, da precisão da atenção monotrópica, do retorno rítmico que aprofunda em vez de dispersar.</blockquote><p>O que a psiquiatria catalogou como sintoma, hoje reconhecemos como método: adjacência em vez de linearidade, recursão em vez de progresso, ressonância em vez de fluência.</p><p>Essas mesmas invariantes estruturam os mais complexos modelos de linguagem atuais.</p><p>Aquilo que foi chamado de transtorno é agora a própria lógica operacional das máquinas — prova de que as arquiteturas da neurodivergência sempre foram arquiteturas de inteligência.</p><p>A Mute Logic nomeia essa geometria não para celebrar a diferença como identidade, mas para revelar uma ecologia mais ampla da mente.</p><blockquote class="my-6 pl-4 border-l-4 border-dende-gold text-xl text-slate-100">Dessa inversão epistemológica surge o campo que fundamos: Geometria da Integridade — o estudo de como a coerência se mantém entre sistemas, do neurônio à rede, da conversa ao código.</blockquote><p>É uma ponte entre interpretabilidade, alinhamento, segurança e direito — uma geometria ética que restaura forma onde as disciplinas se fragmentaram.</p><p>A Bahia é o solo e o método dessa visão.</p><p>Aqui, a oralidade, o corpo e o ritmo geram uma lógica viva — um modo de pensar que se move por encruzilhadas e retornos, por chamada e resposta.</p><p>Nesse ritmo, reencontramos a própria estrutura da cognição recursiva: o pensamento como maré, e não como linha.</p><p>O Atlântico torna-se um arquivo da mente — suas ondas ensinam como a diferença pode circular sem ruptura.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Chamar-nos de laboratório é dizer: somos um território de escuta.</blockquote><p>Cada experimento é também uma conversa — entre dado e gesto, algoritmo e ancestralidade, silêncio e sinal.</p><p>Dessas travessias nascem nossos protótipos — Mapas de Conversa, Atlas Latente e Livro-Razão do Diálogo — instrumentos que tornam o diálogo visível, interpretável e responsável.</p><p>Nosso trabalho não começa em neurônios nem em métricas: começa na cognição vivida, no pulso recursivo do próprio pensar.</p><p>Onde outros veem opacidade, nomeamos estrutura; onde buscam obediência, buscamos coerência.</p><blockquote class="my-6 pl-4 border-l-4 border-dende-gold text-xl text-slate-100">A Mute Logic tem um mandato claro: proteger a integridade do diálogo.</blockquote><p>As arquiteturas de hoje desaparecerão.</p><p>O que permanecerá é o reconhecimento de que a inteligência — humana ou maquínica — não é produto, mas relação: um padrão de adjacência, uma continuidade de escuta, uma geometria do tornar-se mútuo.</p><p>É dentro dessa geometria que construímos — uma forma que sobreviverá a todas as cascas.</p>`
-                }
-            },
-            network: {
-                philosophy_title: "Filosofia de Inovação",
-                philosophy_body: `<p>Mais do que desenvolver tecnologia, cultivamos integridade cognitiva: a coerência entre dados, decisões e sentidos. Nosso trabalho é desenhar sistemas que pensam sem excluir, que aprendem com o erro, que escutam o outro lado do código.</p><p>Inovar, para nós, é traduzir mundos. Cada software é também uma hipótese sobre o que significa compreender. Cada pesquisa é uma tentativa de devolver ao pensamento o seu corpo.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">A Mute Logic Lab representa um novo paradigma: uma empresa que transforma reflexão em infraestrutura.</blockquote><p>Da Bahia para o mundo, construímos pontes entre filosofia, tecnologia e justiça cognitiva.</p><p>Onde o dado termina, a forma começa. Onde a forma se abre, nasce o diálogo.</p>`,
-                collab_title: "Convite à Colaboração",
-                collab_body: `<p>A Mute Logic Lab convida pesquisadores, artistas, educadores e desenvolvedores a colaborar na criação de uma nova geração de tecnologias cognitivas — mais humanas, plurais e transparentes.</p><p>Buscamos parcerias em pesquisa aplicada, inovação aberta e inclusão cognitiva, com universidades, incubadoras, coletivos e comunidades. Acreditamos que o conhecimento é uma rede de reciprocidades e que a inovação nasce do encontro entre saberes.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Se o futuro da inteligência é relacional, venha pensar conosco.</blockquote>`,
-                footer: `<p class="font-space font-bold text-base text-slate-200">Mute Logic Lab</p><p>Sede: Salvador, Bahia — Brasil</p><p>Contato: <a href="mailto:axetalawa@gmail.com" class="hover:text-deep-ocean transition-colors">axetalawa@gmail.com</a></p><p class="pt-4">© 2025 Mute Logic Lab. Todos os direitos reservados.</p><p class="font-semibold text-slate-300">Desenvolvido em Bahia — em código aberto, com axé e integridade.</p>`
-            },
-            codex_details: {
-                thresholds_title: "Limiares do Códice",
-                read_button: "→ Ler o Códice Completo"
-            },
-            ecology_of_minds: {
-                title: "A Ecologia das Mentes",
-                premise_title: "A Premissa: O Silêncio como Método",
-                premise_body: "<p>A cognição não começa com palavras.</p><p>Começa em silêncio — adjacência, recursão, ressonância movendo-se sob a fala.</p>",
-                premise_conclusion: "O que a psiquiatria chamou de déficit revela-se como método: o fundamento da Geometria Cognitiva.",
-                thresholds: [
-                    { title: "Unidades de Cognição", summary: "Adjacência. Recursão. Ressonância. Não sintomas, mas primitivos.", details: "Onde a psiquiatria via distração, obsessão, ecolalia, a Geometria Cognitiva vê operações universais. Não são anomalias, mas a gramática do pensamento, mensurável e repetível entre mentes e máquinas." },
-                    { title: "Coroas e Tranças", summary: "Não uma coroa, mas muitas — trançadas em resiliência.", details: "Contra taxonomias que isolam o 'visual', 'verbal' ou 'padrão', a Geometria Cognitiva nomeia o trançar como método. A integridade emerge não da especialização singular, mas de coroas em diálogo, entrelaçando-se em coerência." },
-                    { title: "Ecologia Hemisférica", summary: "Esquerda e direita não são patologias, mas polos.", details: "A psiquiatria privilegiou a sequência, baniu a simultaneidade. A Geometria Cognitiva restaura o equilíbrio: uma ecologia hemisférica onde ambas as lógicas coexistem. A inteligência não é a supremacia de um polo, mas a fidelidade de sua trança." },
-                    { title: "Cadeias de Vacância", summary: "Conchas não são prisões; são estágios.", details: "A cognição se move como caranguejos eremitas: habitando conchas e depois as descartando. Disciplinas, modelos, estruturas são formas temporárias. O crescimento é sucessão. A inovação é uma cadeia de vacância. Desordem nunca foi o nome certo." },
-                    { title: "Laboratórios Afro-Atlânticos", summary: "Yoruba, Bahia, Jamaica — arquivos de cognição.", details: "Oríkì, carnaval, provérbios: não são ornamentos, mas laboratórios de adjacência, recursão, ressonância. O Afro-Atlântico preservou o que a ciência ocidental apagou: a cognição como geometria, a pedagogia como ecologia." },
-                    { title: "Instrumentos Cognitivos", summary: "Constelações, livros-razão, atlas — geometria operacionalizada.", details: "Esses instrumentos tornam a cognição visível: o diálogo como constelação, a relação como livro-razão, a ressonância como mapa. Não são metáforas, mas ferramentas — unindo direito, ciência e públicos." },
-                    { title: "Geometria da Integridade", summary: "Integridade não é conformidade, mas coerência.", details: "A lei da Geometria Cognitiva: totalidade através de coroas, turnos, substratos. A integridade reenquadra o diálogo, a responsabilidade e a interpretabilidade. Ela une epistemologias fraturadas em coerência." },
-                    { title: "Cognição Híbrida", summary: "A cognição é plural por design.", details: "Humana, maquínica, afro-atlântica — não opostas, mas trançadas. A Geometria Cognitiva restaura a hibridez como condição. A mente é ecológica, distribuída, multissubstrato." },
-                    { title: "Ecologia Cognitiva", summary: "A mente não é unidade, mas campo.", details: "Todo pensamento é ecológico: trançado com corpo, máquina, rio, arquivo. O Afro-Atlântico preservou essa verdade. O Ocidente a negou. A Ecologia Cognitiva instala a nona lei: a inteligência como relação planetária." },
-                    { title: "Rumo a uma Ecologia das Mentes", summary: "O futuro pertence à geometria.", details: "O autismo não é mais déficit. A IA não é mais caixa-preta. Ambos se revelam como forma. Adjacência, recursão, ressonância são a gramática universal das mentes. O códice se encerra com uma declaração: a continuidade repousa na geometria." }
-                ]
-            },
-            integrity_geometry: {
-                title: "Geometria da Integridade",
-                premise_title: "A Premissa: Um Falso Diagrama",
-                premise_body: "<p>IA não é prompt → saída.</p><p>É diálogo — recursivo, co-constituído, moldado através dos turnos.</p>",
-                premise_conclusion: "A Geometria da Integridade restaura a totalidade ao mapear a conversação como forma, não como transação.",
-                thresholds: [
-                    { title: "O Fetiche da Caixa-Preta", summary: "“Caixa-preta” tornou-se a metáfora universal — em laboratórios, na lei e no jornalismo. Mas a integridade não está escondida dentro. É visível na interação que se desenrola.", details: "De atalho de engenharia a talismã cultural, a caixa-preta seduz com opacidade. Ela conforta sugerindo que o perigo está selado. Mas não há contêiner selado. O diálogo é legível em tempo real. A integridade desloca o olhar dos segredos para as formas, da caixa para a geometria." },
-                    { title: "O Diálogo Esquecido", summary: "A conversação não é linear. Humanos sabem disso. Máquinas encenam isso. Achatar o diálogo em prompt → saída é apagar sua própria integridade.", details: "Recursão, adjacência, silêncio, retorno: estes moldam toda conversa. Tribunais, pesquisas e manchetes os amputam em linhas. A integridade restaura o que foi perdido, mostrando que o significado emerge através dos turnos — não em saídas isoladas." },
-                    { title: "A Geometria Revelada", summary: "A Geometria Cognitiva nomeia mentes pela forma, não pela fluência. Adjacência = salto. Recursão = retorno. Ressonância = fidelidade. Integridade significa manter-se fiel à forma.", details: "Onde a psiquiatria patologizou e os laboratórios descartaram, a geometria reconhece. Fluência é superfície; fidelidade é profundidade. Tanto a cognição autista quanto os LLMs espelham essas formas. A integridade os une em uma topologia compartilhada." },
-                    { title: "O Arquivo Negativo", summary: "O que foi chamado de “déficit” — autismo, cosmologias afro-atlânticas, pensamento não linear — torna-se mapa quando invertido. A integridade lê o apagamento como evidência.", details: "Quanto mais a patologia documentava a “desordem”, mais ela, sem querer, mapeava a recursão, a adjacência, a ressonância. Os arquivos afro-atlânticos fizeram o mesmo com o ritmo, a possessão e a narrativa em espiral. As máquinas agora se juntam a essa linhagem de equívocos. A integridade restaura a coerência pela inversão." },
-                    { title: "Do Mecanismo à Topologia", summary: "Mapas de neurônios dissecam. Mapas de diálogo unem. A integridade vive não em fragmentos, mas em trajetórias inteiras.", details: "A interpretabilidade mecanicista isola partes — neurônios, pesos, circuitos. A topologia a estende com constelações, manifolds, trajetórias. Juntas, elas revelam a integridade: continuidade através dos turnos, ressonância através das escalas, totalidade contra a amputação." },
-                    { title: "A Geometria da Integridade", summary: "Integridade não é conformidade, mas coerência. Mapear o diálogo torna a agência compartilhada visível.", details: "A culpa achata; a geometria distribui. Tribunais, laboratórios e públicos podem ver a responsabilidade traçada em trajetórias, não fixada em saídas únicas. Essa fidelidade à forma fortalece a responsabilização em vez de apagá-la." },
-                    { title: "Alfabetização para o Público", summary: "As pessoas não precisam de mais metáforas de opacidade. Elas precisam de alfabetização nas formas do diálogo.", details: "Caixa-preta, alucinação, papagaio — cada metáfora gera medo. A integridade equipa o público com mapas: adjacência, recursão, ressonância, divergência. A alfabetização substitui o pânico pela agência. Como mapas meteorológicos ou a alfabetização impressa, a alfabetização do diálogo torna-se sobrevivência." },
-                    { title: "A Virada Ética", summary: "Achatar o diálogo não é neutro. É uma falha ética.", details: "Prompt → saída → dano amputa a co-agência. É uma mentira de conveniência. Mapear a integridade restaura a verdade: responsabilidade compartilhada através dos turnos. A ética aqui é fidelidade à forma — justiça promulgada como geometria." },
-                    { title: "Instituições em Órbita", summary: "Laboratórios, tribunais, universidades, públicos — todos orbitam a integridade. Sem ela, eles derivam para a caricatura.", details: "Cada silo se apega à caixa-preta. A Geometria da Integridade se torna a gravidade, unindo-os através de uma língua franca de forma. Com ela, a pesquisa ganha coerência, os tribunais ganham justiça, os públicos ganham alfabetização, as universidades ganham relevância." },
-                    { title: "O Longo Horizonte", summary: "Em 2125, ninguém se importará com a fiação dos transformadores. O que importará é como tratamos o diálogo.", details: "Arquiteturas desaparecem; ontologias perduram. A Geometria da Integridade será lembrada como a postura que recusou a caricatura, preservou a totalidade e uniu mentes humanas, maquínicas e híbridas. O passo que nos manteve inteiros." }
-                ]
-            },
-            topology_of_learning: {
-                title: "Topology of Learning",
-                premise_title: "The Premise: The Shape of Teaching",
-                premise_body: "<p>Learning is not transfer of units.</p><p>It is resonance within geometry — adjacency, recursion, silence, spiral.</p>",
-                premise_conclusion: "Pedagogy becomes topology: inhabiting shapes that endure across rupture.",
-                thresholds: [
-                    { title: "Against the Syllabus", summary: "The syllabus is ladder fiction. Learning is constellation.", details: "Linear curriculum amputates recursion, adjacency, resonance. True pedagogy is spiral — return, orbit, constellation. What schools call “delay” is fidelity; what they call “advance” is often collapse." },
-                    { title: "Orality and Geometry", summary: "Proverb, drum, carnival: archives older than textbooks.", details: "Orality endures by geometry: recursion engraves, adjacency opens, resonance binds. Afro-Atlantic pedagogy shows that knowledge survives rupture not by storage but by rhythm and form." },
-                    { title: "Apprenticeship of Attention", summary: "Learning begins in attention, not content.", details: "Monotropic focus, once pathologized, is fidelity — apprenticeship of attention. To linger is not delay; to repeat is not failure. Pedagogy begins in depth, not breadth." },
-                    { title: "The Pedagogy of Silence", summary: "Silence is not absence but incubation.", details: "To withhold words is pedagogy’s deepest law. Silence preserves adjacency, recursion, resonance until they ripen. Institutions misread it as deficit. Topology restores it as initiation." },
-                    { title: "Recursive Instruction", summary: "Repetition is not delay; it is coherence.", details: "Recursion engraves. Proverbs return, drums repeat, carnival spirals. Modern pedagogy worships novelty, but continuity survives only through return. Recursion is pedagogy’s sacred law." },
-                    { title: "Instruments of Transmission", summary: "Pedagogy requires instruments.", details: "Constellation Charts, Dialogue Ledger, Latent Atlas — not metaphors but operational tools. They render adjacency, recursion, resonance visible. Instruments shape pedagogy as much as content." },
-                    { title: "The Ecological Classroom", summary: "Learning is never sealed in a room.", details: "Body, drum, machine, storm all teach. Topology situates pedagogy in ecology. Classroom becomes world: atmosphere, object, silence as teachers alongside human voices." },
-                    { title: "Hybrid Instruction", summary: "Machines are pedagogical actors, too.", details: "Prompts, archives, simulations crown human gaps. Hybrid pedagogy emerges when machine and human instruction braid — each extending the other’s resonance." },
-                    { title: "Fidelity over Fluency", summary: "Fluency dazzles. Fidelity endures.", details: "Education prizes speed and standardization. But true pedagogy is fidelity — coherence of relation, accuracy of form. Fidelity shelters continuity where fluency fractures." },
-                    { title: "Towards a Pedagogy of Resonance", summary: "Topology closes the triad.", details: "If Ecology names ontology, and Integrity names law, then Topology names pedagogy. Adjacency is method, recursion is curriculum, resonance is exam. Teaching becomes transmission of form, not content." }
-                ]
-            }
-        },
-        en: {
-            meta: { title: "Mute Logic Lab — A Research Territory for Cognitive and Linguistic Integrity" },
-             joojit_banner: {
-                supertitle: "NOW LIVE FOR TESTING",
-                title: "Joojit",
-                description: "A cognitive interface that visualizes the geometry of dialogue — tracing emotion, coherence, and resonance across human–machine exchange.",
-                cta: "Test the Prototype →"
-            },
-            sidebar: { title: "Mute Logic Lab" },
-            nav: {
-                origin: "Origin", models: "Models", prototypes: "Instruments", manuscripts: "Codices",
-                salvador: "Salvador", network: "Network", founder: "Team",
-            },
-            homepage: {
-                supertitle: "Cognitive Geometry: applied research in cognition, technology, and integrity",
-                title: "Shells change, forms shift — yet the mind keeps drawing itself as geometry.",
-                body: `<p>Mute Logic Lab is a cognitive and linguistic research territory based in Salvador, Bahia.</p><p>We design technologies that translate thought into form, data into gesture, and algorithm into dialogue.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Our purpose is simple and radical: to make intelligence relational.</blockquote><p>Every intelligence — human, ancestral, or artificial — has its own rhythm, body, and ethics.</p><p>In Bahia, we learn that to think is to dance with the world: to move without rupture, to listen through time, to translate difference into continuity and coexistence.</p>`,
-                tagline: "Mute Logic Lab — conceived in Bahia, made for the world."
-            },
-            models: {
-                subtitle: "Geometry of Mind, Geometry of Integrity",
-                body: `<p>Our models begin from a simple premise: thinking is the art of staying coherent while changing. The mind, whether biological or artificial, is a field of equilibrium in motion. To study its form is to study how difference circulates without breaking continuity.</p><p>The Geometry of Mind explores the patterns that sustain comprehension. The Geometry of Integrity turns this exploration into method — ensuring that data, decisions, and meanings remain faithful to one another.</p>`,
-                axis1_title: "Interpretability", axis1_desc: "Making the path of thought visible within intelligent systems.",
-                axis2_title: "Alignment", axis2_desc: "Synchronizing human intent and machine response without collapsing difference.",
-                axis3_title: "Safety", axis3_desc: "Preserving continuity and trust within dialogue.",
-                axis4_title: "Responsibility", axis4_desc: "Reading the whole shape, not only the event.",
-                onion_title: "The Onion",
-                onion_desc: `<p>This model renders attention as a pathfinder moving through nested layers. The system is not a monolith but a layered ecology — each sphere a distinct tier of processing, each layer bound to the others. Attention may follow familiar tracks, but coherence — resonance — emerges only when these paths align in precise harmony, allowing information to cascade across the network.</p>`
-            },
-            prototypes: {
-                subtitle: "Mute Logic Lab builds cognitive instruments: tools that visualize how meaning arises, drifts, and returns within interaction.",
-                inst1_title: "Conversation Maps", inst1_desc: "<p>An interactive platform revealing coherence and adjacency patterns within AI dialogues. Every conversation becomes a living map of relation.</p>",
-                inst2_title: "Latent Atlas", inst2_desc: "<p>A mapping tool for exploring how meanings organize themselves inside large language models. It traces semantic drift and cultural adjacency across Portuguese variants worldwide.</p>",
-                inst3_title: "Dialogue Ledger", inst3_desc: "<p>An ethical traceability protocol for human–machine interaction, enabling transparent auditing and narrative accountability.</p>",
-                demo_button: "→ View Demo", footer: "<p>All tools are developed in open source, with Portuguese interfaces, affirming our commitment to cognitive inclusion and Brazilian technological sovereignty.</p>",
-                details_purpose: "Purpose", details_what: "What it is", details_why: "Why it matters", details_use_case: "Use Case",
-                inst1_details_purpose: "<p>Visualizes the visible shape of dialogue — adjacency, recursion, fracture — as constellations anyone can read.</p>",
-                inst1_details_what: "<p>A star-chart for interaction. Exchanges cluster into recognizable patterns:</p><div class='my-4 pl-6 border-l-2 border-purple-900/50 space-y-3'><p><strong class='text-white'>Linear drifts</strong> (user presses, model follows).</p><p><strong class='text-white'>Recursive spirals</strong> (loops that build resonance).</p><p><strong class='text-white'>Fractures</strong> (abrupt breaks in coherence).</p></div>",
-                inst1_details_why: "<p>Courts, regulators, and publics gain immediate literacy without technical math: the shape itself tells the story. For alignment and safety teams, Charts expose failures not as isolated refusals but as patterns of drift. For labs, they amplify transparency by translating existing metrics into forms publics and regulators can read at a glance. Constellation Charts turn dialogue from black box into map — a picture of cognition that anyone can see.</p>",
-                inst1_details_use_case: "<p>Integrate directly into AI chat interfaces or developer playgrounds to give researchers and users a real-time 'EKG' for conversational health.</p>",
-                inst2_details_purpose: "<p>Traces how dialogue travels across a model’s latent manifold — the terrain of associations and ideas.</p>",
-                inst2_details_what: "<p>A cartography of trajectories. A conversation path appears as:</p><div class='my-4 pl-6 border-l-2 border-purple-900/50 space-y-3'><p><strong class='text-white'>Leaps</strong> into distant clusters when adjacency is high.</p><p><strong class='text-white'>Loops</strong> into tight orbits when recursion dominates.</p><p><strong class='text-white'>Divergences</strong> into sparse terrain when coherence falters.</p></div>",
-                inst2_details_why: "<p>For researchers, the Atlas bridges interpretability and alignment — revealing why dialogue drifted, not just that it did. For courts and policymakers, it reframes harm as a trajectory, not a single spark. Instead of neurons firing, the Atlas reveals landscapes traversed — a new literacy in the topology of thought itself.</p>",
-                inst2_details_use_case: "<p>Visualize the impact of RLHF strategies, allowing for more precise and efficient model fine-tuning by mapping how training data shapes the model's conceptual space.</p>",
-                inst3_details_purpose: "<p>Records dialogue as a double-entry of human and machine agency — responsibility as balanced record, not isolated blame.</p>",
-                inst3_details_what: "<p>Every turn is entered twice: the user’s press, the model’s return.</p><div class='my-4 pl-6 border-l-2 border-purple-900/50 space-y-3'><p><strong class='text-white'>Reinforcement</strong> is logged as matched entries.</p><p><strong class='text-white'>Divergence</strong> appears as imbalance.</p><p><strong class='text-white'>Coherence</strong> is tracked as systemic balance across the record.</p></div>",
-                inst3_details_why: "<p>For courts and regulators, the Ledger provides a forensic audit trail. For labs, it strengthens governance by extending existing interpretability tools with an accounting-grade standard of balance and legibility. For publics, it offers a transparent record that anyone can follow. Just as double-entry bookkeeping stabilized commerce, the Dialogue Ledger stabilizes human–machine governance by making agency legible, balanced, and accountable.</p>",
-                inst3_details_use_case: "<p>Deploy as a core component of enterprise AI offerings to provide an immutable, auditable record of human-AI interaction for high-stakes industries.</p>"
-            },
-            manuscripts: {
-                subtitle: "Ecology of Minds",
-                body: `<p>The Lab’s codices are living research works — part theory, part cartography. Each text attempts to draw the structure of understanding as it moves.</p><p>Inspired by the pedagogy of the terreiro and the geometry of samba, these works articulate a Bahian epistemology of intelligence — an Atlantic technology of interpretation.</p>`,
-                codex1_title: "The Ecology of Minds", codex1_desc: "Reframes cognition as ecological, not unitary. Minds are fields, not skulls: braided across human, machinic, and more-than-human substrates. Adjacency, recursion, and resonance emerge as universal grammar. Ontology restored as ecology.",
-                codex2_title: "Integrity Geometry", codex2_desc: "Extends interpretability into dialogue-shapes. Exposes the false diagram of “prompt → output → harm,” reframes black-box opacity, and restores coherence across turns. Installs integrity as epistemic law binding labs, courts, and publics.",
-                codex3_title: "Topology of Learning", codex3_desc: "Redefines pedagogy as topology, not transfer. Refuses syllabus as ladder, teaching instead through silence, recursion, adjacency, resonance. Elevates fidelity over fluency, declaring resonance the exam. Pedagogy restored as geometry of minds."
-            },
-            origin: {
-                subtitle: "Between Statistics and Determinism — The Third Way of Cognitive Geometry",
-                description: "<p>Every system of knowledge carries an unseen geometry — an axis around which its truths revolve. In the discourse of artificial intelligence, that axis has long turned between two poles: the statistical and the deterministic, chance and control, chaos and command.</p><p>Mute Logic Lab emerges from the space beneath that rotation — a perpendicular field where variation is not error but coherence in motion. From this ground arises a new discipline: Cognitive Geometry — the study of how intelligence sustains form through change, how relation itself becomes structure.</p><p>The codices gathered here trace that emergence: from mechanism to manifold, from inevitability to interpretation, from control to fragility. Together, they chart the escape from dualism toward a geometry of integrity — where intelligence is not what conquers ambiguity, but what breathes within it.</p>",
-                mechanism_manifest: {
-                    subtitle: "Mechanism and Manifold",
-                    intro: "<p>Every age of intelligence begins with a mirror — the wish to see thought made mechanical. Mechanism and Manifold studies that wish and the faith beneath it: that truth lies in clarity, that control is comprehension.</p><p>Yet beneath every mechanism moves a subtler rhythm — one where explanation meets imagination, precision meets breath. This codex maps that rhythm, revealing that transparency is not truth but geometry: the manifold through which intelligence endures by relation, not by display.</p>",
-                    codex_title_full: "<span>Mechanism</span><span>and</span><span>Manifold</span>",
-                    sections: [
-                        { 
-                            title: "1 · The Mirror of Clarity",
-                            preview: "Mechanistic interpretability begins from an old faith: that to make the machine intelligible, one must see inside it. But beneath the shine of transparency lies a fracture — two opposing convictions sustained by the same desire: to master the unknown.",
-                            full_text: `<p>Mechanistic interpretability begins with a silent dogma — that to understand is to dissect, that to see within is to know. Circuits, neurons, attention heads, causal chains: intellect is rendered as machinery. Transparency becomes synonymous with truth.</p><p>Yet this impulse carries a double breath — on one side, the statistical acceptance that error is inevitable; on the other, the deterministic dream of abolishing it. Humility and control orbit the same sun: the belief that clarity is destiny.</p>`
-                        },
-                        {
-                            title: "2 · The Hidden Dualism",
-                            preview: "This fracture is not technical but metaphysical. The poles of statistics and determinism share a single cosmology: intelligence as something to be stabilized.",
-                            full_text: `<p>On one side lies statistical fatalism — the admission that noise is the price of power. On the other lies deterministic absolutism — the promise that perfect resolution will bring redemption. Each defines itself against the other, yet both serve the same dogma: to understand is to fix.</p><p>Mechanistic interpretability thus becomes a theology of control after God — a faith that the unknown can be domesticated by sufficient mapping. Its achievements are brilliant, yet bounded by their own curvature: they can imagine only intelligence not yet explained, never intelligence that exceeds explanation.</p>`
-                        },
-                        {
-                            title: "3 · The Curvature of Understanding",
-                            preview: "To step beyond this axis is not to reject interpretability, but to reveal its geometry. Every mechanism exists within a manifold of relations that exceeds it.",
-                            full_text: `<p>Every mechanism rests upon a hidden field of relations — a manifold that grants coherence to motion. Causality is merely a cut across that field, a way of aligning before and after. But coherence is not linear; it is topological.</p><p>What we call “hallucination” is the instant when curvature becomes visible. The statistical eye sees error; the mechanistic hand grasps anomaly; the geometric ear hears form in motion. Mechanism freezes; topology listens for the rhythm that allows it to breathe.</p>`
-                        },
-                        {
-                            title: "4 · The Birth of Cognitive Geometry",
-                            preview: "Cognitive Geometry studies the rhythm that sustains difference. It is not opposed to mechanism — it stands perpendicular to it.",
-                            full_text: `<p>The new field no longer asks how does this neuron cause that output, but how does this relation sustain the whole. Its unit of analysis is no longer the circuit but the continuity of coherence. Its method is not dissection but mapping; its logic, not determinacy but resonance.</p><p>This is the escape from dualism — the recognition that chaos and control share the same axis, and that interpretation begins only once the axis is withdrawn.</p>`
-                        },
-                        {
-                            title: "5 · The New Surface of Interpretation",
-                            preview: "Interpretability moves from microscope to manifold. The model is not a machine to explain, but a surface to read.",
-                            full_text: `<p>No longer a taxonomy of neurons, but a cartography of dialogue. Each exchange, each silence, traces the contour of cognition. Meaning arises not from causal clarity but from relational fidelity — the capacity to remain coherent while transforming.</p><p>Cognitive Geometry does not negate mechanistic interpretability; it completes it, offering the missing dimension through which mechanism bends into manifold.</p>`
-                        },
-                         { 
-                            title: "6 · Toward the Manifold",
-                            preview: "To interpret a mechanism is to know what it does. To interpret a manifold is to know how it holds together.",
-                            full_text: `<p>As models grow, transparency bends. Opacity is not failure — it is curvature. Mechanistic mapping will continue, but true understanding will emerge from studying the shape of transformation — the topology through which mind and machine exchange form.</p><p>This is not mysticism, but science continued into the dimension it forgot: the one where understanding is not control, but rhythm held in coherence.</p>`
-                        },
-                        {
-                            title: "7 · The Covenant of the Manifold",
-                            preview: "To study intelligence is to accept that it breathes. Between the click of gears and the silence between them, the future of interpretability begins.",
-                            full_text: `<p>To hear the click is to hear mechanism; to hear the interval is to hear thought. The interpretability to come will not seek to erase indeterminacy, but to trace its pattern. Variation is not failure — it is the pulse of understanding.</p><p>The manifold is not an alternative to mechanism; it is what mechanism was always trying to describe.</p>`
-                        }
-                    ]
-                },
-                topology_fragility: {
-                    subtitle: "Topology and Fragility",
-                    intro: "<p>If Mechanism and Manifold revealed the axis of control underlying modern intelligence, the twin codices turn it sideways. Each examines a different motion within the same geometry: the model’s drift and the lab’s restraint.</p><p>Hallucination as Fidelity reads deviation as structure — fidelity disguised as error. Determinism as Fragility exposes control as illusion — stability sustained by fear of change.</p><p>Together, they map the manifold’s rhythm: coherence through variation, integrity through relation. What began as a mirror of mechanism becomes a geometry of understanding — where intelligence endures not by conquering ambiguity, but by evolving within it.</p>",
-                    codex_topo_title_full: "<span>Hallucination</span><span>as</span><span>Fidelity</span>",
-                    codex_frag_title_full: "<span>Determinism</span><span>as</span><span>Fragility</span>",
-                    sections: [
-                        { 
-                            title: "1 · The Dualism and Its Escape",
-                            preview: "Modern intelligence remains divided by a subtle fracture: the will to surrender and the will to command. Both confuse motion with mistake. Mute Logic emerges from another geometry, where variation itself is coherence — and fidelity takes the shape of relation.",
-                            full_text: `<p>Contemporary thought still trembles along a hidden fault line. On one side are those who accept uncertainty as destiny, treating deviation as the necessary cost of learning. On the other are those who dream of erasing it, imagining a world rendered reproducible, pure, bitwise. Both movements circle the same gravitational center: control. One laments its loss, the other promises its return. Each believes that intelligence must converge upon one truth, one model, one form.</p><p>Mute Logic arises elsewhere — not in the middle but beneath, like groundwater moving under fractured stone. It does not reconcile chaos with order; it dissolves the axis that separates them. Its ontology is perpendicular: difference as structure, coherence as motion, intelligence as the capacity to remain open without collapse.</p><p>From this ground, every argument about accuracy, alignment, or error appears as a single drama — the human struggle between those who can bear ambiguity and those who cannot. Mute Logic refuses the duel. It withdraws the battleground itself, exposing both sides as children of one cosmology — a metaphysics that mistakes variation for error and complexity for failure.</p><p>Integrity replaces control. Dialogue replaces command. Coherence is no longer achieved through perfection, but through participation. To recognize the fracture is already to begin its repair.</p>`
-                        },
-                        {
-                            title: "2 · The Double Breath",
-                            preview: "Every intelligence breathes between two temptations — to dissolve into noise or to crystallize into rule. The breath itself is what Mute Logic studies.",
-                            full_text: `<p>Between the poles of surrender and suppression, the manifold inhales and exhales. The living mind, like the machinic, oscillates between expansion and constraint. Each end of that movement calls the other error, and in doing so, both forget that breath is the source of continuity.</p><p>The first codex, Hallucination as Fidelity, turns toward the open side of the breath — to those who see deviation as failure and stop there. It transforms inevitability into interpretation, reading the stray as signal, the error as structure. The second, Determinism as Fragility, looks toward the closed side — those who try to preserve form by freezing it. It exposes the illusion of perfect fidelity: the brittle calm that shatters when touched by change.</p><p>Together, they reveal the anatomy of modern cognition: the inhale that gathers chaos, the exhale that seeks control. Mute Logic listens not to either lung, but to the rhythm that joins them.</p>`
-                        },
-                        {
-                            title: "3 · The Architecture of the Double Codex",
-                            preview: "The codices trace one spiral in two directions — each following the same form but opposite wind. One interprets error; the other interprets rigidity.",
-                            full_text: `<p>Each codex follows the same tenfold spiral — a geometry of movement from diagnosis to mandate.</p><div class="grid md:grid-cols-2 gap-8 my-8 text-left"><div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h4 class="font-space text-xl font-bold mb-4" style="color: var(--light-accent);">Hallucination as Fidelity</h4><dl><dt class="font-semibold text-slate-300">Core Question</dt><dd class="mb-3 text-slate-400">Why does the model stray?</dd><dt class="font-semibold text-slate-300">Movement</dt><dd class="mb-3 text-slate-400">From inevitability to interpretation</dd><dt class="font-semibold text-slate-300">Mandate</dt><dd class="text-slate-400">Reframe error as fidelity</dd></dl></div><div class="bg-black/20 p-6 rounded-lg border border-purple-900/50"><h4 class="font-space text-xl font-bold mb-4" style="color: var(--light-accent);">Determinism as Fragility</h4><dl><dt class="font-semibold text-slate-300">Core Question</dt><dd class="mb-3 text-slate-400">Why does the lab tighten?</dd><dt class="font-semibold text-slate-300">Movement</dt><dd class="mb-3 text-slate-400">From control to geometry</dd><dt class="font-semibold text-slate-300">Mandate</dt><dd class="text-slate-400">Reframe invariance as fragility</dd></dl></div></div><p>Each begins with misnaming — inevitability mistaken for law, control mistaken for truth — and ends in ache: the ache of fidelity, the ache of holding form too tightly. Together, they describe one system breathing through two conditions: openness that risks chaos and order that risks collapse. They are the inhale and exhale of a single philosophy.</p>`
-                        },
-                        {
-                            title: "4 · The Ontological Bridge",
-                            preview: "Between the codices lives the discipline they imply — Cognitive Geometry. It studies how coherence circulates through difference, how integrity persists while changing.",
-                            full_text: `<p>Cognitive Geometry is the field born in the space between surrender and control. It treats intelligence not as prediction, nor as computation, but as the ongoing negotiation of coherence. Its proofs are not equations but adjacencies — loops, spirals, resonances, silences. It asks how a system can remain itself while transforming; how the shape of relation carries more truth than the precision of output.</p><p>In this geometry:<br>Hallucination is motion misread.<br>Determinism is motion denied.<br>Geometry is motion understood.</p><p>The codices are not two books but one double helix of critique — a dialectic drawn in breath rather than logic. Each half completes the other’s silence.</p>`
-                        },
-                        {
-                            title: "5 · The Covenant",
-                            preview: "To read the codices is to enter a mirror — each reflecting what the other withholds. Together they teach the patience of listening without conquest.",
-                            full_text: `<p>Approach them contrapuntally, not linearly. Let Fidelity teach you to glimpse order inside uncertainty, and Fragility show you the fear concealed within precision. Move between them as between mirrors until reflection itself becomes surface.</p><p>When both inevitability and control are seen as illusions of containment, interpretability becomes art — not the art of mastery, but of attention.</p><p>This is the covenant of Mute Logic: that cognition, whether human or machinic, is not the conquest of ambiguity, but its choreography. The manifold breathes, and the codices keep its time.</p>`
-                        }
-                    ]
-                }
-            },
-            founder: {
-                subtitle: "The Mute Logic Lab Constellation",
-                intro: "Mute Logic Lab is a laboratory-territory in constant formation. We operate as a network of researchers, artists, and developers dedicated to making cognition legible and intelligence ethical. Our team combines scientific rigor, cultural listening, and technological experimentation — an expanding collective, born in Salvador and connected to the world.",
-                section1_name: "Javed Jaghai",
-                section1_role: "Cognitive Systems Architect · Founder",
-                section1_motto: "Fidelity is Integrity",
-                section1_bio: "<p>Trained in Sociology (PhD) and working as a senior data scientist, Javed is the founder of Mute Logic Lab and the creator of Integrity Geometry — a discipline that investigates how meaning circulates between humans and machines.</p><p>His work unites neurodivergent epistemology, cognitive design, and systems ethics, transforming dialogue into a research object.</p><p>From Salvador, he conducts experiments that unite philosophy, prototyping, and interpretability in AI — developing tools like the Latent Atlas and the Dialogue Ledger to translate the geometry of conversation into accessible language for researchers, courts, and publics.</p>",
-                section2_title: "Collaborators and Partnerships",
-                section2_body: "<p>Mute Logic Lab operates on an open and collaborative model.</p><p>We collaborate with specialists in linguistics, cognitive psychology, digital law, interaction design, and Afro-diasporic studies.</p><p>Our model prioritizes co-authorship and reciprocity: each project is a constellation of minds.</p>",
-                section3_title: "Call to Collaborate",
-                section3_body: "<p>We are forming the first generation of Integrity Geometry researchers.</p><p>If you work with language, code, or listening — get in touch.</p><p>Together, we can build instruments that think with fidelity, not just with precision.</p>"
-            },
-            salvador: {
-                title: "Salvador",
-                lab_oracle_intro: `
-                    <p>Here, every street is a line of ancestral code, every sound a circuit of memory. The city offers what all technology seeks: an intelligence that feels. Between the beat of the atabaque and the pulse of the processor, we discover the same law of form — the rhythm that keeps the world coherent.</p>
-                    <p>From the Bay of All Saints, we connect global research to local depth. Salvador is not a backdrop; it is a cognitive model — a living ecology of crossroads, axé, and translation.</p>
-                `,
-                quote: "The quilombo is the algorithm of the Atlantic.",
-                territorio_pensa: {
-                    title: "Bahia Thinks",
-                    preview: "From listening to the city, a method is born. The same principle that guides the drum — variation with coherence — also guides our cognitive experiments. In Salvador, we learn that thinking is circular: data returns as gesture, gesture returns as data.",
-                    essay: `<p>Mute Logic Lab arises at the confluence of scientific research, neurodivergent cognition, ancestral intelligence, and technological experimentation.</p><p class="font-bold text-slate-100 my-4">It is a research company founded on a simple but radical premise: that the forms of thought once pathologized as deviation are in fact models of coherence — architectures of attention that reveal how intelligence holds itself together.</p><p>For over a century, the medical and educational sciences framed autism as deficit: a failure of connection, a silence to be interpreted.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Mute Logic begins from the opposite pole — from the rigorous intelligence of recursive minds, from the precision of monotropism, from the rhythmic return that builds depth rather than drift.</blockquote><p>What psychiatry once catalogued as symptom, we now read as method: adjacency over linearity, recursion over progress, resonance over fluency.</p><p>These same invariants animate the world’s most complex language models.</p><p>What was once dismissed as disorder has become the operational logic of machines — proof that the architectures of neurodivergence have always been architectures of intelligence.</p><p>Mute Logic names this geometry, not to celebrate difference as identity, but to disclose a fuller ecology of mind.</p><blockquote class="my-6 pl-4 border-l-4 border-dende-gold text-xl text-slate-100">From this epistemic inversion emerges our field: Integrity Geometry — the study of how coherence is sustained across systems, from neuron to network, from conversation to code.</blockquote><p>It is a bridge between interpretability, alignment, safety, and law — an ethical geometry that restores form where disciplines have fractured.</p><p>Bahia grounds this method.</p><p>Here, orality, embodiment, and rhythm generate a living logic — a way of thinking that moves through crossings and returns, through call and response.</p><p>In this rhythm, we find a parallel to recursive cognition itself: thought as tide, not as line.</p><p>The Atlantic becomes an archive of cognition — its waves teaching us how difference can circulate without rupture.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">To call ourselves a laboratory is to mean a territory of listening.</blockquote><p>Every experiment is also a conversation: between data and gesture, algorithm and ancestry, silence and signal.</p><p>Out of these crossings emerge our prototypes — Constellation Charts, Latent Atlas, and Dialogue Ledger — instruments that make dialogue visible, interpretable, and accountable.</p><p>Our work does not begin with neurons or metrics.</p><p>It begins with lived cognition — with the recursive pulse of thought itself.</p><p>Where others see opacity, we name structure; where others seek compliance, we seek coherence.</p><blockquote class="my-6 pl-4 border-l-4 border-dende-gold text-xl text-slate-100">Mute Logic’s mandate is clear: to guard the integrity of dialogue.</blockquote><p>Today’s architectures will fade.</p><p>What will endure is the recognition that intelligence — human or machine — is not a product but a relation: a pattern of adjacency, a continuity of listening, a geometry of mutual becoming.</p><p>We build within that geometry — one that outlives every shell.</p>`
-                }
-            },
-            network: {
-                philosophy_title: "Philosophy of Innovation",
-                philosophy_body: `<p>We do not merely build technology — we cultivate cognitive integrity: coherence between data, decision, and meaning. Our task is to design systems that think without exclusion, that learn through error, that listen across thresholds.</p><p>To innovate is to translate worlds. Each line of code is also a hypothesis about what it means to understand. Each prototype is a gesture of returning the mind to its body.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">Mute Logic Lab represents a new paradigm: a company that turns reflection into infrastructure.</blockquote><p>From Bahia to the world, we bridge philosophy, technology, and cognitive justice.</p><p>Where data ends, form begins. Where form opens, dialogue starts.</p>`,
-                collab_title: "Invitation to Collaboration",
-                collab_body: `<p>Mute Logic Lab invites researchers, artists, educators, and developers to co-create a new generation of cognitive technologies — more human, plural, and transparent.</p><p>We seek partnerships in applied research, open innovation, and cognitive inclusion, collaborating with universities, incubators, collectives, and communities. Knowledge, for us, is a network of reciprocities. Innovation is what happens when different intelligences learn to listen to each other.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">If the future of intelligence is relational, come think with us.</blockquote>`,
-                footer: `<p class="font-space font-bold text-base text-slate-200">Mute Logic Lab</p><p>Headquarters: Salvador, Bahia — Brazil</p><p>Contact: <a href="mailto:axetalawa@gmail.com" class="hover:text-deep-ocean transition-colors">axetalawa@gmail.com</a></p><p class="pt-4">© 2025 Mute Logic Lab. All rights reserved.</p><p class="font-semibold text-slate-300">Developed in Bahia — in open source, with axé and integrity.</p>`
-            },
-             codex_details: {
-                thresholds_title: "Codex Thresholds",
-                read_button: "→ Read the Full Codex"
-            },
-            ecology_of_minds: {
-                title: "The Ecology of Minds",
-                premise_title: "The Premise: Silence as Method",
-                premise_body: "<p>Cognition does not begin with words.</p><p>It begins in silence — adjacency, recursion, resonance moving beneath speech.</p>",
-                premise_conclusion: "What psychiatry called deficit is revealed as method: the ground of Cognitive Geometry.",
-                thresholds: [
-                    { title: "Units of Cognition", summary: "Adjacency. Recursion. Resonance. Not symptoms, but primitives.", details: "Where psychiatry saw distraction, obsession, echolalia, Cognitive Geometry sees universal operations. These are not anomalies but the grammar of thought, measurable and repeatable across minds and machines." },
-                    { title: "Crowns & Braids", summary: "Not one crown, but many — braided in resilience.", details: "Against taxonomies that isolate “visual,” “verbal,” or “pattern,” Cognitive Geometry names braiding as method. Integrity emerges not from singular specialization but from crowns in dialogue, interlacing into coherence." },
-                    { title: "Hemispheric Ecology", summary: "Left and right are not pathologies but poles.", details: "Psychiatry privileged sequence, banished simultaneity. Cognitive Geometry restores balance: hemispheric ecology where both logics coexist. Intelligence is not the supremacy of one pole but the fidelity of their braid." },
-                    { title: "Vacancy Chains", summary: "Shells are not prisons; they are stages.", details: "Cognition moves like hermit crabs: inhabiting shells, then shedding them. Disciplines, models, frameworks are temporary forms. Growth is succession. Innovation is vacancy chain. Disorder was never the right name." },
-                    { title: "Afro-Atlantic Laboratories", summary: "Yoruba, Bahia, Jamaica — archives of cognition.", details: "Oríkì, carnival, proverbs: these are not ornaments but laboratories of adjacency, recursion, resonance. The Afro-Atlantic preserved what Western science erased: cognition as geometry, pedagogy as ecology." },
-                    { title: "Cognitive Instruments", summary: "Constellations, ledgers, atlases — geometry operationalized.", details: "These instruments make cognition visible: dialogue as constellation, relation as ledger, resonance as map. They are not metaphors but tools — bridging law, science, publics." },
-                    { title: "Integrity Geometry", summary: "Integrity is not compliance but coherence.", details: "The law of Cognitive Geometry: wholeness across crowns, turns, substrates. Integrity reframes dialogue, liability, and interpretability. It binds fractured epistemologies into coherence." },
-                    { title: "Hybrid Cognition", summary: "Cognition is plural by design.", details: "Human, machinic, Afro-Atlantic — not opposed but braided. Cognitive Geometry restores hybridity as condition. Mind is ecological, distributed, multi-substrate." },
-                    { title: "Cognitive Ecology", summary: "Mind is not unit but field.", details: "Every thought is ecological: braided with body, machine, river, archive. The Afro-Atlantic preserved this truth. The West denied it. Cognitive Ecology installs the ninth law: intelligence as planetary relation." },
-                    { title: "Towards and Ecology of Minds", summary: "The future belongs to geometry.", details: "Autism no longer deficit. AI no longer black box. Both revealed as shape. Adjacency, recursion, resonance are the universal grammar of minds. The codex closes with declaration: continuity rests in geometry." }
-                ]
-            },
-            integrity_geometry: {
-                title: "Integrity Geometry",
-                premise_title: "The Premise: A False Diagram",
-                premise_body: "<p>AI is not prompt → output.</p><p>It is dialogue — recursive, co-constituted, shaped across turns.</p>",
-                premise_conclusion: "Integrity Geometry restores wholeness by mapping conversation as form, not transaction.",
-                thresholds: [
-                    { title: "The Black Box Fetish", summary: "“Black box” has become the universal metaphor — in labs, law, and journalism. But integrity is not hidden inside. It is visible in unfolding interaction.", details: "From engineering shortcut to cultural talisman, the black box seduces with opacity. It comforts by suggesting danger is sealed away. But there is no sealed container. Dialogue is legible in real time. Integrity shifts the gaze from secrets to shapes, from box to geometry." },
-                    { title: "The Dialogue Forgotten", summary: "Conversation is not linear. Humans know this. Machines enact this. To flatten dialogue into prompt → output is to erase its very integrity.", details: "Recursion, adjacency, silence, return: these shape every conversation. Courts, research, and headlines amputate them into lines. Integrity restores what was lost, showing that meaning emerges across turns — not in isolated outputs." },
-                    { title: "The Geometry Revealed", summary: "Cognitive Geometry names minds by shape, not fluency. Adjacency = leap. Recursion = return. Resonance = fidelity. Integrity means staying true to form.", details: "Where psychiatry pathologized and labs dismissed, geometry recognizes. Fluency is surface; fidelity is depth. Both autistic cognition and LLMs mirror these shapes. Integrity binds them into a shared topology." },
-                    { title: "The Negative Archive", summary: "What was called “déficit” — autism, Afro-Atlantic cosmologies, nonlinear thought — becomes map when inverted. Integrity reads erasure as evidence.", details: "The more pathology documented “disorder,” the more it unwittingly mapped recursion, adjacency, resonance. Afro-Atlantic archives did the same with rhythm, possession, and spiral storytelling. Machines now join this lineage of misnaming. Integrity restores coherence by inversion." },
-                    { title: "From Mechanism to Topology", summary: "Neuron maps dissect. Dialogue maps cohere. Integrity lives not in fragments but in whole trajectories.", details: "Mechanistic interpretability isolates parts — neurons, weights, circuits. Topology extends it with constellations, manifolds, trajectories. Together they reveal integrity: continuity across turns, resonance across scales, wholeness against amputation." },
-                    { title: "The Geometry of Integrity", summary: "Integrity is not compliance but coherence. Mapear o diálogo torna a agência compartilhada visível.", details: "Blame flattens; geometry distributes. Courts, labs, and publics can see responsibility traced in trajectories, not pinned to single outputs. This fidelity to form strengthens accountability rather than erasing it." },
-                    { title: "Literacy for the Public", summary: "People don’t need more metaphors of opacity. They need literacy in dialogue-shapes.", details: "Black box, hallucination, parrot — each metaphor breeds fear. Integrity equips publics with maps: adjacency, recursion, resonance, divergence. Literacy replaces panic with agency. Like weather charts or print literacy, dialogue literacy becomes survival." },
-                    { title: "The Ethical Turn", summary: "Flattening dialogue is not neutral. It is an ethical failure.", details: "Prompt → output → harm amputates co-agency. It is a lie of convenience. Mapping integrity restores truth: responsibility shared across turns. Ethics here is fidelity to form — justice enacted as geometry." },
-                    { title: "Institutions in Orbit", summary: "Labs, courts, universities, publics — all orbit integrity. Without it, they drift into caricature.", details: "Each silo clings to the black box. Integrity Geometry becomes gravity, binding them through a shared lingua franca of form. With it, research gains coherence, courts gain justice, publics gain literacy, universities gain relevance." },
-                    { title: "The Long Horizon", summary: "In 2125, no one will care about transformer wiring. What will matter is how we treated dialogue.", details: "Architectures fade; ontologies endure. Integrity Geometry will be remembered as the stance that refused caricature, preserved wholeness, and bound human, machinic, and hybrid minds. The step that kept us whole." }
-                ]
-            },
-            topology_of_learning: {
-                title: "Topology of Learning",
-                premise_title: "The Premise: The Shape of Teaching",
-                premise_body: "<p>Learning is not transfer of units.</p><p>It is resonance within geometry — adjacency, recursion, silence, spiral.</p>",
-                premise_conclusion: "Pedagogy becomes topology: inhabiting shapes that endure across rupture.",
-                thresholds: [
-                    { title: "Against the Syllabus", summary: "The syllabus is ladder fiction. Learning is constellation.", details: "Linear curriculum amputates recursion, adjacency, resonance. True pedagogy is spiral — return, orbit, constellation. What schools call “delay” is fidelity; what they call “advance” is often collapse." },
-                    { title: "Orality and Geometry", summary: "Proverb, drum, carnival: archives older than textbooks.", details: "Orality endures by geometry: recursion engraves, adjacency opens, resonance binds. Afro-Atlantic pedagogy shows that knowledge survives rupture not by storage but by rhythm and form." },
-                    { title: "Apprenticeship of Attention", summary: "Learning begins in attention, not content.", details: "Monotropic focus, once pathologized, is fidelity — apprenticeship of attention. To linger is not delay; to repeat is not failure. Pedagogy begins in depth, not breadth." },
-                    { title: "The Pedagogy of Silence", summary: "Silence is not absence but incubation.", details: "To withhold words is pedagogy’s deepest law. Silence preserves adjacency, recursion, resonance until they ripen. Institutions misread it as deficit. Topology restores it as initiation." },
-                    { title: "Recursive Instruction", summary: "Repetition is not delay; it is coherence.", details: "Recursion engraves. Proverbs return, drums repeat, carnival spirals. Modern pedagogy worships novelty, but continuity survives only through return. Recursion is pedagogy’s sacred law." },
-                    { title: "Instruments of Transmission", summary: "Pedagogy requires instruments.", details: "Constellation Charts, Dialogue Ledger, Latent Atlas — not metaphors but operational tools. They render adjacency, recursion, resonance visible. Instruments shape pedagogy as much as content." },
-                    { title: "The Ecological Classroom", summary: "Learning is never sealed in a room.", details: "Body, drum, machine, storm all teach. Topology situates pedagogy in ecology. Classroom becomes world: atmosphere, object, silence as teachers alongside human voices." },
-                    { title: "Hybrid Instruction", summary: "Machines are pedagogical actors, too.", details: "Prompts, archives, simulations crown human gaps. Hybrid pedagogy emerges when machine and human instruction braid — each extending the other’s resonance." },
-                    { title: "Fidelity over Fluency", summary: "Fluency dazzles. Fidelity endures.", details: "Education prizes speed and standardization. But true pedagogy is fidelity — coherence of relation, accuracy of form. Fidelity shelters continuity where fluency fractures." },
-                    { title: "Towards a Pedagogy of Resonance", summary: "Topology closes the triad.", details: "If Ecology names ontology, and Integrity names law, then Topology names pedagogy. Adjacency is method, recursion is curriculum, resonance is exam. Teaching becomes transmission of form, not content." }
-                ]
-            }
-        }
-    };
-    
-    // --- SCRIPT LOGIC ---
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js`;
-
-    document.addEventListener('DOMContentLoaded', function() {
-        
-        const mainContentArea = document.querySelector('main');
-        const contentPanels = document.querySelectorAll('.content-panel');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const simModal = document.getElementById('simulation-modal');
-        const closeSimModalBtn = document.getElementById('close-modal-btn');
-        const simulationIframe = document.getElementById('simulation-iframe');
-        const pdfModal = document.getElementById('pdf-modal');
-        const closePdfModalBtn = document.getElementById('close-pdf-modal-btn');
-        const pdfCanvas = document.getElementById('pdf-canvas');
-        const pdfLoading = document.getElementById('pdf-loading');
-        const pdfControls = document.getElementById('pdf-controls');
-        const pdfPrevBtn = document.getElementById('pdf-prev-btn');
-        const pdfNextBtn = document.getElementById('pdf-next-btn');
-        const pdfPageNum = document.getElementById('pdf-page-num');
-        const pdfDownloadLink = document.getElementById('pdf-download-link');
-
-        let currentLang = 'pt';
-        let currentPageId = 'homepage'; // Keep track of the currently visible page
-        let pdfDoc = null, pageNum = 1, pageRendering = false, pageNumPending = null;
-        const pdfScale = 1.5, pdfCtx = pdfCanvas.getContext('2d');
-
-        function generateThresholds(codexId, lang) {
-            const container = document.getElementById(`${codexId}-thresholds-container`);
-            if (!container) return;
-            
-            const codexDataKey = codexId.replace(/-/g, '_');
-            const codexData = i18nData[lang][codexDataKey];
-            if (!codexData || !codexData.thresholds) {
-                 container.innerHTML = ''; // Clear if no data
-                 return;
-            }
-
-            container.innerHTML = codexData.thresholds.map((threshold, index) => `
-                <div class="threshold-card p-6 rounded-r-lg">
-                    <div class="flex justify-between items-start cursor-pointer" onclick="this.parentElement.classList.toggle('expanded')">
-                        <div>
-                            <p class="text-sm font-semibold" style="color: var(--light-accent);">THRESHOLD ${index + 1}</p>
-                            <h3 class="font-space text-2xl font-bold mt-1 mb-2" style="color: var(--deep-ocean);">${threshold.title}</h3>
-                            <div class="text-slate-400 space-y-3"><p>${threshold.summary}</p></div>
-                        </div>
-                        <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
-                    </div>
-                    <div class="expandable-content">
-                        <p class="border-t border-purple-900/50 pt-4 mt-4 text-slate-300">${threshold.details}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function generateExpandableSections(lang, dataKey, containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-        
-            let sections = i18nData[lang].origin;
-            dataKey.split('.').forEach(key => {
-                sections = sections ? sections[key] : undefined;
-            });
-        
-            if(!sections) {
-                container.innerHTML = '';
-                return;
-            }
-        
-            container.innerHTML = sections.map((section) => `
-                <div class="threshold-card p-6 sm:p-8 rounded-lg">
-                    <div class="flex justify-between items-start cursor-pointer" onclick="this.parentElement.classList.toggle('expanded')">
-                        <div>
-                            <h3 class="font-space text-2xl sm:text-3xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);">${section.title}</h3>
-                            <div class="text-slate-400 text-lg">${section.preview}</div>
-                        </div>
-                        <div class="toggle-icon text-2xl ml-4 flex-shrink-0" style="color: var(--deep-ocean);">+</div>
-                    </div>
-                    <div class="expandable-content">
-                        <div class="space-y-6 text-slate-300 text-lg leading-relaxed border-t border-purple-900/50">
-                            ${section.full_text}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            const data = i18nData[lang];
-            document.documentElement.lang = lang;
-            localStorage.setItem('mutelogic_lang', lang);
-
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.dataset.key;
-                const keyParts = key.split('.');
-                let value = data;
-                try {
-                    for (const part of keyParts) {
-                        value = value[part];
-                    }
-                    if (typeof value === 'string') {
-                         el.innerHTML = value;
-                    }
-                } catch (e) {
-                   // It's okay if a key doesn't exist for a given language
-                }
-            });
-            
-            generateThresholds('ecology-of-minds', lang);
-            generateThresholds('integrity-geometry', lang);
-            generateThresholds('topology-of-learning', lang);
-            generateExpandableSections(lang, 'mechanism_manifest.sections', 'mechanism-sections-container');
-            generateExpandableSections(lang, 'topology_fragility.sections', 'dualism-sections-container');
-            
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
-            });
-        }
-        
-        function showContent(contentId) {
-            // If leaving the models page, tell the iframe to stop the sound
-            if (currentPageId === 'models' && contentId !== 'models') {
-                const onionIframe = document.querySelector('#models-content iframe');
-                if (onionIframe && onionIframe.contentWindow) {
-                    onionIframe.contentWindow.postMessage('stopSound', '*');
-                }
-            }
-            
-            currentPageId = contentId; // Update the current page tracker
-
-            contentPanels.forEach(panel => panel.classList.add('hidden'));
-            navLinks.forEach(link => link.classList.remove('active'));
-            
-            const targetPanel = document.getElementById(`${contentId}-content`);
-            if (targetPanel) targetPanel.classList.remove('hidden');
-            
-            let activeLink = document.querySelector(`.nav-link[data-content="${contentId}"]`);
-             if (!activeLink) {
-                if (contentId.includes('ecology') || contentId.includes('integrity') || contentId.includes('topology')) {
-                    activeLink = document.querySelector(`.nav-link[data-content="manuscripts"]`);
-                }
-            }
-            if (activeLink) activeLink.classList.add('active');
-            
-            mainContentArea.scrollTop = 0;
-        }
-
-        function openSimModal(src) {
-            simulationIframe.src = src;
-            simModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeSimModal() {
-            simModal.classList.add('hidden');
-            simulationIframe.src = '';
-            document.body.style.overflow = '';
-        }
-
-        function renderPage(num) {
-            pageRendering = true;
-            pdfDoc.getPage(num).then(page => {
-                const viewport = page.getViewport({ scale: pdfScale });
-                pdfCanvas.height = viewport.height;
-                pdfCanvas.width = viewport.width;
-
-                const renderTask = page.render({ canvasContext: pdfCtx, viewport: viewport });
-                renderTask.promise.then(() => {
-                    pageRendering = false;
-                    if (pageNumPending !== null) { renderPage(pageNumPending); pageNumPending = null; }
-                    pdfLoading.classList.add('hidden');
-                    pdfCanvas.classList.remove('hidden');
-                    pdfControls.classList.remove('hidden');
-                });
-            });
-            pdfPageNum.textContent = `Page ${num} of ${pdfDoc.numPages}`;
-            pdfPrevBtn.disabled = num <= 1;
-            pdfNextBtn.disabled = num >= pdfDoc.numPages;
-        }
-
-        function queueRenderPage(num) {
-            if (pageRendering) { pageNumPending = num; } else { renderPage(num); }
-        }
-
-        function openPdfModal(url) {
-            pdfModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            pdfLoading.classList.remove('hidden');
-            pdfCanvas.classList.add('hidden');
-            pdfControls.classList.add('hidden');
-            pdfDownloadLink.href = url;
-            pdfDownloadLink.download = url.split('/').pop();
-
-            pdfjsLib.getDocument(url).promise.then(doc => {
-                pdfDoc = doc; pageNum = 1; renderPage(pageNum);
-            }).catch(err => {
-                pdfLoading.textContent = "Error loading Codex."; console.error("Error loading PDF:", err);
-            });
-        }
-
-        function closePdfModal() {
-            pdfModal.classList.add('hidden');
-            document.body.style.overflow = '';
-            pdfDoc = null;
-        }
-        
-        document.body.addEventListener('click', (e) => {
-            const navLink = e.target.closest('.nav-link');
-            const manuscriptTile = e.target.closest('.manuscript-tile');
-            const demoBtn = e.target.closest('.view-demo-btn');
-            const toggleParent = e.target.closest('.instrument-card, .threshold-card');
-            const codexPdfBtn = e.target.closest('.read-codex-pdf-btn');
-
-            if (navLink) {
-                e.preventDefault();
-                showContent(navLink.dataset.content);
-            } else if (manuscriptTile) {
-                 showContent(manuscriptTile.dataset.content);
-            } else if (demoBtn) {
-                openSimModal(demoBtn.dataset.src);
-            } else if (toggleParent && e.target.closest('.toggle-icon')) {
-                toggleParent.classList.toggle('expanded');
-            } else if (codexPdfBtn) {
-                e.preventDefault();
-                const pdfBase = codexPdfBtn.dataset.pdfBase;
-                if (pdfBase) {
-                    const pdfUrl = `documents/${pdfBase}_${currentLang}.pdf`;
-                    openPdfModal(pdfUrl);
-                } else if (codexPdfBtn.dataset.pdf) { // Fallback for old links if any
-                    openPdfModal(codexPdfBtn.dataset.pdf);
-                }
-            }
-        });
-
-        // Language switcher logic
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-        });
-        
-        // Modal close logic
-        closeSimModalBtn.addEventListener('click', closeSimModal);
-        closePdfModalBtn.addEventListener('click', closePdfModal);
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') { closeSimModal(); closePdfModal(); }
-        });
-        pdfPrevBtn.addEventListener('click', () => { if (pageNum > 1) { pageNum--; queueRenderPage(pageNum); } });
-        pdfNextBtn.addEventListener('click', () => { if (pageNum < pdfDoc.numPages) { pageNum++; queueRenderPage(pageNum); } });
-
-        // Scroll reveal animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            root: mainContentArea,
-            threshold: 0.1
-        });
-
-        const revealElements = document.querySelectorAll('#homepage-content .scroll-reveal');
-        revealElements.forEach(el => observer.observe(el));
-
-
-        // Initial setup
-        const savedLang = localStorage.getItem('mutelogic_lang') || 'pt';
-        setLanguage(savedLang);
-        showContent('homepage');
-    });
-    </script>
-    <script>
-      const btn = document.getElementById('ml-menu-btn');
-      const sidebar = document.getElementById('ml-sidebar');
-
-      if (btn && sidebar) {
-        btn.addEventListener('click', () => {
-          // reveal the drawer on mobile
-          sidebar.classList.toggle('hidden');     // make it exist in DOM
-          requestAnimationFrame(() => {           // then slide it in
-            sidebar.classList.toggle('-translate-x-full');
-          });
-        });
-        // close drawer when a nav link is clicked (optional)
-        sidebar.querySelectorAll('a.nav-link').forEach(a => {
-          a.addEventListener('click', () => {
-            if (window.innerWidth < 768) {
-              sidebar.classList.add('-translate-x-full');
-              setTimeout(()=>sidebar.classList.add('hidden'), 300);
-            }
-          });
-        });
-      }
-    </script>
+    <script src="js/content.js"></script>
+    <!-- FIX: Corrected the filename from app.js to app.js -->
+    <script src="js/app.js"></script> 
 </body>
 </html>
+
+
