@@ -1,12 +1,12 @@
 // --- LANGUAGE AND CONTENT MANAGEMENT ---
 const i18nData = {
     pt: {
-        meta: { title: "Mute Logic Lab — Laboratório-Território de Cognição e Linguagem" },
-        joojit_banner: {
+        meta: { title: "Mute Logic Lab — Laboratório de Cognição e Linguagem" },
+        lattice_banner: {
             supertitle: "AGORA DISPONÍVEL",
-            title: "Joojit",
-            description: "Uma interface cognitiva que visualiza a geometria do diálogo — traçando emoção, coerência e ressonância na troca humano-máquina.",
-            cta: "Teste o Protótipo →"
+            title: "Lattice AI",
+            description: "Um instrumento de pesquisa voltado ao estudo do raciocínio analógico em múltiplas escalas. Investiga como padrões de forma e relação se repetem e se transformam entre sistemas biológicos, cognitivos e cosmológicos.",
+            cta: "Experimentar o Modelo →"
         },
         sidebar: { title: "Mute Logic Lab" },
         nav: {
@@ -19,18 +19,16 @@ const i18nData = {
             founder: "Equipe",
         },
         homepage: {
-          supertitle: "Geometria Cognitiva — pesquisa aplicada em cognição, linguagem e IA",
+          supertitle: "Geometria Cognitiva",
+          undertitle: "Pesquisa aplicada em cognição, linguagem e IA",
           title: "Onde o pensamento encontra forma, e a forma começa a pensar.",
           body: `
        <p>A <strong>Mute Logic Lab</strong> é um estúdio independente de pesquisa e engenharia cognitiva com sede em Salvador, Bahia.</p>
        <p>Desenvolvemos sistemas de inteligência artificial interpretáveis e multilíngues que conectam filosofia, ciência de dados e design.</p>
-       <p>Trabalhamos onde o raciocínio se torna visível — projetando arquiteturas que mostram como pensam.</p>
-       <blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">
-         Tornar a inteligência legível é o primeiro passo para torná-la ética.
-       </blockquote>
+       <p>Trabalhamos onde o raciocínio se torna visível — projetando arquiteturas que mostram como pensam. Tornar a inteligência legível é o primeiro passo para torná-la ética.</p>
        <p>Nossa abordagem une pesquisa teórica e prototipagem prática: cada modelo, pipeline e interface é um instrumento de interpretação.</p>
      `,
-          tagline: "Mute Logic Lab — concebida na Bahia, feita para o mundo."
+          tagline: `<span style="color: var(--deep-ocean);">Mute Logic Lab</span><br><span class="text-slate-100">Concebida na Bahia, feita para o mundo.</span>`
         },
         models: {
           section_title: "Modelos Cognitivos",
@@ -632,12 +630,12 @@ const i18nData = {
         }
     },
     en: {
-        meta: { title: "Mute Logic Lab — A Research Territory for Cognitive and Linguistic Integrity" },
-         joojit_banner: {
+        meta: { title: "Mute Logic Lab — Laboratory of Cognition and Language" },
+         lattice_banner: {
             supertitle: "NOW LIVE FOR TESTING",
-            title: "Joojit",
-            description: "A cognitive interface that visualizes the geometry of dialogue — tracing emotion, coherence, and resonance across human–machine exchange.",
-            cta: "Test the Prototype →"
+            title: "Lattice AI",
+            description: "A research instrument designed to study analogical reasoning across multiple scales. It investigates how patterns of form and relation repeat and transform across biological, cognitive, and cosmological systems.",
+            cta: "Explore the Model →"
         },
         sidebar: { title: "Mute Logic Lab" },
         nav: {
@@ -650,13 +648,10 @@ const i18nData = {
           body: `
        <p><strong>Mute Logic Lab</strong> is an independent cognitive research and engineering studio based in Salvador, Bahia.</p>
        <p>We develop interpretable and multilingual AI systems that connect philosophy, data science, and design.</p>
-       <p>We work where reasoning becomes visible — designing architectures that show how they think.</p>
-       <blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100">
-         Making intelligence legible is the first step toward making it ethical.
-       </blockquote>
+       <p>We work where reasoning becomes visible — designing architectures that show how they think. Making intelligence legible is the first step toward making it ethical.</p>
        <p>Our practice joins theoretical research with practical prototyping: every model, pipeline, and interface is an instrument of interpretation.</p>
      `,
-          tagline: "Mute Logic Lab — conceived in Bahia, made for the world."
+          tagline: `<span style="color: var(--deep-ocean);">Mute Logic Lab</span><br><span class="text-slate-100">Conceived in Bahia, made for the world.</span>`
         },
         models: {
           section_title: "Cognitive Models",
@@ -1225,12 +1220,12 @@ const i18nData = {
             premise_body: "<p>Cognition does not begin with words.</p><p>It begins in silence — adjacency, recursion, resonance moving beneath speech.</p>",
             premise_conclusion: "What psychiatry called deficit is revealed as method: the ground of Cognitive Geometry.",
             thresholds: [
-                { title: "Units of Cognition", summary: "Adjacency. Recursion. Resonance. Not symptoms, but primitives.", details: "Where psychiatry saw distraction, obsession, echolalia, Cognitive Geometry sees universal operations. These are not anomalies but the grammar of thought, measurable and repeatable across minds and machines." },
+                { title: "Units of Cognition", summary: "Adjacência. Recursão. Ressonância. Not symptoms, but primitives.", details: "Where psychiatry saw distraction, obsession, echolalia, Cognitive Geometry sees universal operations. These are not anomalies but the grammar of thought, measurable and repeatable across minds and machines." },
                 { title: "Crowns & Braids", summary: "Not one crown, but many — braided in resilience.", details: "Against taxonomies that isolate “visual,” “verbal,” or “pattern,” Cognitive Geometry names braiding as method. Integrity emerges not from singular specialization but from crowns in dialogue, interlacing into coherence." },
                 { title: "Hemispheric Ecology", summary: "Left and right are not pathologies but poles.", details: "Psychiatry privileged sequence, banished simultaneity. Cognitive Geometry restores balance: hemispheric ecology where both logics coexist. Intelligence is not the supremacy of one pole but the fidelity of their braid." },
                 { title: "Vacancy Chains", summary: "Shells are not prisons; they are stages.", details: "Cognition moves like hermit crabs: inhabiting shells, then shedding them. Disciplines, models, frameworks are temporary forms. Growth is succession. Innovation is vacancy chain. Disorder was never the right name." },
                 { title: "Afro-Atlantic Laboratories", summary: "Yoruba, Bahia, Jamaica — archives of cognition.", details: "Oríkì, carnival, proverbs: these are not ornaments but laboratories of adjacency, recursion, resonance. The Afro-Atlantic preserved what Western science erased: cognition as geometry, pedagogy as ecology." },
-                { title: "Cognitive Instruments", summary: "Constellations, ledgers, atlases — geometry operationalized.", details: "These instruments make cognition visible: dialogue as constellation, relation as ledger, resonance as map. They are not metaphors but tools — bridging law, science, publics." },
+                { title: "Cognitive Instruments", summary: "Constellations, ledgers, atlases — geometry operationalizada.", details: "These instruments make cognition visible: dialogue as constellation, relation as ledger, resonance as map. They are not metaphors but tools — bridging law, science, publics." },
                 { title: "Integrity Geometry", summary: "Integrity is not compliance but coherence.", details: "The law of Cognitive Geometry: wholeness across crowns, turns, substrates. Integrity reframes dialogue, liability, and interpretability. It binds fractured epistemologies into coherence." },
                 { title: "Hybrid Cognition", summary: "Cognition is plural by design.", details: "Human, machinic, Afro-Atlantic — not opposed but braided. Cognitive Geometry restores hybridity as condition. Mind is ecological, distributed, multi-substrate." },
                 { title: "Cognitive Ecology", summary: "Mind is not unit but field.", details: "Every thought is ecological: braided with body, machine, river, archive. The Afro-Atlantic preserved this truth. The West denied it. Cognitive Ecology installs the ninth law: intelligence as planetary relation." },
@@ -1245,7 +1240,7 @@ const i18nData = {
             thresholds: [
                 { title: "The Black Box Fetish", summary: "“Black box” has become the universal metaphor — in labs, law, and journalism. But integrity is not hidden inside. It is visible in unfolding interaction.", details: "From engineering shortcut to cultural talisman, the black box seduces with opacity. It comforts by suggesting danger is sealed away. But there is no sealed container. Dialogue is legible in real time. Integrity shifts the gaze from secrets to shapes, from box to geometry." },
                 { title: "The Dialogue Forgotten", summary: "Conversation is not linear. Humans know this. Machines enact this. To flatten dialogue into prompt → output is to erase its very integrity.", details: "Recursion, adjacency, silence, return: these shape every conversation. Courts, research, and headlines amputate them into lines. Integrity restores what was lost, showing that meaning emerges across turns — not in isolated outputs." },
-                { title: "The Geometry Revealed", summary: "Cognitive Geometry names minds by shape, not fluency. Adjacency = leap. Recursion = return. Resonance = fidelity. Integrity means staying true to form.", details: "Where psychiatry pathologized and labs dismissed, geometry recognizes. Fluency is surface; fidelity is depth. Both autistic cognition and LLMs mirror these shapes. Integrity binds them into a shared topology." },
+                { title: "The Geometry Revealed", summary: "Cognitive Geometry names minds by shape, not fluency. Adjacency = leap. Recursão = retorno. Ressonância = fidelidade. Integridade significa manter-se fiel à forma.", details: "Where psychiatry pathologized and labs dismissed, geometry recognizes. Fluency is surface; fidelity is depth. Both autistic cognition and LLMs mirror these shapes. Integrity binds them into a shared topology." },
                 { title: "The Negative Archive", summary: "What was called “déficit” — autism, Afro-Atlantic cosmologies, nonlinear thought — becomes map when inverted. Integrity reads erasure as evidence.", details: "The more pathology documented “disorder,” the more it unwittingly mapped recursion, adjacency, resonance. Afro-Atlantic archives did the same with rhythm, possession, and spiral storytelling. Machines now join this lineage of misnaming. Integrity restores coherence by inversion." },
                 { title: "From Mechanism to Topology", summary: "Neuron maps dissect. Dialogue maps cohere. Integrity lives not in fragments but in whole trajectories.", details: "Mechanistic interpretability isolates parts — neurons, weights, circuits. Topology extends it with constellations, manifolds, trajectories. Together they reveal integrity: continuity across turns, resonance across scales, wholeness against amputation." },
                 { title: "The Geometry of Integrity", summary: "Integrity is not compliance but coherence. Mapear o diálogo torna a agência compartilhada visível.", details: "Blame flattens; geometry distributes. Courts, labs, and publics can see responsibility traced in trajectories, not pinned to single outputs. This fidelity to form strengthens accountability rather than erasing it." },
@@ -1275,7 +1270,3 @@ const i18nData = {
         }
     }
 };
-
-
-
-

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="meta.title">Lattice AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- NEW: Bilingual Content -->
+    <script src="lattice-content.js"></script>
+    
+    <style>
+        /* --- GLOBAL STYLES & VARIABLES (BAHIA PALETTE) --- */
+        :root {
+            --dende-gold: #FFB81C;
+            --deep-ocean: #00B5E2;
+            --clay-tone: #C46F43;
+            --dark-accent: #2C2A4A;
+            --off-white: #E2E8F0;
+            --light-accent: #A6FF00;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505; 
+            color: var(--off-white);
+            line-height: 1.7;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, .font-space {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* --- MODIFIED: Header styles --- */
+        header.title-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 4rem; /* Add margin to avoid overlap with fixed lang switcher */
+        }
+
+        /* Specificity for h1 */
+        header.title-header h1 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        /* REMOVED Gradient text spans */
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* NEW styles for title and subtitle */
+        #main-title {
+            display: block;
+            color: var(--off-white);
+            font-size: 3.75rem; /* text-6xl, 60px */
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        #main-subtitle {
+            display: block;
+            color: var(--dende-gold); /* As requested */
+            font-size: 2.25rem; /* text-4xl, 36px */
+            font-weight: 500; /* Medium weight, less than title */
+            font-family: 'Inter', sans-serif; /* Softer font */
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+
+        /* Specificity for author line */
+        header.title-header p {
+            font-size: 1.125rem; /* text-lg */
+            font-family: 'Inter', sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            color: var(--off-white);
+            margin-top: 1.5rem; /* Increased margin */
+        }
+        /* --- END MODIFIED Header styles --- */
+
+        /* Content-specific headings */
+        h2 {
+            font-size: 2rem !important; /* text-6xl - FORCING CHANGE */
+            color: var(--dende-gold);
+            padding-top: 4rem;
+            margin-bottom: 2.5rem !important; /* FORCING CHANGE */
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--dark-accent);
+        }
+        h3 {
+            font-size: 1.5rem !important; /* text-5xl - FORCING CHANGE */
+            color: var(--deep-ocean);
+            padding-top: 3rem;
+            margin-bottom: 2rem !important; /* FORCING CHANGE */
+        }
+        /* NEW: Style for the numbers in headings */
+        .heading-number {
+            color: var(--off-white);
+            opacity: 0.6; /* Make it a bit dimmer than the title text */
+            margin-right: 0.5rem; /* Add a little space */
+        }
+        /* Special class from original file */
+        h2.abstract-title {
+            color: var(--off-white);
+            text-align: center;
+            font-style: italic;
+            font-weight: 500;
+            border-bottom: none;
+            padding-top: 2rem;
+            font-size: 1.75rem;
+        }
+        
+        /* Body Text */
+        main p { 
+            margin-bottom: 1.75rem !important; /* Definitive fix for paragraph spacing */
+            font-size: 1.05rem;
+            color: var(--off-white);
+        }
+        main ul, main ol { 
+            margin-left: 1.5rem;
+            margin-bottom: 1.75rem !important; /* Definitive fix for list spacing */
+        }
+        li {
+            margin-top: 0.75rem; 
+        }
+        ul { list-style-type: disc; }
+        ol { list-style-type: decimal; }
+
+        a {
+            color: var(--deep-ocean);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--dark-accent);
+            margin: 4rem 0; 
+        }
+
+        /* --- Special Elements --- */
+
+        /* Blockquote */
+        blockquote {
+            margin: 2rem 0;
+            margin-bottom: 2rem !important; /* Definitive fix for padding below */
+            padding-left: 1rem;
+            border-left: 4px solid var(--clay-tone);
+            color: #cbd5e1; /* slate-300 */
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        /* Code block styles */
+        code { 
+            background: var(--dark-accent); 
+            padding: 2px 5px; 
+            border-radius: 4px; 
+            font-family: "Menlo", "Consolas", monospace;
+            font-size: 0.9em;
+            color: var(--dende-gold);
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.2); /* bg-black/20 */
+            padding: 1rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid var(--dark-accent);
+            overflow-x: auto;
+            margin-top: 2rem; 
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            color: var(--off-white);
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2.5rem 0; 
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            border: 1px solid var(--dark-accent);
+        }
+        th, td {
+            border: 1px solid var(--dark-accent);
+            padding: 0.75rem;
+            text-align: left;
+            line-height: 1.5;
+            vertical-align: top;
+        }
+        th {
+            background-color: var(--dende-gold); 
+            font-weight: 700;
+            color: #050505; 
+        }
+        tbody tr:nth-child(even) {
+            background-color: rgba(44, 42, 74, 0.15); /* light --dark-accent bg */
+        }
+        tbody tr:nth-child(odd) {
+             background-color: rgba(0, 0, 0, 0.2); /* bg-black/20 */
+        }
+        
+        /* MathJax spacing */
+        mjx-container {
+            margin: 2rem 0 !important; 
+            color: var(--off-white);
+        }
+
+        /* Language Switcher */
+        /* REMOVED .lang-switcher rule, as positioning is now handled by Tailwind */
+        .lang-btn {
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid var(--dark-accent);
+        }
+        .lang-btn.active {
+            background-color: var(--deep-ocean);
+            color: #050505;
+            border-color: var(--deep-ocean);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- NEW Language Switcher (Top Right) -->
+    <div class="lang-switcher fixed top-4 right-4 z-50">
+        <div class="flex items-center justify-center p-0.5 bg-black/20 rounded-md border border-purple-900/50">
+            <button id="lang-pt" class="lang-btn w-auto px-3 py-1 rounded-sm text-xs font-medium" data-lang="pt">PT</button>
+            <button id="lang-en" class="lang-btn w-auto px-3 py-1 rounded-sm text-xs font-medium" data-lang="en">EN</button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="w-full max-w-3xl mx-auto p-8 sm:p-12 md:p-16">
+        
+        <!-- Language Switcher REMOVED from here -->
+
+        <!-- --- MODIFIED: Header HTML Structure --- -->
+        <header class="title-header">
+            <h1>
+                <span id="main-title" data-key="header.title_line1">...</span>
+                <span id="main-subtitle" data-key="header.title_line2">...</span>
+            </h1>
+            <p data-key="header.author">...</p>
+        </header>
+        <!-- --- END MODIFIED Header --- -->
+        
+        <hr>
+        <!-- =============================== -->
+
+        <!-- ===== This is the abstract ===== -->
+        <h2 class="abstract-title" data-key="abstract.title">...</h2>
+        <p data-key="abstract.p1">...</p>
+        <p data-key="abstract.p2">...</p>
+        <p data-key="abstract.p3">...</p>
+        <p data-key="abstract.p4">...</p>
+        <hr>
+        <!-- =============================== -->
+        
+        <!-- SECTION 1 -->
+        <section>
+            <h2 data-key="section1.title">...</h2>
+            <p data-key="section1.p1">...</p>
+            <p data-key="section1.p2">...</p>
+            <p data-key="section1.p3">...</p>
+            <p data-key="section1.p4">...</p>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section>
+            <h2 data-key="section2.title">...</h2>
+            <p data-key="section2.p1">...</p>
+            
+            <h3 data-key="section2.s2_1.title">...</h3>
+            <p data-key="section2.s2_1.p1">...</p>
+            <p data-key="section2.s2_1.p2">...</p>
+
+            <h3 data-key="section2.s2_2.title">...</h3>
+            <p data-key="section2.s2_2.p1">...</p>
+            <p data-key="section2.s2_2.p2">...</p>
+
+            <h3 data-key="section2.s2_3.title">...</h3>
+            <p data-key="section2.s2_3.p1">...</p>
+
+            <h3 data-key="section2.s2_4.title">...</h3>
+            <p data-key="section2.s2_4.p1">...</p>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section>
+            <h2 data-key="section3.title">...</h2>
+            
+            <h3 data-key="section3.s3_1.title">...</h3>
+            <p data-key="section3.s3_1.p1">...</p>
+            <p data-key="section3.s3_1.p2">...</p>
+            <p data-key="section3.s3_1.p3">...</p>
+            <div data-key="section3.s3_1.eq1">...</div>
+            <p data-key="section3.s3_1.p4">...</p>
+            
+            <h3 data-key="section3.s3_2.title">...</h3>
+            <p data-key="section3.s3_2.p1">...</p>
+            <p data-key="section3.s3_2.p2">...</p>
+            <div data-key="section3.s3_2.eq2">...</div>
+            <p data-key="section3.s3_2.p3">...</p>
+            <p data-key="section3.s3_2.p4">...</p>
+            <div data-key="section3.s3_2.eq3">...</div>
+            <p data-key="section3.s3_2.p5">...</p>
+            
+            <h3 data-key="section3.s3_3.title">...</h3>
+            <p data-key="section3.s3_3.p1">...</p>
+            <ul>
+              <li data-key="section3.s3_3.ol1.li0">...</li>
+              <li data-key="section3.s3_3.ol1.li1">...</li>
+              <li data-key="section3.s3_3.ol1.li2">...</li>
+            </ul>
+            <p data-key="section3.s3_3.p2">...</p>
+            <ol>
+              <li data-key="section3.s3_3.ol2.li0">...</li>
+              <li data-key="section3.s3_3.ol2.li1">...</li>
+              <li data-key="section3.s3_3.ol2.li2">...</li>
+            </ol>
+            <p data-key="section3.s3_3.p3">...</p>
+
+            <h3 data-key="section3.s3_4.title">...</h3>
+            <p data-key="section3.s3_4.p1">...</p>
+            <div data-key="section3.s3_4.eq4">...</div>
+            <p data-key="section3.s3_4.p2">...</p>
+            <div data-key="section3.s3_4.eq5">...</div>
+            <p data-key="section3.s3_4.p3">...</p>
+
+            <h3 data-key="section3.s3_5.title">...</h3>
+            <p data-key="section3.s3_5.p1">...</p>
+            <p data-key="section3.s3_5.p2">...</p>
+
+            <h3 data-key="section3.s3_6.title">...</h3>
+            <ul>
+              <li data-key="section3.s3_6.ul1.li0">...</li>
+              <li data-key="section3.s3_6.ul1.li1">...</li>
+              <li data-key="section3.s3_6.ul1.li2">...</li>
+              <li data-key="section3.s3_6.ul1.li3">...</li>
+            </ul>
+            <p data-key="section3.s3_6.p1">...</p>
+
+            <h3 data-key="section3.s3_7.title">...</h3>
+            <p data-key="section3.s3_7.p1">...</p>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section>
+            <h2 data-key="section4.title">...</h2>
+
+            <h3 data-key="section4.s4_1.title">...</h3>
+            <p data-key="section4.s4_1.p1">...</p>
+            <p data-key="section4.s4_1.p2">...</p>
+
+            <h3 data-key="section4.s4_2.title">...</h3>
+            <p data-key="section4.s4_2.p1">...</p>
+            <div data-key="section4.s4_2.code1">...</div>
+            <p data-key="section4.s4_2.p2">...</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-key="section4.s4_2.table1.h1">...</th>
+                        <th data-key="section4.s4_2.table1.h2">...</th>
+                        <th data-key="section4.s4_2.table1.h3">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-key="section4.s4_2.table1.r1c0">...</td>
+                        <td data-key="section4.s4_2.table1.r1c1">...</td>
+                        <td data-key="section4.s4_2.table1.r1c2">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_2.table1.r2c0">...</td>
+                        <td data-key="section4.s4_2.table1.r2c1">...</td>
+                        <td data-key="section4.s4_2.table1.r2c2">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_2.table1.r3c0">...</td>
+                        <td data-key="section4.s4_2.table1.r3c1">...</td>
+                        <td data-key="section4.s4_2.table1.r3c2">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_2.table1.r4c0">...</td>
+                        <td data-key="section4.s4_2.table1.r4c1">...</td>
+                        <td data-key="section4.s4_2.table1.r4c2">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_2.table1.r5c0">...</td>
+                        <td data-key="section4.s4_2.table1.r5c1">...</td>
+                        <td data-key="section4.s4_2.table1.r5c2">...</td>
+Files - 5                    </tr>
+                </tbody>
+            </table>
+            <p data-key="section4.s4_2.p3">...</p>
+
+            <h3 data-key="section4.s4_3.title">...</h3>
+            <p data-key="section4.s4_3.p1">...</p>
+            <p data-key="section4.s4_3.p2">...</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-key="section4.s4_3.table2.h1">...</th>
+                        <th data-key="section4.s4_3.table2.h2">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-key="section4.s4_3.table2.r1c0">...</td>
+                        <td data-key="section4.s4_3.table2.r1c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_3.table2.r2c0">...</td>
+                        <td data-key="section4.s4_3.table2.r2c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_3.table2.r3c0">...</td>
+                        <td data-key="section4.s4_3.table2.r3c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_3.table2.r4c0">...</td>
+                        <td data-key="section4.s4_3.table2.r4c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_3.table2.r5c0">...</td>
+                        <td data-key="section4.s4_3.table2.r5c1">...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p data-key="section4.s4_3.p3">...</p>
+            <p data-key="section4.s4_3.p4">...</p>
+
+            <h3 data-key="section4.s4_4.title">...</h3>
+            <p data-key="section4.s4_4.p1">...</p>
+            <p data-key="section4.s4_4.p2">...</p>
+
+            <h3 data-key="section4.s4_5.title">...</h3>
+            <p data-key="section4.s4_5.p1">...</p>
+            <ul>
+              <li data-key="section4.s4_5.ul1.li0">...</li>
+              <li data-key="section4.s4_5.ul1.li1">...</li>
+              <li data-key="section4.s4_5.ul1.li2">...</li>
+            </ul>
+
+            <h3 data-key="section4.s4_6.title">...</h3>
+            <p data-key="section4.s4_6.p1">...</p>
+            <blockquote data-key="section4.s4_6.bq1">...</blockquote>
+            <p data-key="section4.s4_6.p2">...</p>
+
+            <h3 data-key="section4.s4_7.title">...</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-key="section4.s4_7.table3.h1">...</th>
+                        <th data-key="section4.s4_7.table3.h2">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-key="section4.s4_7.table3.r1c0">...</td>
+                        <td data-key="section4.s4_7.table3.r1c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_7.table3.r2c0">...</td>
+                        <td data-key="section4.s4_7.table3.r2c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_7.table3.r3c0">...</td>
+                        <td data-key="section4.s4_7.table3.r3c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_7.table3.r4c0">...</td>
+                        <td data-key="section4.s4_7.table3.r4c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section4.s4_7.table3.r5c0">...</td>
+                        <td data-key="section4.s4_7.table3.r5c1">...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p data-key="section4.s4_7.p1">...</p>
+
+            <h3 data-key="section4.s4_8.title">...</h3>
+            <p data-key="section4.s4_8.p1">...</p>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section>
+            <h2 data-key="section5.title">...</h2>
+            <p data-key="section5.p1">...</p>
+
+            <h3 data-key="section5.s5_1.title">...</h3>
+            <p data-key="section5.s5_1.p1">...</p>
+
+            <h3 data-key="section5.s5_2.title">...</h3>
+            <p data-key="section5.s5_2.p1">...</p>
+            <ul>
+              <li data-key="section5.s5_2.ul1.li0">...</li>
+              <li data-key="section5.s5_2.ul1.li1">...</li>
+              <li data-key="section5.s5_2.ul1.li2">...</li>
+              <li data-key="section5.s5_2.ul1.li3">...</li>
+              <li data-key="section5.s5_2.ul1.li4">...</li>
+            </ul>
+
+            <h3 data-key="section5.s5_3.title">...</h3>
+            <p data-key="section5.s5_3.p1">...</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-key="section5.s5_3.table1.h1">...</th>
+                        <th data-key="section5.s5_3.table1.h2">...</th>
+                        <th data-key="section5.s5_3.table1.h3">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-key="section5.s5_3.table1.r1c0">...</td>
+                        <td data-key="section5.s5_3.table1.r1c1">...</td>
+                        <td data-key="section5.s5_3.table1.r1c2">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section5.s5_3.table1.r2c0">...</td>
+                        <td data-key="section5.s5_3.table1.r2c1">...</td>
+                        <td data-key="section5.s5_3.table1.r2c2">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section5.s5_3.table1.r3c0">...</td>
+                        <td data-key="section5.s5_3.table1.r3c1">...</td>
+                        <td data-key="section5.s5_3.table1.r3c2">...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p data-key="section5.s5_3.p2">...</p>
+            
+            <!-- Section 5.4 "Illustrative Comparisons" was here, now deleted -->
+
+            <h3 data-key="section5.s5_4.title">...</h3>
+            <p data-key="section5.s5_4.p1">...</p>
+            <p data-key="section5.s5_4.p2">...</p>
+
+            <h3 data-key="section5.s5_5.title">...</h3>
+            <p data-key="section5.s5_5.p1">...</p>
+            <ul>
+              <li data-key="section5.s5_5.ul1.li0">...</li>
+              <li data-key="section5.s5_5.ul1.li1">...</li>
+              <li data-key="section5.s5_5.ul1.li2">...</li>
+              <li data-key="section5.s5_5.ul1.li3">...</li>
+            </ul>
+
+            <h3 data-key="section5.s5_6.title">...</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-key="section5.s5_6.table3.h1">...</th>
+                        <th data-key="section5.s5_6.table3.h2">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-key="section5.s5_6.table3.r1c0">...</td>
+                        <td data-key="section5.s5_6.table3.r1c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section5.s5_6.table3.r2c0">...</td>
+                        <td data-key="section5.s5_6.table3.r2c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section5.s5_6.table3.r3c0">...</td>
+                        <td data-key="section5.s5_6.table3.r3c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section5.s5_6.table3.r4c0">...</td>
+                        <td data-key="section5.s5_6.table3.r4c1">...</td>
+                    </tr>
+                    <tr>
+                        <td data-key="section5.s5_6.table3.r5c0">...</td>
+                        <td data-key="section5.s5_6.table3.r5c1">...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p data-key="section5.s5_6.p1">...</p>
+
+            <h3 data-key="section5.s5_7.title">...</h3>
+            <p data-key="section5.s5_7.p1">...</p>
+            <p data-key="section5.s5_7.p2">...</p>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section>
+            <h2 data-key="section6.title">...</h2>
+            <p data-key="section6.p1">...</p>
+
+            <h3 data-key="section6.s6_1.title">...</h3>
+            <p data-key="section6.s6_1.p1">...</p>
+            <p data-key="section6.s6_1.p2">...</p>
+            <p data-key="section6.s6_1.p3">...</p>
+            <p data-key="section6.s6_1.p4">...</p>
+
+Files - 6
+            <h3 data-key="section6.s6_2.title">...</h3>
+            <p data-key="section6.s6_2.p1">...</p>
+            <p data-key="section6.s6_2.p2">...</p>
+            <p data-key="section6.s6_2.p3">...</p>
+
+            <h3 data-key="section6.s6_3.title">...</h3>
+            <p data-key="section6.s6_3.p1">...</p>
+            <ul>
+              <li data-key="section6.s6_3.ul1.li0">...</li>
+              <li data-key="section6.s6_3.ul1.li1">...</li>
+              <li data-key="section6.s6_3.ul1.li2">...</li>
+              <li data-key="section6.s6_3.ul1.li3">...</li>
+            </ul>
+            <p data-key="section6.s6_3.p2">...</p>
+
+            <h3 data-key="section6.s6_4.title">...</h3>
+            <p data-key="section6.s6_4.p1">...</p>
+            <p data-key="section6.s6_4.p2">...</p>
+            <p data-key="section6.s6_4.p3">...</p>
+
+            <h3 data-key="section6.s6_5.title">...</h3>
+            <p data-key="section6.s6_5.p1">...</p>
+            <p data-key="section6.s6_5.p2">...</p>
+
+            <h3 data-key="section6.s6_6.title">...</h3>
+            <p data-key="section6.s6_6.p1">...</p>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section>
+            <h2 data-key="section7.title">...</h2>
+
+            <h3 data-key="section7.s7_1.title">...</h3>
+            <p data-key="section7.s7_1.p1">...</p>
+            <p data-key="section7.s7_1.p2">...</p>
+
+            <h3 data-key="section7.s7_2.title">...</h3>
+            <p data-key="section7.s7_2.p1">...</p>
+            <p data-key="section7.s7_2.p2">...</p>
+
+            <h3 data-key="section7.s7_3.title">...</h3>
+            <p data-key="section7.s7_3.p1">...</p>
+            <ul>
+              <li data-key="section7.s7_3.ul1.li0">...</li>
+              <li data-key="section7.s7_3.ul1.li1">...</li>
+              <li data-key="section7.s7_3.ul1.li2">...</li>
+              <li data-key="section7.s7_3.ul1.li3">...</li>
+            </ul>
+            <p data-key="section7.s7_3.p2">...</p>
+
+            <h3 data-key="section7.s7_4.title">...</h3>
+            <p data-key="section7.s7_4.p1">...</p>
+            <ol>
+              <li data-key="section7.s7_4.ol1.li0">...</li>
+              <li data-key="section7.s7_4.ol1.li1">...</li>
+              <li data-key="section7.s7_4.ol1.li2">...</li>
+            </ol>
+            <p data-key="section7.s7_4.p2">...</p>
+            <p data-key="section7.s7_4.p3">...</p>
+
+            <h3 data-key="section7.s7_5.title">...</h3>
+            <p data-key="section7.s7_5.p1">...</p>
+            <p data-key="section7.s7_5.p2">...</p>
+        </section>
+
+        <footer>
+            <hr>
+            <p data-key="footer.copyright" class="text-center text-sm text-slate-400">...</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Bilingual Content Loader ---
+        function setLanguage(lang) {
+            // Save language choice
+            localStorage.setItem('mutelogic_lang', lang);
+            const data = latticeI18nData[lang];
+
+            // 1. Set simple key-value pairs
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.dataset.key;
+                const keyParts = key.split('.');
+                let value = data;
+                try {
+                    for (const part of keyParts) {
+                        value = value[part];
+                    }
+                    if (typeof value === 'string') {
+                        
+                        // --- MODIFIED LOGIC START ---
+                        // Check if it's a heading tag
+                        if (el.tagName === 'H2' || el.tagName === 'H3') {
+                            // Regex to find leading numbers like "1", "1.1", "1.1.1" followed by a space
+                            const regex = /^((\d+\.)*\d+)\s/;
+                            const match = value.match(regex);
+                            
+                            if (match && !el.classList.contains('abstract-title')) {
+                                const number = match[1]; // The full number (e.g., "2.1")
+                                const restOfText = value.substring(match[0].length);
+                                // Reconstruct the HTML with the number wrapped in a span
+                                el.innerHTML = `<span class="heading-number">${number}</span> ${restOfText}`;
+                            } else {
+                                el.innerHTML = value; // No number found or is abstract, set as usual
+                            }
+                        } else {
+                            el.innerHTML = value; // Not a heading, set as usual
+                        }
+                        // --- MODIFIED LOGIC END ---
+
+                    } else if (el.tagName === 'UL' || el.tagName === 'OL') {
+                        // Handle list population
+                        Object.keys(value).forEach(liKey => {
+                            const liElement = el.querySelector(`[data-key="${key}.${liKey}"]`);
+                            if (liElement) {
+                                liElement.innerHTML = value[liKey];
+                            }
+                        });
+                    } else if (el.tagName === 'TABLE') {
+                        // Handle table population
+                        Object.keys(value).forEach(partKey => {
+                            if (partKey.startsWith('h')) { // Header
+                                const thElement = el.querySelector(`[data-key="${key}.${partKey}"]`);
+                                if (thElement) thElement.innerHTML = value[partKey];
+                            } else if (partKey.startsWith('r')) { // Row cells
+                                Object.keys(value[partKey]).forEach(cellKey => {
+                                    const tdElement = el.querySelector(`[data-key="${key}.${partKey}.${cellKey}"]`);
+                                    if (tdElement) tdElement.innerHTML = value[partKey][cellKey];
+                                });
+                            }
+                        });
+                    }
+
+                } catch (e) {
+                   // Key might not exist, leave as "..."
+                   console.warn(`Key not found: ${key}`);
+                }
+            });
+
+            // 2. Set active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // 3. Re-typeset MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+
+            // Check localStorage for saved language from index.html (mutelogic_lang)
+            const savedLang = localStorage.getItem('mutelogic_lang') || 'pt';
+            setLanguage(savedLang);
+
+            // Initial typeset for MathJax
+            if (window.MathJax) {
+                MathJax.startup.promise.then(() => {
+                    MathJax.typesetPromise();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -10,6 +10,55 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+
+    <!-- === NEW STYLES ADDED HERE === -->
+    <style>
+        /* * Added these definitions to ensure the gradient and colors work, 
+         * even if main.css hasn't fully loaded or defined them yet.
+        */
+        :root {
+            --dende-gold: #FFD700; /* Fallback color */
+            --deep-ocean: #00B5E2; /* Fallback color */
+            --lime-green: #bef264; /* Fallback color */
+        }
+
+        /* * This is the gradient effect you liked from the logo and Joojit banner.
+        */
+        .gradient-text {
+            background-image: linear-gradient(to right, var(--dende-gold, #FFD700), var(--lime-green, #bef264), var(--deep-ocean, #00B5E2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* * Styles for your supertitle: larger font, bold, and uppercase styling.
+        */
+        .homepage-supertitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem; /* 40px - Made it bigger */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em; /* Wide letter spacing */
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 0.5rem; /* Added space below it */
+        }
+
+        /* * Styles for your new undertitle: blue color, medium weight, and uppercase.
+        */
+        .homepage-undertitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 500;
+            color: var(--deep-ocean, #00B5E2); /* The "blue" color */
+            text-transform: uppercase;
+            letter-spacing: 0.1em; /* Less spacing than supertitle */
+            text-align: center;
+        }
+    </style>
+    <!-- === END OF NEW STYLES === -->
+
 </head>
 <body class="antialiased">
     <!-- Mobile top bar -->
@@ -28,14 +77,16 @@
                  border-r border-purple-900/50 z-50 flex-col overflow-y-auto no-scrollbar
                  transition-transform -translate-x-full md:translate-x-0">
             <div class="flex-1 min-h-0 overflow-y-auto"> <!-- Top container -->
-                <header class="mb-12">
+                <header class="gradient-text"> 
                     <a href="#" id="home-link" data-content="homepage" class="nav-link">
-                        <h1 class="font-space text-4xl font-bold gradient-text">
-                        <span>Mute</span>
-                        <span>Logic</span>
-                        <span>Lab</span>
+                        <!-- MODIFIED: Removed gradient-text, adjusted structure for two-line title -->
+                        <h1 class="font-space text-4xl font-bold">
+                            <span class="gradient-text">Mute</span>
+                            <span class="gradient-text">Logic</span>
+                            <span class="gradient-text">Lab</span>
                         </h1>
-
+                        <!-- NEW: Added subtitle -->
+                        <p class="font-space text-sm font-semibold mt-2" style="color: var(--dende-gold);" data-key="header.subtitle"></p>
                     </a>
                 </header>
                 <nav class="space-y-2 sidebar-nav">
@@ -79,25 +130,47 @@
                     <section class="mt-16 max-w-4xl mx-auto text-center scroll-reveal">
                         <div class="relative border border-purple-900/50 rounded-lg p-8 bg-black/20 overflow-hidden">
                             <div class="absolute inset-0 blur-3xl bg-dende-gold/10 -z-10"></div>
-                            <p class="font-space text-sm tracking-widest uppercase mb-4" style="color: var(--dende-gold);" data-key="joojit_banner.supertitle"></p>
+                            <p class="font-space text-sm tracking-widest uppercase mb-4" style="color: var(--dende-gold);" data-key="lattice_banner.supertitle"></p>
                             <h2 class="font-space text-4xl sm:text-5xl font-bold gradient-text">
-                                <span data-key="joojit_banner.title"></span>
+                                <span data-key="lattice_banner.title"></span>
                             </h2>
-                            <p class="mt-4 text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto text-balance" data-key="joojit_banner.description"></p>
-                            <a href="https://joojit.com" target="_blank" rel="noopener noreferrer" class="action-btn inline-block font-space font-semibold text-lg px-8 py-3 rounded-lg mt-8 text-black" style="background-color: var(--dende-gold);" data-key="joojit_banner.cta">
+                            <p class="mt-4 text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto text-balance" data-key="lattice_banner.description"></p>
+                            <a href="https://lattice.mutelogic.com" target="_blank" rel="noopener noreferrer" class="action-btn inline-block font-space font-semibold text-lg px-8 py-3 rounded-lg mt-8 text-black" style="background-color: var(--dende-gold);" data-key="lattice_banner.cta">
                             </a>
                         </div>
                     </section>
 
                     <section class="mt-12">
-                        <div class="w-full md:w-1/2 mx-auto text-center relative">
-                            <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
-                            <p class="homepage-supertitle" data-key="homepage.supertitle"></p>
-                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal [text-wrap:balance] max-w-[22ch] mx-auto"
-                                data-key="homepage.title" style="transition-delay: 100ms;"></h2>
-                            <div class="mx-auto my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 200ms;"></div>
-                            <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4 scroll-reveal" data-key="homepage.body" style="transition-delay: 300ms;"></div>
-                            <p class="font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal" style="color: var(--dende-gold); transition-delay: 400ms;" data-key="homepage.tagline"></p>
+                        <div class="w-full max-w-4xl mx-auto relative">
+                            <div class="relative flex flex-col items-center justify-center h-screen">
+
+                                <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
+                                
+                                <!-- === MODIFIED THIS LINE === -->
+                                <!-- Added the 'gradient-text' class to apply the effect -->
+                                <p class="homepage-supertitle gradient-text" data-key="homepage.supertitle"></p>
+                                <!-- === END OF MODIFICATION === -->
+
+                                <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
+                                
+                                <p class="homepage-undertitle" data-key="homepage.undertitle"></p>
+
+                            </div>
+                            
+                            <!-- MODIFIED: Title -->
+                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal [text-wrap:balance]"
+                                data-key="homepage.title" style="transition-delay: 100ms;"></h2> <!-- Geometria Cognitiva -->
+                            
+                            <!-- MODIFIED: Subtitle (was tagline) -->
+                            <p class="font-space text-xl sm:text-2xl mt-4 font-semibold scroll-reveal" style="color: var(--dende-gold); transition-delay: 200ms;" data-key="homepage.subtitle"></p> <!-- Pesquisa aplicada... -->
+                            
+                            <div class="my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 300ms;"></div>
+                            
+                            <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose space-y-4 scroll-reveal" data-key="homepage.body" style="transition-delay: 400ms;"></div>
+                            
+                            <!-- **** MODIFICATION HERE **** -->
+                            <!-- REMOVED style="color: var(--deep-ocean);" and added text-slate-100 -->
+                            <p class="font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal text-slate-100" style="transition-delay: 500ms;" data-key="homepage.tagline"></p> <!-- Onde o pensamento... -->
                         </div>
                     </section>
                 </div>
@@ -122,6 +195,19 @@
                     <div id="models-simulations-container" class="space-y-20 mt-20">
                         <!-- Models (like "The Onion") will be injected here by js/app.js -->
                     </div>
+
+                    <!-- START: MODIFIED SECTION -->
+                    <!-- NEW SECTION FOR LATTICE AI PAPER -->
+                    <section id="lattice-paper-container" class="mt-20 pt-16 border-t border-purple-900/50">
+                        <!-- Iframe container, given a large height to allow scrolling. Removed aspect-video -->
+                        <div class="w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20" style="height: 150vh;">
+                            <!-- Iframe pointing to your lattice.html file -->
+                            <iframe src="lattice.html" class="w-full h-full" frameborder="0" title="Lattice AI Paper"></iframe>
+                        </div>
+                    </section>
+                    <!-- END NEW SECTION -->
+                    <!-- END: MODIFIED SECTION -->
+
                 </div>
             </div>
 
@@ -342,8 +428,18 @@
                         <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <h2 class="font-space text-2xl font-bold mb-1" style="color: var(--dende-gold);" data-key="founder.section1_name"></h2>
                             <p class="font-space text-lg mb-4" style="color: var(--deep-ocean);" data-key="founder.section1_role"></p>
+                            
+                            <!-- MODIFIED: Removed blockquote, motto is now integrated -->
+                            <div class="text-slate-400 space-y-4" data-key="founder.section1_bio">
+                                <!-- Bio content injected here. The motto (data-key="founder.section1_motto") will be integrated via JS -->
+                            </div>
+                            
+                            <!-- REMOVED: Blockquote element
                             <blockquote class="my-4 text-xl text-slate-100 font-semibold italic" data-key="founder.section1_motto"></blockquote>
+                            -->
+                            <!-- REMOVED: Redundant bio div
                             <div class="text-slate-400 space-y-4 border-t border-purple-900/50 pt-4 mt-4" data-key="founder.section1_bio"></div>
+                            -->
                         </section>
                         <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <h2 class="font-space text-2xl font-bold mb-4" style="color: var(--dende-gold);" data-key="founder.section2_title"></h2>
@@ -364,11 +460,18 @@
                         <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4" data-key="salvador.lab_oracle_intro">
                             <!-- Content will be injected by JS -->
                         </div>
+                        
+                        <!-- MODIFIED: Removed blockquote and integrating quote text into prose -->
+                        <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4 mt-6">
+                           <p class="font-semibold italic text-slate-200" data-key="salvador.quote"></p> <!-- Integrated quote text here -->
+                        </div>
                     </section>
                     
+                    <!-- REMOVED: Blockquote element
                     <blockquote class="text-center my-16 py-6 border-y-2 border-purple-900/50">
                         <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="salvador.quote"></p>
                     </blockquote>
+                    -->
             
                     <div class="space-y-8">
                         <div class="threshold-card p-6 sm:p-8 rounded-lg">
@@ -440,5 +543,3 @@
     <script src="js/app.js"></script> 
 </body>
 </html>
-
-
