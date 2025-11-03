@@ -12,7 +12,7 @@ const latticeI18nData = {
         },
         section1: {
             title: "1. Introdução — Da Sequência à Estrutura",
-            p1: "Modelos de linguagem contemporâneos geram sentenças fluentes, mas carecem de memória estrutural. Sua arquitetura entende cognição como previsão linear — cada token um passo adiante em um caminho unidimensional. O pensamento humano, em contraste, é recursivo e analógico: it naviga o significado através do reconhecimento de forma, não da completude sequencial.",
+            p1: "Modelos de linguagem contemporâneos geram sentenças fluentes, mas carecem de memória estrutural. Sua arquitetura entende cognição como previsão linear — cada token um passo adiante em um caminho unidimensional. O pensamento humano, em contraste, é recursivo e analógico: ele naviga o significado através do reconhecimento de forma, não da completude sequencial.",
             p2: "Lattice inverte essa ortodoxia. Em vez de perguntar “o que vem a seguir?”, pergunta “o que isso se assemelha em outras escalas?”. Suas respostas não são saídas estocásticas, mas travesias geométricas através de um campo de correspondências relacionais. O significado emerge não pela expansão do texto, mas pelo alinhamento de padrões — uma arquitetura mais próxima de um ecossistema do que de um algoritmo."
         },
         section2: {
@@ -55,8 +55,8 @@ const latticeI18nData = {
             ul1: {
                 li0: "<strong>Entropia de Motivos:</strong> uniformidade da distribuição de células ativas (diversidade cognitiva).",
                 li1: "<strong>Deriva do Centróide:</strong> variação média por turno (mobilidade atencional).",
-                li2: "<strong>Densidade de Ressonância:</strong> coeficiente de agrupamento local (coerência analógica).",
-                li3: "<strong>Índice de Retroalimentação:</strong> frequência de recorrência temática (consolidação de memória)."
+                li2: "<strong>Densidade de Ressonância:</strong> coeficiente de agrupamento local no espaço de embeddings (coerência analógica).",
+                li3: "<strong>Índice de Retroalimentação:</strong> frequência de recorrência temática ao longo do tempo (consolidação de memória)."
             }
         },
         section7: {
@@ -160,4 +160,3 @@ const latticeI18nData = {
         }
     }
 };
-
