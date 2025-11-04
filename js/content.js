@@ -635,7 +635,8 @@ const i18nData = {
             founder: "Team",
         },
         homepage: {
-          supertitle: "Cognitive Geometry — applied research in cognition, language, and AI",
+          supertitle: "Cognitive Geometry",
+          undertitle: "Applied research in cognition, language, and AI",
           title: "Where thought meets form, and form begins to think.",
           body: `
        <p><strong>Mute Logic Lab</strong> is an independent cognitive research and engineering studio based in Salvador, Bahia.</p>
