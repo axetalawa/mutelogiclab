@@ -97,7 +97,8 @@
                     <div class="sidebar-divider"></div>
                     <a href="#" id="salvador-link" data-content="salvador" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.salvador">Salvador</a>
                     <a href="#" id="founder-link" data-content="founder" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.founder">Equipe</a>
-                    <a href="#" id="network-link" data-content="network" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.network">Rede</a>
+                    <!-- DELETED: Removed the Network link -->
+                    <!-- <a href="#" id="network-link" data-content="network" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.network">Rede</a> -->
                 </nav>
             </div>
             
@@ -446,7 +447,13 @@
                             <div class="text-slate-400 space-y-4" data-key="founder.section2_body"></div>
                         </section>
                     </div>
-                </div>
+
+                    <!-- MOVED: Footer moved from Network page to here -->
+                    <footer class="mt-20 pt-10 border-t border-purple-900/50 text-center text-slate-400 text-sm space-y-2" data-key="founder.footer">
+                        <!-- Content will be injected from content.js -->
+                    </footer>
+                    <!-- END MOVE -->
+                 </div>
             </div>
             
             <!-- SALVADOR -->
@@ -492,26 +499,12 @@
                  </div>
             </div>
 
-            <!-- NETWORK (REDE) -->
+            <!-- DELETED: Network (Rede) page content -->
+            <!-- 
             <div id="network-content" class="content-panel hidden p-8 sm:p-16">
-                 <div class="w-full max-w-5xl mx-auto">
-                    <header class="text-center mb-10">
-                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.network"></h1>
-                    </header>
-                    <div class="space-y-16 text-slate-300 text-lg leading-relaxed">
-                        <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                            <h3 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--clay-tone);" data-key="network.philosophy_title"></h3>
-                            <div class="max-w-4xl mx-auto text-slate-400 text-lg leading-relaxed space-y-4" data-key="network.philosophy_body"></div>
-                        </section>
-                        <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
-                             <h3 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--clay-tone);" data-key="network.collab_title"></h3>
-                             <div class="max-w-4xl mx-auto text-slate-400 text-lg leading-relaxed space-y-4" data-key="network.collab_body"></div>
-                        </section>
-                    </div>
-                    <footer class="mt-20 pt-10 border-t border-purple-900/50 text-center text-slate-400 text-sm space-y-2" data-key="network.footer">
-                    </footer>
-                 </div>
+                 ...
             </div>
+            -->
         </main>
     </div>
 

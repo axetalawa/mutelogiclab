@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
         generateInstruments(lang);
 
         // --- MODIFIED BLOCK ---
-        if (currentPageId === 'network') {
+        if (currentPageId === 'founder') {
             // 1. Update char counter text
             const charCounter = document.getElementById('char-counter');
             const messageTextarea = document.getElementById('message');
@@ -415,7 +415,7 @@ function showContent(contentId) {
     mainContentArea.scrollTop = 0;
 
     // --- NEW: Setup form logic when network page is shown ---
-    if (contentId === 'network') {
+    if (contentId === 'founder') {
         setupContactForm();
     }
     // --- END OF NEW BLOCK ---

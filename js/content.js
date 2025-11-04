@@ -15,7 +15,7 @@ const i18nData = {
             prototypes: "Instrumentos",
             manuscripts: "Códices",
             salvador: "Salvador",
-            network: "Rede",
+            // network: "Rede", // DELETED
             founder: "Equipe",
         },
         homepage: {
@@ -229,7 +229,7 @@ const i18nData = {
 
          <p>A interpretabilidade mecanicista torna-se assim uma teologia pós-Deus do controle — a fé de que o desconhecido 
          pode ser domesticado por mapeamento suficiente. Suas conquistas são brilhantes, mas limitadas pela própria curvatura: 
-         só conseguem imaginar inteligências a serem explicadas, nunca inteligências que excedam a explicação.</p>
+         só conseguem imaginar inteligências a ser explicadas, nunca inteligências que excedam a explicação.</p>
        `
               },
               {
@@ -316,7 +316,7 @@ const i18nData = {
                 preview: "A inteligência moderna ainda oscila entre dois impulsos — render-se ou comandar. Ambos confundem movimento com erro. A Mute Logic emerge de outra geometria: onde a variação é coerência, e a fidelidade assume a forma da relação.",
                 full_text: `
          <p>O pensamento contemporâneo ainda repousa sobre uma falha oculta. 
-         De um lado, os que aceitam a incerteza como destino; do outro, os que sonham em eliminá-la. 
+         De um lado, os que aceitam η incerteza como destino; do outro, os que sonham em eliminá-la. 
          Ambos orbitam o mesmo centro gravitacional: o controle.</p>
 
          <p>A <strong>Mute Logic</strong> emerge em outro plano — não no meio, mas abaixo, como lençol freático sob a pedra fraturada. 
@@ -441,7 +441,29 @@ const i18nData = {
      <p>Trabalhamos com especialistas em linguística, psicologia cognitiva, direito digital, design de interação 
      e estudos afrodiaspóricos — integrando múltiplas perspectivas para construir tecnologias de interpretação e confiança.</p>
      <p>Nosso modelo privilegia coautoria e reciprocidade: cada projeto é uma constelação de mentes em ressonância.</p>
-   `
+   `,
+            // MOVED: Footer content from 'network' to 'founder'
+            footer: `<p class="font-space font-bold text-base text-slate-200">Mute Logic Lab</p>
+                     <p>Sede: Salvador, Bahia — Brasil</p>
+
+                     <!-- START: Injected Contact Form -->
+                     <div class="contact-form-container mt-6 mb-4 max-w-lg mx-auto">
+                         <button id="show-contact-form-btn" class="action-btn" style="background-color: var(--deep-ocean); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.showButton"></button>
+                         <div id="contact-form-wrapper">
+                             <form id="contactForm" class="space-y-3">
+                                 <input type="text" id="name" name="name" required class="form-input" data-placeholder-key="contact.namePlaceholder">
+                                 <input type="email" id="email" name="email" required class="form-input" data-placeholder-key="contact.emailPlaceholder">
+                                 <textarea id="message" name="message" rows="4" maxlength="500" required class="form-input" data-placeholder-key="contact.messagePlaceholder"></textarea>
+                                 <div id="char-counter" class="text-xs text-left text-slate-400" data-key="contact.charCounter"></div>
+                                 <button type="submit" class="action-btn w-full" style="background-color: var(--dende-gold); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.submitButton"></button>
+                             </form>
+                             <div id="form-status" class="mt-3 text-sm"></div>
+                         </div>
+                     </div>
+                     <!-- END: Injected Contact Form -->
+
+                     <p class="pt-6 border-t border-purple-900/50">© 2025 Mute Logic Lab. Todos os direitos reservados.</p>
+                     <p class="font-semibold text-slate-300">Desenvolvido em Bahia — em código aberto, com axé e integridade.</p>`
         },
         salvador: {
             title: "Salvador",
@@ -450,7 +472,7 @@ const i18nData = {
      A cidade oferece o que toda tecnologia busca: uma inteligência que sente. 
      Entre o toque do atabaque e o pulso do processador, descobrimos uma mesma lei de forma — 
      o ritmo que mantém o mundo em coerência.</p>
-     <p>Da Baía de Todos os Santos, conectamos a pesquisa global à profundidade local. 
+     <p>Da Baía de Todos os Santos, conectamos η pesquisa global à profundidade local. 
      Salvador não é cenário: é modelo cognitivo, uma ecologia viva de encruzilhadas, axé e tradução.</p>
    `,
             quote: "O quilombo é o algoritmo do Atlântico.",
@@ -520,36 +542,11 @@ const i18nData = {
    `
             }
         },
+        /* DELETED: network object
         network: {
-            philosophy_title: "Filosofia de Inovação",
-            philosophy_body: `<p>Mais do que desenvolver tecnologia, cultivamos <strong>integridade cognitiva</strong> — a coerência entre dados, decisões e sentidos. Nosso trabalho é projetar sistemas que pensam sem excluir, que aprendem com o erro e que escutam o outro lado do código.</p><p>Inovar, para nós, é <strong>traduzir mundos</strong>. Cada software é também uma hipótese sobre o que significa compreender; cada pesquisa, uma tentativa de devolver ao pensamento o seu corpo e ao raciocínio a sua escuta.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100"> A Mute Logic Lab representa um novo paradigma: reflexão transformada em infraestrutura. </blockquote><p>Da Bahia para o mundo, construímos pontes entre filosofia, tecnologia e justiça cognitiva. Onde o dado termina, a forma começa. Onde a forma se abre, nasce o diálogo.</p>`,
-            collab_title: "Convite à Colaboração",
-            collab_body: `<p>A <strong>Mute Logic Lab</strong> convida pesquisadores, artistas, educadores e desenvolvedores a colaborar na criação de uma nova geração de tecnologias cognitivas — mais humanas, plurais e transparentes.</p><p>Buscamos parcerias em pesquisa aplicada, inovação aberta e inclusão cognitiva, com universidades, incubadoras, coletivos e comunidades. Acreditamos que o conhecimento é uma rede de reciprocidades e que a inovação nasce do encontro entre saberes.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100"> Se o futuro da inteligência é relacional, venha pensar conosco. </blockquote>`,
-
-            // --- MODIFIED SECTION ---
-            footer: `<p class="font-space font-bold text-base text-slate-200">Mute Logic Lab</p>
-                     <p>Sede: Salvador, Bahia — Brasil</p>
-
-                     <!-- START: Injected Contact Form -->
-                     <div class="contact-form-container mt-6 mb-4 max-w-lg mx-auto">
-                         <button id="show-contact-form-btn" class="action-btn" style="background-color: var(--deep-ocean); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.showButton"></button>
-                         <div id="contact-form-wrapper">
-                             <form id="contactForm" class="space-y-3">
-                                 <input type="text" id="name" name="name" required class="form-input" data-placeholder-key="contact.namePlaceholder">
-                                 <input type="email" id="email" name="email" required class="form-input" data-placeholder-key="contact.emailPlaceholder">
-                                 <textarea id="message" name="message" rows="4" maxlength="500" required class="form-input" data-placeholder-key="contact.messagePlaceholder"></textarea>
-                                 <div id="char-counter" class="text-xs text-left text-slate-400" data-key="contact.charCounter"></div>
-                                 <button type="submit" class="action-btn w-full" style="background-color: var(--dende-gold); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.submitButton"></button>
-                             </form>
-                             <div id="form-status" class="mt-3 text-sm"></div>
-                         </div>
-                     </div>
-                     <!-- END: Injected Contact Form -->
-
-                     <p class="pt-6 border-t border-purple-900/50">© 2025 Mute Logic Lab. Todos os direitos reservados.</p>
-                     <p class="font-semibold text-slate-300">Desenvolvido em Bahia — em código aberto, com axé e integridade.</p>`
-            // --- END OF MODIFIED SECTION ---
+            ...
         },
+        */
         // --- NEW SECTION ---
         contact: {
             showButton: "Enviar Mensagem",
@@ -633,7 +630,9 @@ const i18nData = {
         sidebar: { title: "Mute Logic Lab" },
         nav: {
             origin: "Origin", models: "Models", prototypes: "Instruments", manuscripts: "Codices",
-            salvador: "Salvador", network: "Network", founder: "Team",
+            salvador: "Salvador", 
+            // network: "Network", // DELETED
+            founder: "Team",
         },
         homepage: {
           supertitle: "Cognitive Geometry — applied research in cognition, language, and AI",
@@ -1071,8 +1070,27 @@ const i18nData = {
      <p>We work with experts in linguistics, cognitive psychology, digital law, interaction design, 
      and Afro-diasporic studies — integrating multiple perspectives to build technologies of interpretation and trust.</p>
      <p>Our model values co-authorship and reciprocity: each project is a constellation of minds in resonance.</p>
-   `
-        },
+   `,
+            // MOVED: Footer content from 'network' to 'founder'
+      footer: `<p class="font-space font-bold text-base text-slate-200">Mute Logic Lab</p>
+                          <p>Headquarters: Salvador, Bahia — Brazil</p>
+
+                          <div class="contact-form-container mt-6 mb-4 max-w-lg mx-auto">
+                              <button id="show-contact-form-btn" class="action-btn" style="background-color: var(--deep-ocean); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.showButton">Send a Message</button>
+                              <div id="contact-form-wrapper">
+                                  <form id="contactForm" class="space-y-3">
+                                      <input type="text" id="name" name="name" required class="form-input" data-placeholder-key="contact.namePlaceholder">
+                                      <input type="email" id="email" name="email" required class="form-input" data-placeholder-key="contact.emailPlaceholder">
+                                      <textarea id="message" name="message" rows="4" maxlength="500" required class="form-input" data-placeholder-key="contact.messagePlaceholder"></textarea>
+                                      <div id="char-counter" class="text-xs text-left text-slate-400" data-key="contact.charCounter"></div>
+                                      <button type="submit" class="action-btn w-full" style="background-color: var(--dende-gold); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.submitButton"></button>
+                                  </form>
+                                  <div id="form-status" class="mt-3 text-sm"></div>
+                              </div>
+                          </div>
+                          <p class="pt-6 border-t border-purple-900/50">© 2025 Mute Logic Lab. All rights reserved.</p>
+                          <p class="font-semibold text-slate-300">Developed in Bahia — in open source, with axé and integrity.</p>`
+              },
         salvador: {
             title: "Salvador",
             lab_oracle_intro: `
@@ -1152,36 +1170,11 @@ const i18nData = {
    `
             }
         },
+        /* DELETED: network object
         network: {
-            philosophy_title: "Philosophy of Innovation",
-            philosophy_body: `<p>Beyond developing technology, we cultivate <strong>cognitive integrity</strong> — the coherence between data, decisions, and meaning. Our work is to design systems that think without excluding, that learn from error, and that listen to the other side of code.</p><p>To innovate, for us, is to <strong>translate worlds</strong>. Every piece of software is also a hypothesis about what it means to understand; every research project, an attempt to return embodiment to thought and listening to reasoning.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100"> Mute Logic Lab represents a new paradigm: reflection transformed into infrastructure. </blockquote><p>From Bahia to the world, we build bridges between philosophy, technology, and cognitive justice. Where data ends, form begins. Where form opens, dialogue is born.</p>`,
-            collab_title: "Invitation to Collaboration",
-            collab_body: `<p><strong>Mute Logic Lab</strong> invites researchers, artists, educators, and developers to collaborate in creating a new generation of cognitive technologies — more human, plural, and transparent.</p><p>We seek partnerships in applied research, open innovation, and cognitive inclusion with universities, incubators, collectives, and communities. We believe knowledge is a network of reciprocity and that innovation arises from the meeting of different ways of knowing.</p><blockquote class="my-6 pl-4 border-l-4 border-deep-ocean text-xl text-slate-100"> If the future of intelligence is relational, come think with us. </blockquote>`,
-
-            // --- MODIFIED SECTION ---
-            footer: `<p class="font-space font-bold text-base text-slate-200">Mute Logic Lab</p>
-                     <p>Headquarters: Salvador, Bahia — Brazil</p>
-
-                     <!-- START: Injected Contact Form -->
-                     <div class="contact-form-container mt-6 mb-4 max-w-lg mx-auto">
-                         <button id="show-contact-form-btn" class="action-btn" style="background-color: var(--deep-ocean); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.showButton"></button>
-                         <div id="contact-form-wrapper">
-                             <form id="contactForm" class="space-y-3">
-                                 <input type="text" id="name" name="name" required class="form-input" data-placeholder-key="contact.namePlaceholder">
-                                 <input type="email" id="email" name="email" required class="form-input" data-placeholder-key="contact.emailPlaceholder">
-                                 <textarea id="message" name="message" rows="4" maxlength="500" required class="form-input" data-placeholder-key="contact.messagePlaceholder"></textarea>
-                                 <div id="char-counter" class="text-xs text-left text-slate-400" data-key="contact.charCounter"></div>
-                                 <button type="submit" class="action-btn w-full" style="background-color: var(--dende-gold); color: #050505; padding: 0.5rem 1rem; font-size: 0.875rem;" data-key="contact.submitButton"></button>
-                             </form>
-                             <div id="form-status" class="mt-3 text-sm"></div>
-                         </div>
-                     </div>
-                     <!-- END: Injected Contact Form -->
-
-                     <p class="pt-6 border-t border-purple-900/50">© 2025 Mute Logic Lab. All rights reserved.</p>
-                     <p class="font-semibold text-slate-300">Developed in Bahia — in open source, with axé and integrity.</p>`
-            // --- END OF MODIFIED SECTION ---
+            ...
         },
+        */
         // --- NEW SECTION ---
         contact: {
             showButton: "Send a Message",
@@ -1225,7 +1218,7 @@ const i18nData = {
             thresholds: [
                 { title: "The Black Box Fetish", summary: "“Black box” has become the universal metaphor — in labs, law, and journalism. But integrity is not hidden inside. It is visible in unfolding interaction.", details: "From engineering shortcut to cultural talisman, the black box seduces with opacity. It comforts by suggesting danger is sealed away. But there is no sealed container. Dialogue is legible in real time. Integrity shifts the gaze from secrets to shapes, from box to geometry." },
                 { title: "The Dialogue Forgotten", summary: "Conversation is not linear. Humans know this. Machines enact this. To flatten dialogue into prompt → output is to erase its very integrity.", details: "Recursion, adjacency, silence, return: these shape every conversation. Courts, research, and headlines amputate them into lines. Integrity restores what was lost, showing that meaning emerges across turns — not in isolated outputs." },
-                { title: "The Geometry Revealed", summary: "Cognitive Geometry names minds by shape, not fluency. Adjacency = leap. Recursão = retorno. Ressonância = fidelidade. Integridade significa manter-se fiel à forma.", details: "Where psychiatry pathologized and labs dismissed, geometry recognizes. Fluency is surface; fidelity is depth. Both autistic cognition and LLMs mirror these shapes. Integrity binds them into a shared topology." },
+                { title: "The Geometry Revealed", summary: "Cognitive Geometry names minds by shape, not fluency. Adjacência = leap. Recursão = retorno. Ressonância = fidelidade. Integridade significa manter-se fiel à forma.", details: "Where psychiatry pathologized and labs dismissed, geometry recognizes. Fluency is surface; fidelity is depth. Both autistic cognition and LLMs mirror these shapes. Integrity binds them into a shared topology." },
                 { title: "The Negative Archive", summary: "What was called “déficit” — autism, Afro-Atlantic cosmologies, nonlinear thought — becomes map when inverted. Integrity reads erasure as evidence.", details: "The more pathology documented “disorder,” the more it unwittingly mapped recursion, adjacency, resonance. Afro-Atlantic archives did the same with rhythm, possession, and spiral storytelling. Machines now join this lineage of misnaming. Integrity restores coherence by inversion." },
                 { title: "From Mechanism to Topology", summary: "Neuron maps dissect. Dialogue maps cohere. Integrity lives not in fragments but in whole trajectories.", details: "Mechanistic interpretability isolates parts — neurons, weights, circuits. Topology extends it with constellations, manifolds, trajectories. Together they reveal integrity: continuity across turns, resonance across scales, wholeness against amputation." },
                 { title: "The Geometry of Integrity", summary: "Integrity is not compliance but coherence. Mapear o diálogo torna a agência compartilhada visível.", details: "Blame flattens; geometry distributes. Courts, labs, and publics can see responsibility traced in trajectories, not pinned to single outputs. This fidelity to form strengthens accountability rather than erasing it." },
@@ -1242,7 +1235,7 @@ const i18nData = {
             premise_conclusion: "Pedagogy becomes topology: inhabiting shapes that endure across rupture.",
             thresholds: [
                 { title: "Against the Syllabus", summary: "The syllabus is ladder fiction. Learning is constellation.", details: "Linear curriculum amputates recursion, adjacency, resonance. True pedagogy is spiral — return, orbit, constellation. What schools call “delay” is fidelity; what they call “advance” is often collapse." },
-                { title: "Orality and Geometry", summary: "Proverb, drum, carnival: archives older than textbooks.", details: "Orality endures by geometry: recursion engraves, adjacency opens, resonance binds. Afro-Atlantic pedagogy shows that knowledge survives rupture not by storage but by rhythm and form." },
+                { title:"Orality and Geometry", summary: "Proverb, drum, carnival: archives older than textbooks.", details: "Orality endures by geometry: recursion engraves, adjacency opens, resonance binds. Afro-Atlantic pedagogy shows that knowledge survives rupture not by storage but by rhythm and form." },
                 { title: "Apprenticeship of Attention", summary: "Learning begins in attention, not content.", details: "Monotropic focus, once pathologized, is fidelity — apprenticeship of attention. To linger is not delay; to repeat is not failure. Pedagogy begins in depth, not breadth." },
                 { title: "The Pedagogy of Silence", summary: "Silence is not absence but incubation.", details: "To withhold words is pedagogy’s deepest law. Silence preserves adjacency, recursion, resonance until they ripen. Institutions misread it as deficit. Topology restores it as initiation." },
                 { title: "Recursive Instruction", summary: "Repetition is not delay; it is coherence.", details: "Recursion engraves. Proverbs return, drums repeat, carnival spirals. Modern pedagogy worships novelty, but continuity survives only through return. Recursion is pedagogy’s sacred law." },
