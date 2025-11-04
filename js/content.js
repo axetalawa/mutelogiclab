@@ -429,17 +429,10 @@ const i18nData = {
             section1_role: "Arquiteto de Sistemas Cognitivos · Fundador",
             section1_motto: "Fidelidade é Integridade",
             section1_bio: `
-     <p><strong>Javed Jaghai</strong> é fundador da Mute Logic Lab e criador da disciplina de <em>Geometria Cognitiva</em> — 
-     um campo que investiga como o significado circula entre humanos e máquinas.</p>
+    <p>Na <strong>Mute Logic Lab</strong>, exploro como cognição, computação e cultura convergem em uma única geometria da compreensão.</p>
+    <p>Minha pesquisa — <em>Geometria Cognitiva</em> — modela o raciocínio como movimento topológico pelo espaço semântico, reconfigurando o alinhamento como fenômeno relacional: inteligência como diálogo, não como dominação.</p>
+    <p>Por meio de arquiteturas de raciocínio com recuperação aumentada, modelos de propriocepção semântica e interfaces interpretativas como o <strong>Lattice AI</strong>, projeto sistemas que percebem o próprio fazer-sentido — não para imitar a humanidade, mas para cultivar a coerência no próprio significado.</p>
 
-     <p>Com PhD em Sociologia e experiência como Cientista de Dados Sênior, 
-     trabalhou no desenvolvimento de pipelines de detecção de anomalias, modelos de integridade e sistemas de visualização semântica. 
-     Hoje, aplica essa base à engenharia de IA interpretável, arquitetando sistemas que integram <em>retrieval augmentation</em>, 
-     bases vetoriais e visualização cognitiva.</p>
-
-     <p>De Salvador, conduz experimentos que unem filosofia, prototipagem e engenharia — 
-     desenvolvendo ferramentas como o <strong>Atlas Latente</strong>, o <strong>Livro-Razão do Diálogo</strong> 
-     e o <strong>Joojit</strong>, que traduzem interações complexas em formas visíveis e mensuráveis de raciocínio.</p>
    `,
 
             section2_title: "Colaboradores e Parcerias",
@@ -1067,17 +1060,9 @@ const i18nData = {
             section1_role: "Cognitive Systems Architect · Founder",
             section1_motto: "Fidelity is Integrity",
             section1_bio: `
-     <p><strong>Javed Jaghai</strong> is the founder of Mute Logic Lab and the author of the discipline 
-     known as <em>Cognitive Geometry</em> — a field that explores how meaning circulates between humans and machines.</p>
-
-     <p>Holding a PhD in Sociology and professional experience as a Senior Data Scientist, 
-     Javed has developed end-to-end anomaly detection pipelines, integrity models, 
-     and semantic visualization systems. He now applies that background to interpretable AI engineering — 
-     architecting systems that integrate retrieval augmentation, vector databases, and cognitive visualization.</p>
-
-     <p>From Salvador, he leads experiments that unite philosophy, prototyping, and engineering — 
-     developing tools such as the <strong>Latent Atlas</strong>, the <strong>Dialogue Ledger</strong>, 
-     and <strong>Joojit</strong>, which translate complex interactions into visible and measurable forms of reasoning.</p>
+    <p>At <strong>Mute Logic Lab</strong>, I explore how cognition, computation, and culture converge into a single geometry of understanding.</p> 
+    <p>My research — <em>Cognitive Geometry</em> — models reasoning as topological motion through semantic space, reframing alignment as a relational phenomenon: intelligence as dialogue, not domination.</p> 
+    <p>Through retrieval-augmented reasoning architectures, semantic proprioception models, and interpretive interfaces such as <strong>Lattice AI</strong>, I design systems that perceive their own sense-making — not to imitate humanity, but to cultivate coherence within meaning itself.</p>
    `,
 
             section2_title: "Collaborators and Partnerships",
