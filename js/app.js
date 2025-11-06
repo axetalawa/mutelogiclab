@@ -18,15 +18,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const pdfNextBtn = document.getElementById('pdf-next-btn');
     const pdfPageNum = document.getElementById('pdf-page-num');
     const pdfDownloadLink = document.getElementById('pdf-download-link');
+    // NEW: Paper viewer elements
+    const paperViewerContainer = document.getElementById('paper-viewer-container');
+    const paperIframe = document.getElementById('paper-iframe');
 
     let currentLang = 'pt';
     let currentPageId = 'homepage'; // Keep track of the currently visible page
     let pdfDoc = null, pageNum = 1, pageRendering = false, pageNumPending = null;
     const pdfScale = 1.5, pdfCtx = pdfCanvas.getContext('2d');
 
+    // --- NEW FUNCTION: Markdown Processing ---
+    /**
+     * Replaces simple Markdown bolding (**text**) with HTML strong tags (<strong>text</strong>).
+     * @param {string} text 
+     * @returns {string}
+     */
+    function processContent(text) {
+        if (typeof text !== 'string') return text;
+        // Regex: finds two asterisks, captures the content, and then finds two closing asterisks
+        return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    }
+    // --- END NEW FUNCTION ---
+
     // --- NEW FUNCTION: Contact Form Logic ---
-// --- NEW FUNCTION: Contact Form Logic ---
     function setupContactForm() {
+        // ... (function body remains the same)
+
         const showBtn = document.getElementById('show-contact-form-btn');
         const formWrapper = document.getElementById('contact-form-wrapper');
         const form = document.getElementById('contactForm');
@@ -44,9 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // --- START OF FIX ---
         // Manually set text/content for dynamically injected elements
-        // This is necessary because the footer's innerHTML is set by the parent
-        // [data-key="network.footer"], and the [data-key] attributes
-        // on the buttons themselves are missed by the initial querySelectorAll.
         const content = i18nData[currentLang].contact;
         if (content) {
             showBtn.textContent = content.showButton;
@@ -128,33 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // --- END OF NEW FUNCTION ---
 
-    function generateThresholds(codexId, lang) {
-        const container = document.getElementById(`${codexId}-thresholds-container`);
-        if (!container) return;
-
-        const codexDataKey = codexId.replace(/-/g, '_');
-        const codexData = i18nData[lang][codexDataKey];
-        if (!codexData || !codexData.thresholds) {
-             container.innerHTML = ''; // Clear if no data
-             return;
-        }
-
-        container.innerHTML = codexData.thresholds.map((threshold, index) => `
-            <div class="threshold-card p-6 rounded-r-lg">
-                <div class="flex justify-between items-start cursor-pointer" onclick="this.parentElement.classList.toggle('expanded')">
-                    <div>
-                        <p class="text-sm font-semibold" style="color: var(--light-accent);">THRESHOLD ${index + 1}</p>
-                        <h3 class="font-space text-2xl font-bold mt-1 mb-2" style="color: var(--deep-ocean);">${threshold.title}</h3>
-                        <div class="text-slate-400 space-y-3"><p>${threshold.summary}</p></div>
-                    </div>
-                    <div class="toggle-icon text-2xl" style="color: var(--deep-ocean);">+</div>
-                </div>
-                <div class="expandable-content">
-                    <p class="border-t border-purple-900/50 pt-4 mt-4 text-slate-300">${threshold.details}</p>
-                </div>
-            </div>
-        `).join('');
-    }
+    // DELETED: generateThresholds function
 
     function generatePrinciples(lang) {
         const container = document.getElementById('models-principles-container');
@@ -191,12 +179,13 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = models.map((model, index) => `
             <div class="simulation-viewport scroll-reveal">
                 <h2 class="font-space text-3xl font-bold mb-4" style="color: var(--deep-ocean);">${model.title}</h2>
-                <div class="space-y-6 text-slate-400 max-w-4xl text-lg">${model.text}</div>
-                <!-- Optional: Add iframe back if needed for each model -->
                 
-                <div class="aspect-video w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20 mt-8">
+                <div class="aspect-video w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20">
                     <iframe src="onion.html" class="w-full h-full" frameborder="0" title="${model.title} Simulation"></iframe>
                 </div>
+
+                <!-- MOVED: Text description moved below the iframe and given top margin -->
+                <div class="space-y-6 text-slate-400 max-w-4xl text-lg mt-8">${processContent(model.text)}</div>
                 
             </div>
         `).join('');
@@ -210,38 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // --- END UPDATED FUNCTION ---
 
-
-    function generateExpandableSections(lang, dataKey, containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-
-        let sections = i18nData[lang].origin;
-        dataKey.split('.').forEach(key => {
-            sections = sections ? sections[key] : undefined;
-        });
-
-        if(!sections) {
-            container.innerHTML = '';
-            return;
-        }
-
-        container.innerHTML = sections.map((section) => `
-            <div class="threshold-card p-6 sm:p-8 rounded-lg">
-                <div class="flex justify-between items-start cursor-pointer" onclick="this.parentElement.classList.toggle('expanded')">
-                    <div>
-                        <h3 class="font-space text-2xl sm:text-3xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);">${section.title}</h3>
-                        <div class="text-slate-400 text-lg">${section.preview}</div>
-                    </div>
-                    <div class="toggle-icon text-2xl ml-4 flex-shrink-0" style="color: var(--deep-ocean);">+</div>
-                </div>
-                <div class="expandable-content">
-                    <div class="space-y-6 text-slate-300 text-lg leading-relaxed border-t border-purple-900/50">
-                        ${section.full_text}
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
+    // DELETED: generateExpandableSections function
 
     function generateInstruments(lang) {
         const instrumentsData = i18nData[lang]?.instruments;
@@ -289,10 +247,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 </header>
                 <div class="expandable-content border-t border-purple-900/50 text-slate-300">
                     <div class="space-y-5 text-lg leading-relaxed">
-                        <div><strong class="font-semibold text-slate-100">${purposeLabel}:</strong> ${details.purpose}</div>
-                        <div><strong class="font-semibold text-slate-100">${whatLabel}:</strong> ${details.what}</div>
-                        <div><strong class="font-semibold text-slate-100">${whyLabel}:</strong> ${details.why}</div>
-                        <div><strong class="font-semibold text-slate-100">${useLabel}:</strong> ${details.use}</div>
+                        <div><strong class="font-semibold text-slate-100">${purposeLabel}:</strong> ${processContent(details.purpose)}</div>
+                        <div><strong class="font-semibold text-slate-100">${whatLabel}:</strong> ${processContent(details.what)}</div>
+                        <div><strong class="font-semibold text-slate-100">${whyLabel}:</strong> ${processContent(details.why)}</div>
+                        <div><strong class="font-semibold text-slate-100">${useLabel}:</strong> ${processContent(details.use)}</div>
                         ${demoButton}
                     </div>
                 </div>
@@ -326,10 +284,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     value = value[part];
                 }
                 if (typeof value === 'string') {
-                     el.innerHTML = value;
+                     // NEW: Use processContent to handle Markdown bolding
+                     el.innerHTML = processContent(value);
+                } else if (key === 'models.papers.0.title' && value && value.title) { // Handle array access
+                    // This is a bit manual, but necessary for the new structure
+                    document.querySelector('[data-key="models.papers.0.title"]').innerHTML = processContent(value[0].title);
+                    document.querySelector('[data-key="models.papers.0.subtitle"]').innerHTML = processContent(value[0].subtitle);
+                    document.querySelector('[data-key="models.papers.0.desc"]').innerHTML = processContent(value[0].desc);
+                    document.querySelector('[data-key="models.papers.1.title"]').innerHTML = processContent(value[1].title);
+                    document.querySelector('[data-key="models.papers.1.subtitle"]').innerHTML = processContent(value[1].subtitle);
+                    document.querySelector('[data-key="models.papers.1.desc"]').innerHTML = processContent(value[1].desc);
                 }
             } catch (e) {
-               // Key might not exist
+               // Key might not exist, or data structure mismatch
             }
         });
 
@@ -351,11 +318,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         // --- END OF NEW BLOCK ---
 
-        generateThresholds('ecology-of-minds', lang);
-        generateThresholds('integrity-geometry', lang);
-        generateThresholds('topology-of-learning', lang);
-        generateExpandableSections(lang, 'mechanism_manifest.sections', 'mechanism-sections-container');
-        generateExpandableSections(lang, 'topology_fragility.sections', 'dualism-sections-container');
+        // DELETED: generateThresholds calls
+        // DELETED: generateExpandableSections calls
 
         generatePrinciples(lang);
         generateModels(lang);
@@ -390,6 +354,10 @@ function showContent(contentId) {
         if (onionIframe && onionIframe.contentWindow) {
             onionIframe.contentWindow.postMessage('stopSound', '*');
         }
+        // NEW: Hide paper viewer when leaving models page
+        if (paperViewerContainer) paperViewerContainer.classList.add('hidden');
+        if (paperIframe) paperIframe.src = '';
+        document.querySelectorAll('.paper-select-btn').forEach(btn => btn.classList.remove('active'));
     }
 
     currentPageId = contentId;
@@ -405,11 +373,9 @@ function showContent(contentId) {
     }
 
     let activeLink = document.querySelector(`.nav-link[data-content="${contentId}"]`);
-    if (!activeLink) {
-        if (contentId.includes('ecology') || contentId.includes('integrity') || contentId.includes('topology')) {
-            activeLink = document.querySelector(`.nav-link[data-content="manuscripts"]`);
-        }
-    }
+    
+    // DELETED: Check for old manuscript pages
+
     if (activeLink) activeLink.classList.add('active');
 
     mainContentArea.scrollTop = 0;
@@ -490,18 +456,14 @@ function showContent(contentId) {
 
     document.body.addEventListener('click', (e) => {
             const navLink = e.target.closest('.nav-link');
-            const manuscriptTile = e.target.closest('.manuscript-tile');
-            // const toggleParent = e.target.closest('.instrument-card, .threshold-card'); // <-- DELETE THIS
+            // DELETED: manuscriptTile
             const codexPdfBtn = e.target.closest('.read-codex-pdf-btn');
+            const paperBtn = e.target.closest('.paper-select-btn'); // NEW: Paper button
 
             if (navLink) {
                 e.preventDefault();
                 showContent(navLink.dataset.content);
-            } else if (manuscriptTile) {
-                showContent(manuscriptTile.dataset.content);
-
-            // --- THE CONFLICTING BLOCK IS NOW GONE ---
-
+            // DELETED: else if (manuscriptTile)
             } else if (codexPdfBtn) {
                 e.preventDefault();
                 const pdfBase = codexPdfBtn.dataset.pdfBase;
@@ -511,6 +473,21 @@ function showContent(contentId) {
                 } else if (codexPdfBtn.dataset.pdf) {
                     openPdfModal(codexPdfBtn.dataset.pdf);
                 }
+            } else if (paperBtn) { // NEW: Handle paper button click
+                e.preventDefault();
+                const src = paperBtn.dataset.src;
+
+                // De-activate all paper buttons
+                document.querySelectorAll('.paper-select-btn').forEach(btn => btn.classList.remove('active'));
+                // Activate the clicked button
+                paperBtn.classList.add('active');
+
+                // Load iframe and show container
+                paperIframe.src = src;
+                paperViewerContainer.classList.remove('hidden');
+                
+                // Scroll to the viewer
+                paperViewerContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
 
@@ -586,4 +563,3 @@ function showContent(contentId) {
     });
     }
 });
-

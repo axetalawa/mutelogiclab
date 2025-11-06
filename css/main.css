@@ -2,12 +2,13 @@
 /* --- GLOBAL STYLES & VARIABLES (BAHIA PALETTE) --- */
 /* ------------------------- */
 :root {
-    --dende-gold: #FFB81C;
-    --deep-ocean: #00B5E2;
-    --clay-tone: #C46F43;
-    --dark-accent: #2C2A4A;
-    --off-white: #E2E8F0;
-    --light-accent: #A6FF00;
+    /* Standardized Palette (Single source of truth) */
+    --dende-gold: #FFB81C; /* Origin & Narrative Accent */
+    --deep-ocean: #00B5E2; /* Technical & Primary Accent */
+    --clay-tone: #C46F43; /* Foundational Accent */
+    --dark-accent: #2C2A4A; /* Border & Depth */
+    --off-white: #E2E8F0; /* Main Text Color */
+    --lime-accent: #A6FF00; /* Gradient Secondary Accent */
 }
 
 body {
@@ -32,7 +33,8 @@ line-height: 1.05;
 
 .gradient-text span {
 display: block; /* forces each span onto its own line */
-background: linear-gradient(90deg, var(--dende-gold), var(--deep-ocean), var(--dende-gold));
+/* MODIFIED: Using the standardized lime-accent variable */
+background: linear-gradient(90deg, var(--dende-gold), var(--lime-accent), var(--deep-ocean), var(--dende-gold));
 background-size: 200% auto;
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
@@ -67,13 +69,14 @@ animation: gradient-flow 5s ease-in-out infinite;
 }
 
 /* Staggered animation delays */
-#origin-link { animation-delay: 0.1s; }
-#models-link { animation-delay: 0.2s; }
+/* MODIFIED: Adjusted for new nav order */
+#models-link { animation-delay: 0.1s; }
+#geometry-link { animation-delay: 0.2s; } 
 #prototypes-link { animation-delay: 0.3s; }
-#manuscripts-link { animation-delay: 0.4s; }
-#salvador-link { animation-delay: 0.6s; }
-#founder-link { animation-delay: 0.7s; }
-#network-link { animation-delay: 0.8s; }
+/* DELETED: manuscripts-link */
+#salvador-link { animation-delay: 0.5s; }
+#founder-link { animation-delay: 0.6s; }
+/* DELETED: network-link */
 
 
 .sidebar-nav a::before {
@@ -90,30 +93,26 @@ animation: gradient-flow 5s ease-in-out infinite;
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Top Group Links Style */
-.sidebar-nav a#origin-link.active, .sidebar-nav a#origin-link:hover,
+/* Top Group Links Style (Technical: Deep Ocean) */
+.sidebar-nav a#geometry-link.active, .sidebar-nav a#geometry-link:hover,
 .sidebar-nav a#models-link.active, .sidebar-nav a#models-link:hover,
-.sidebar-nav a#prototypes-link.active, .sidebar-nav a#prototypes-link:hover,
-.sidebar-nav a#manuscripts-link.active, .sidebar-nav a#manuscripts-link:hover {
+.sidebar-nav a#prototypes-link.active, .sidebar-nav a#prototypes-link:hover {
     color: var(--deep-ocean);
 }
-.sidebar-nav a#origin-link.active::before, .sidebar-nav a#origin-link:hover::before,
+.sidebar-nav a#geometry-link.active::before, .sidebar-nav a#geometry-link:hover::before,
 .sidebar-nav a#models-link.active::before, .sidebar-nav a#models-link:hover::before,
-.sidebar-nav a#prototypes-link.active::before, .sidebar-nav a#prototypes-link:hover::before,
-.sidebar-nav a#manuscripts-link.active::before, .sidebar-nav a#manuscripts-link:hover::before {
+.sidebar-nav a#prototypes-link.active::before, .sidebar-nav a#prototypes-link:hover::before {
      transform: translateY(-50%) scaleY(1);
      background-color: var(--deep-ocean);
 }
 
-/* Bottom Group Links Style */
+/* Bottom Group Links Style (Origin/Narrative: Dendê Gold) */
 .sidebar-nav a#salvador-link:hover, .sidebar-nav a#salvador-link.active,
-.sidebar-nav a#founder-link:hover, .sidebar-nav a#founder-link.active,
-.sidebar-nav a#network-link:hover, .sidebar-nav a#network-link.active {
+.sidebar-nav a#founder-link:hover, .sidebar-nav a#founder-link.active {
     color: var(--dende-gold);
 }
 .sidebar-nav a#salvador-link:hover::before, .sidebar-nav a#salvador-link.active::before,
-.sidebar-nav a#founder-link:hover::before, .sidebar-nav a#founder-link.active::before,
-.sidebar-nav a#network-link:hover::before, .sidebar-nav a#network-link.active::before {
+.sidebar-nav a#founder-link:hover::before, .sidebar-nav a#founder-link.active::before {
      transform: translateY(-50%) scaleY(1);
      background-color: var(--dende-gold);
 }
@@ -133,21 +132,50 @@ animation: gradient-flow 5s ease-in-out infinite;
     background-color: rgba(255,255,255,0.2);
     margin: 0.75rem 0;
     opacity: 0;
-    animation: fadeInUp 0.5s ease-out 0.5s forwards;
+    animation: fadeInUp 0.5s ease-out 0.4s forwards; /* Adjusted delay */
 }
 
 /* ------------------------- */
 /* --- INTERACTIVE & ANIMATION --- */
 /* ------------------------- */
-.threshold-card, .instrument-card {
+.threshold-card, .instrument-card, .origin-card { /* ADDED: .origin-card */
+    /* Base styles for all card types */
     border-left: 2px solid var(--dark-accent);
     transition: background-color 0.3s ease, border-color 0.3s ease;
     background-color: rgba(255, 255, 255, 0.03);
 }
-.threshold-card:hover, .instrument-card:hover {
+.threshold-card:hover, .instrument-card:hover, .origin-card:hover { /* ADDED: .origin-card */
     background-color: rgba(44, 42, 74, 0.3);
+}
+
+/* --- Specific Card Color Rules --- */
+
+/* 1. Origin/Narrative Cards (Salvador, Founder Intro) */
+.origin-card {
+    border-left-color: var(--dende-gold); /* Narrative color */
+}
+.origin-card:hover {
+    border-color: var(--dende-gold);
+}
+
+/* 2. Foundational Instruments (Clay Tone) */
+.instrument-layer.foundational .instrument-card {
+    border-left-color: var(--clay-tone);
+}
+.instrument-layer.foundational .instrument-card:hover {
     border-color: var(--clay-tone);
 }
+
+/* 3. Applied Systems (Deep Ocean) */
+.instrument-layer.applied .instrument-card {
+    border-left-color: var(--deep-ocean);
+}
+.instrument-layer.applied .instrument-card:hover {
+    border-color: var(--deep-ocean);
+}
+
+/* End specific card rules. Note: Founder and Salvador already have classes applied in HTML */
+
 
 .expandable-content {
     max-height: 0;
@@ -173,46 +201,34 @@ animation: gradient-flow 5s ease-in-out infinite;
 }
 .action-btn:hover:not(:disabled) {
      transform: translateY(-3px);
-     box-shadow: 0 8px 25px rgba(0, 181, 226, 0.3);
+     /* MODIFIED: Use deep-ocean for generic shadow/hover unless overridden */
+     box-shadow: 0 8px 25px rgba(0, 181, 226, 0.3); 
 }
 .action-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-/* NEW STYLES FOR INSTRUMENT LAYERS */
-.instrument-layer .layer-intro {
-    font-size: 1.125rem; /* text-lg */
-    line-height: 1.75rem;
+/* NEW STYLE for active paper button */
+.action-btn.active {
+    background-color: var(--dende-gold) !important;
+    color: #050505 !important;
+    box-shadow: 0 8px 25px rgba(255, 184, 28, 0.3);
+    transform: translateY(-3px);
 }
 
-/* Style the cards within each layer */
-.instrument-layer.foundational .instrument-card {
-    border-left-color: var(--clay-tone);
-}
-.instrument-layer.foundational .instrument-card:hover {
-    border-color: var(--clay-tone);
-}
-
-.instrument-layer.applied .instrument-card {
-    border-left-color: var(--deep-ocean);
-}
-.instrument-layer.applied .instrument-card:hover {
-    border-color: var(--deep-ocean);
-}
-/* END NEW STYLES */
 
 .manuscript-tile {
     background-color: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--dark-accent);
     padding: 1.5rem;
     border-radius: 0.5rem;
-    cursor: pointer;
+    /* cursor: pointer; REMOVED - tiles no longer navigate */
     transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 .manuscript-tile:hover {
     background-color: rgba(44, 42, 74, 0.3);
-    border-color: var(--clay-tone);
+    border-color: var(--deep-ocean); /* Changed from clay-tone to deep-ocean for general technical content */
     transform: translateY(-5px);
 }
 #pdf-viewer-container canvas {
@@ -318,23 +334,20 @@ textarea.form-input {
 /* ------------------------- */
 /* --- ORIGIN & FOUNDER INTRO CARDS --- */
 /* ------------------------- */
-.origin-intro-card .toggle-text-less,
+.salvador-essay-card .toggle-text-less,
 .founder-intro-card .toggle-text-less {
-    display: none;
+    display: none !important; /* ADDED !important for initial hiding */
 }
-.origin-intro-card .toggle-text-more,
+.salvador-essay-card .toggle-text-more,
 .founder-intro-card .toggle-text-more {
-    display: inline;
+    display: inline !important; /* ADDED !important for initial showing */
 }
 
-.origin-intro-card.expanded .toggle-text-less,
+.salvador-essay-card.expanded .toggle-text-less,
 .founder-intro-card.expanded .toggle-text-less {
-    display: inline;
+    display: inline !important; /* ADDED !important for expanded showing */
 }
-.origin-intro-card.expanded .toggle-text-more,
+.salvador-essay-card.expanded .toggle-text-more,
 .founder-intro-card.expanded .toggle-text-more {
-    display: none;
+    display: none !important; /* ADDED !important for expanded hiding */
 }
-
-
-

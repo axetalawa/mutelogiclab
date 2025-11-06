@@ -11,27 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
 
-    <!-- === NEW STYLES ADDED HERE === -->
-    <style>
-        /* * Added these definitions to ensure the gradient and colors work, 
-         * even if main.css hasn't fully loaded or defined them yet.
-        */
-        :root {
-            --dende-gold: #FFD700; /* Fallback color */
-            --deep-ocean: #00B5E2; /* Fallback color */
-            --lime-green: #bef264; /* Fallback color */
-        }
-
-        /* * This is the gradient effect you liked from the logo and Joojit banner.
-        */
-        .gradient-text {
-            background-image: linear-gradient(to right, var(--dende-gold, #FFD700), var(--lime-green, #bef264), var(--deep-ocean, #00B5E2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
-
+    <!-- === NEW STYLES ADDED HERE === --><!-- REMOVED: Redundant inline style block defining color variables --><style>
         /* * Styles for your supertitle: larger font, bold, and uppercase styling.
         */
         .homepage-supertitle {
@@ -57,12 +37,9 @@
             text-align: center;
         }
     </style>
-    <!-- === END OF NEW STYLES === -->
-
-</head>
+    <!-- === END OF NEW STYLES === --></head>
 <body class="antialiased">
-    <!-- Mobile top bar -->
-    <header class="md:hidden sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-white/10">
+    <!-- Mobile top bar --><header class="md:hidden sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-white/10">
       <div class="px-4 h-14 max-w-screen-md mx-auto flex items-center justify-between">
         <div class="font-space font-bold tracking-tight">
           <span class="bg-gradient-to-br from-teal-300 via-lime-300 to-amber-300 bg-clip-text text-transparent">Mute Logic Lab</span>
@@ -71,35 +48,28 @@
       </div>
     </header>
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <aside id="ml-sidebar"
+        <!-- Sidebar --><aside id="ml-sidebar"
           class="hidden md:flex fixed inset-y-0 left-0 w-64 h-screen bg-black/30 backdrop-blur-md p-8
                  border-r border-purple-900/50 z-50 flex-col overflow-y-auto no-scrollbar
                  transition-transform -translate-x-full md:translate-x-0">
-            <div class="flex-1 min-h-0 overflow-y-auto"> <!-- Top container -->
-                <header class="gradient-text"> 
+            <div class="flex-1 min-h-0 overflow-y-auto"> <!-- Top container --><header class="gradient-text"> 
                     <a href="#" id="home-link" data-content="homepage" class="nav-link">
-                        <!-- MODIFIED: Removed gradient-text, adjusted structure for two-line title -->
-                        <h1 class="font-space text-4xl font-bold">
+                        <!-- MODIFIED: Removed gradient-text, adjusted structure for two-line title --><h1 class="font-space text-4xl font-bold">
                             <span class="gradient-text">Mute</span>
                             <span class="gradient-text">Logic</span>
                             <span class="gradient-text">Lab</span>
                         </h1>
-                        <!-- NEW: Added subtitle -->
-                        <p class="font-space text-sm font-semibold mt-2" style="color: var(--dende-gold);" data-key="header.subtitle"></p>
+                        <!-- NEW: Added subtitle --><p class="font-space text-sm font-semibold mt-2" style="color: var(--dende-gold);" data-key="header.subtitle"></p>
                     </a>
                 </header>
-                <nav class="space-y-2 sidebar-nav">
-                    <a href="#" id="origin-link" data-content="origin" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.origin">Origem</a>
+                <!-- MODIFIED: Added mt-12 for spacing and reordered links --><nav class="space-y-2 sidebar-nav mt-12">
                     <a href="#" id="models-link" data-content="models" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.models">Modelos</a>
+                    <a href="#" id="geometry-link" data-content="geometry" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.geometry">Geometria</a>
                     <a href="#" id="prototypes-link" data-content="prototypes" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.prototypes">Instrumentos</a>
-                    <a href="#" id="manuscripts-link" data-content="manuscripts" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.manuscripts">Códices</a>
-                    <div class="sidebar-divider"></div>
+                    <!-- DELETED: Removed Manuscripts link --><div class="sidebar-divider"></div>
                     <a href="#" id="salvador-link" data-content="salvador" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.salvador">Salvador</a>
                     <a href="#" id="founder-link" data-content="founder" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.founder">Equipe</a>
-                    <!-- DELETED: Removed the Network link -->
-                    <!-- <a href="#" id="network-link" data-content="network" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.network">Rede</a> -->
-                </nav>
+                    <!-- DELETED: Removed the Network link --><!-- <a href="#" id="network-link" data-content="network" class="nav-link block font-space font-semibold p-2 rounded-lg text-base" data-key="nav.network">Rede</a> --></nav>
             </div>
             
             <div class="mt-auto">
@@ -112,10 +82,8 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 md:ml-64 relative z-10 h-screen overflow-y-auto">
-            <!-- HOMEPAGE -->
-            <div id="homepage-content" class="content-panel p-8 sm:p-16">
+        <!-- Main Content Area --><main class="flex-1 md:ml-64 relative z-10 h-screen overflow-y-auto">
+            <!-- HOMEPAGE --><div id="homepage-content" class="content-panel p-8 sm:p-16">
                 <div class="w-full max-w-6xl mx-auto">
                     <div class="aspect-video">
                         <video
@@ -127,8 +95,7 @@
                         </video>
                     </div>
                     
-                    <!-- Joojit Launch Banner -->
-                    <section class="mt-16 max-w-4xl mx-auto text-center scroll-reveal">
+                    <!-- Joojit Launch Banner --><section class="mt-16 max-w-4xl mx-auto text-center scroll-reveal">
                         <div class="relative border border-purple-900/50 rounded-lg p-8 bg-black/20 overflow-hidden">
                             <div class="absolute inset-0 blur-3xl bg-dende-gold/10 -z-10"></div>
                             <p class="font-space text-sm tracking-widest uppercase mb-4" style="color: var(--dende-gold);" data-key="lattice_banner.supertitle"></p>
@@ -147,369 +114,275 @@
 
                                 <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
                                 
-                                <!-- === MODIFIED THIS LINE === -->
-                                <!-- Added the 'gradient-text' class to apply the effect -->
-                                <p class="homepage-supertitle gradient-text" data-key="homepage.supertitle"></p>
-                                <!-- === END OF MODIFICATION === -->
-
-                                <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
+                                <!-- === MODIFIED THIS LINE === --><!-- Added the 'gradient-text' class to apply the effect --><p class="homepage-supertitle gradient-text" data-key="homepage.supertitle"></p>
+                                <!-- === END OF MODIFICATION === --><div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
                                 
                                 <p class="homepage-undertitle" data-key="homepage.undertitle"></p>
 
                             </div>
                             
-                            <!-- MODIFIED: Title -->
-                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal [text-wrap:balance]"
-                                data-key="homepage.title" style="transition-delay: 100ms;"></h2> <!-- Geometria Cognitiva -->
-                            
-                            <!-- MODIFIED: Subtitle (was tagline) -->
-                            <p class="font-space text-xl sm:text-2xl mt-4 font-semibold scroll-reveal" style="color: var(--dende-gold); transition-delay: 200ms;" data-key="homepage.subtitle"></p> <!-- Pesquisa aplicada... -->
-                            
-                            <div class="my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 300ms;"></div>
+                            <!-- MODIFIED: Title --><h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal [text-wrap:balance]"
+                                data-key="homepage.title" style="transition-delay: 100ms;"></h2> <!-- Geometria Cognitiva --><!-- MODIFIED: Subtitle (was tagline) --><p class="font-space text-xl sm:text-2xl mt-4 font-semibold scroll-reveal" style="color: var(--dende-gold); transition-delay: 200ms;" data-key="homepage.subtitle"></p> <!-- Pesquisa aplicada... --><div class="my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 300ms;"></div>
                             
                             <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose space-y-4 scroll-reveal" data-key="homepage.body" style="transition-delay: 400ms;"></div>
                             
-                            <!-- **** MODIFICATION HERE **** -->
-                            <!-- REMOVED style="color: var(--deep-ocean);" and added text-slate-100 -->
-                            <p class="font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal text-slate-100" style="transition-delay: 500ms;" data-key="homepage.tagline"></p> <!-- Onde o pensamento... -->
-                        </div>
+                            <!-- **** MODIFICATION HERE **** --><!-- REMOVED style="color: var(--deep-ocean);" and added text-slate-100 --><p class="font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal text-slate-100" style="transition-delay: 500ms;" data-key="homepage.tagline"></p> <!-- Onde o pensamento... --></div>
                     </section>
                 </div>
             </div>
             
-            <!-- MODELS -->
-            <div id="models-content" class="content-panel hidden p-8 sm:p-16">
+            <!-- MODELS --><div id="models-content" class="content-panel hidden p-8 sm:p-16">
                  <div class="container mx-auto max-w-5xl">
                     <header class="text-center mb-16">
-                        <!-- This part remains the same -->
-                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.models"></h1>
+                        <!-- This part remains the same --><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.models"></h1>
                         <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="models.subtitle"></h2>
                         <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4 mt-8" data-key="models.body"></div>
                     </header>
                     
-                    <!-- This div is now a dynamic container for principles -->
-                    <div id="models-principles-container" class="grid md:grid-cols-2 gap-8 text-left pt-8 max-w-4xl mx-auto">
-                        <!-- Principles will be injected here by js/app.js -->
-                    </div>
+                    <!-- This div is now a dynamic container for principles --><div id="models-principles-container" class="grid md:grid-cols-2 gap-8 text-left pt-8 max-w-4xl mx-auto">
+                        <!-- Principles will be injected here by js/app.js --></div>
 
-                    <!-- This div is now a dynamic container for models/simulations -->
-                    <div id="models-simulations-container" class="space-y-20 mt-20">
-                        <!-- Models (like "The Onion") will be injected here by js/app.js -->
-                    </div>
+                    <!-- This div is now a dynamic container for models/simulations --><div id="models-simulations-container" class="space-y-20 mt-20">
+                        <!-- Models (like "The Onion") will be injected here by js/app.js --></div>
 
-                    <!-- START: MODIFIED SECTION -->
-                    <!-- NEW SECTION FOR LATTICE AI PAPER -->
-                    <section id="lattice-paper-container" class="mt-20 pt-16 border-t border-purple-900/50">
-                        <!-- Iframe container, given a large height to allow scrolling. Removed aspect-video -->
-                        <div class="w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20" style="height: 150vh;">
-                            <!-- Iframe pointing to your lattice.html file -->
-                            <iframe src="lattice.html" class="w-full h-full" frameborder="0" title="Lattice AI Paper"></iframe>
+                    <!-- DELETED: Old Lattice Paper Section --><!-- MODIFIED: Papers Section -> Cognitive Architectures --><section id="papers-container" class="mt-20 pt-16 border-t border-purple-900/50">
+                        <header class="text-center mb-16">
+                            <!-- MODIFIED: Title data-key --><h2 class="font-space text-3xl sm:text-4xl font-bold" style="color: var(--dende-gold);" data-key="models.papers_title"></h2>
+                            <!-- NEW: Description paragraph --><p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto text-balance mt-6" data-key="models.papers_desc"></p>
+                        </header>
+                        
+                        <!-- Paper Cards --><div id="papers-card-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                            <!-- Paper 1: Lattice AI --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="models.papers.0.title"></h3>
+                                    <p class="font-space text-lg font-semibold mb-4" style="color: var(--dende-gold);" data-key="models.papers.0.subtitle"></p>
+                                    <div class="text-slate-400 space-y-4" data-key="models.papers.0.desc"></div>
+                                </div>
+                                <button data-src="lattice.html" class="paper-select-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="models.read_paper_btn"></button>
+                            </div>
+        
+                            <!-- Paper 2: Semantic Proprioception --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="models.papers.1.title"></h3>
+                                    <p class="font-space text-lg font-semibold mb-4" style="color: var(--dende-gold);" data-key="models.papers.1.subtitle"></p>
+                                    <div class="text-slate-400 space-y-4" data-key="models.papers.1.desc"></div>
+                                </div>
+                                <button data-src="proprioception.html" class="paper-select-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="models.read_paper_btn"></button>
+                            </div>
+                        </div>
+
+                        <!-- Paper Iframe Viewer --><div id="paper-viewer-container" class="hidden w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20 mt-12" style="height: 100vh;">
+                            <iframe id="paper-iframe" class="w-full h-full" src="" frameborder="0" title="Visualizador de Artigo"></iframe>
                         </div>
                     </section>
-                    <!-- END NEW SECTION -->
-                    <!-- END: MODIFIED SECTION -->
-
-                </div>
+                    <!-- END NEW Papers Section --></div>
             </div>
 
-            <!-- PROTOTYPES (INSTRUMENTOS) -->
-            <div id="prototypes-content" class="content-panel hidden p-8 sm:p-16">
+            <!-- PROTOTYPES (INSTRUMENTOS) --><div id="prototypes-content" class="content-panel hidden p-8 sm:p-16">
                  <div class="w-full max-w-5xl mx-auto">
                     <section id="instruments" class="scroll-reveal">
                         <header class="text-center mb-16">
                             <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="instruments.section_title"></h1>
-                            <p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto mt-4 text-balance" data-key="instruments.subtitle"></p>
+                            <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="instruments.subtitle"></h2>
+                            
+                            <!-- UPDATED: STATIC INTRO BOX FOR CONSISTENCY (Instruments) -->
+                            <div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                                <!-- Part 1: Main Introduction (First paragraph - text-slate-400/gray) -->
+                                <div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="instruments.intro_p1">
+                                    <!-- Content injected by JS --></div>
+                                <!-- Part 2: Separator and Secondary Content (Remaining paragraphs - text-slate-300/white/light) -->
+                                <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="instruments.intro_p2">
+                                    <!-- Content injected by JS -->
+                                </div>
+                            </div>
+                            <!-- DELETED: Old intro paragraph that used to be here -->
                         </header>
 
-                        <!-- ========== Foundational Instruments ========== -->
-                        <div class="instrument-layer foundational mb-16">
+                        <!-- ========== Foundational Instruments ========== --><div class="instrument-layer foundational mb-16">
                             <h3 class="font-space text-3xl font-bold mb-4 text-center" style="color: var(--clay-tone);" data-key="instruments.foundational_heading"></h3>
                             <p class="layer-intro text-slate-400 text-lg max-w-3xl mx-auto text-center text-balance mb-12" data-key="instruments.foundational_intro"></p>
                             
                             <div id="foundational-instruments-container" class="space-y-12">
-                                <!-- Foundational instruments will be injected here by js/app.js -->
-                            </div>
+                                <!-- Foundational instruments will be injected here by js/app.js --></div>
                         </div>
 
-                        <!-- ========== Applied Systems ========== -->
-                        <div class="instrument-layer applied">
+                        <!-- ========== Applied Systems ========== --><div class="instrument-layer applied">
                             <h3 class="font-space text-3xl font-bold mb-4 text-center" style="color: var(--deep-ocean);" data-key="instruments.applied_heading"></h3>
                             <p class="layer-intro text-slate-400 text-lg max-w-3xl mx-auto text-center text-balance mb-12" data-key="instruments.applied_intro"></p>
 
                             <div id="applied-instruments-container" class="space-y-12">
-                                <!-- Applied systems will be injected here by js/app.js -->
-                            </div>
+                                <!-- Applied systems will be injected here by js/app.js --></div>
                         </div>
                     </section>
                  </div>
             </div>
 
-            <!-- MANUSCRIPTS (CÓDICES) -->
-            <div id="manuscripts-content" class="content-panel hidden p-8 sm:p-16">
-                 <div class="container mx-auto max-w-5xl">
-                    <header class="text-center mb-16">
-                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.manuscripts"></h1>
-                        <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="manuscripts.subtitle"></h2>
-                        <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4 mt-8" data-key="manuscripts.body"></div>
-                    </header>
-                    <div class="flex flex-col gap-8 max-w-[720px] mx-auto">
-                        <div class="manuscript-tile" data-content="ecology-of-minds">
-                            <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="manuscripts.codex1_title"></h3>
-                            <p class="text-slate-400" data-key="manuscripts.codex1_desc"></p>
-                        </div>
-                        <div class="manuscript-tile" data-content="integrity-geometry">
-                            <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="manuscripts.codex2_title"></h3>
-                            <p class="text-slate-400" data-key="manuscripts.codex2_desc"></p>
-                        </div>
-                        <div class="manuscript-tile" data-content="topology-of-learning">
-                            <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="manuscripts.codex3_title"></h3>
-                            <p class="text-slate-400" data-key="manuscripts.codex3_desc"></p>
-                        </div>
-                    </div>
-                 </div>
-            </div>
-
-            <!-- CODEX 1: ECOLOGY OF MINDS -->
-            <div id="ecology-of-minds-content" class="content-panel hidden p-8 sm:p-16">
-                <div class="w-full max-w-5xl mx-auto">
-                    <header class="text-center mb-10"><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="ecology_of_minds.title"></h1></header>
-                    <div class="detailed-content">
-                         <section class="border rounded-xl p-8 sm:p-12 my-12 text-center" style="background-color: rgba(44, 42, 74, 0.2); border-color: var(--dark-accent);">
-                            <h2 class="font-space text-2xl sm:text-3xl font-bold mb-6 text-white" data-key="ecology_of_minds.premise_title"></h2>
-                            <div class="max-w-3xl mx-auto text-slate-300 text-lg sm:text-xl leading-relaxed space-y-4" data-key="ecology_of_minds.premise_body"></div>
-                            <p class="max-w-3xl mx-auto text-slate-100 font-medium text-lg sm:text-xl leading-relaxed mt-8" data-key="ecology_of_minds.premise_conclusion"></p>
-                         </section>
-                         <div class="mt-16">
-                            <h2 style="color: var(--dende-gold);" class="font-space text-3xl font-bold text-center mb-10" data-key="codex_details.thresholds_title"></h2>
-                            <div class="space-y-8" id="ecology-of-minds-thresholds-container"></div>
-                         </div>
-                         <footer class="text-center mt-20"><button data-pdf-base="codex_one" class="read-codex-pdf-btn action-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button></footer>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CODEX 2: INTEGRITY GEOMETRY -->
-            <div id="integrity-geometry-content" class="content-panel hidden p-8 sm:p-16">
-                 <div class="w-full max-w-5xl mx-auto">
-                    <header class="text-center mb-10"><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="integrity_geometry.title"></h1></header>
-                    <div class="detailed-content">
-                         <section class="border rounded-xl p-8 sm:p-12 my-12 text-center" style="background-color: rgba(44, 42, 74, 0.2); border-color: var(--dark-accent);">
-                            <h2 class="font-space text-2xl sm:text-3xl font-bold mb-6 text-white" data-key="integrity_geometry.premise_title"></h2>
-                            <div class="max-w-3xl mx-auto text-slate-300 text-lg sm:text-xl leading-relaxed space-y-4" data-key="integrity_geometry.premise_body"></div>
-                            <p class="max-w-3xl mx-auto text-slate-100 font-medium text-lg sm:text-xl leading-relaxed mt-8" data-key="integrity_geometry.premise_conclusion"></p>
-                         </section>
-                         <div class="mt-16">
-                            <h2 style="color: var(--dende-gold);" class="font-space text-3xl font-bold text-center mb-10" data-key="codex_details.thresholds_title"></h2>
-                            <div class="space-y-8" id="integrity-geometry-thresholds-container"></div>
-                         </div>
-                         <footer class="text-center mt-20"><button data-pdf-base="codex_two" class="read-codex-pdf-btn action-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button></footer>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CODEX 3: TOPOLOGY OF LEARNING -->
-            <div id="topology-of-learning-content" class="content-panel hidden p-8 sm:p-16">
-                 <div class="w-full max-w-5xl mx-auto">
-                    <header class="text-center mb-10"><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="topology_of_learning.title"></h1></header>
-                    <div class="detailed-content">
-                         <section class="border rounded-xl p-8 sm:p-12 my-12 text-center" style="background-color: rgba(44, 42, 74, 0.2); border-color: var(--dark-accent);">
-                            <h2 class="font-space text-2xl sm:text-3xl font-bold mb-6 text-white" data-key="topology_of_learning.premise_title"></h2>
-                            <div class="max-w-3xl mx-auto text-slate-300 text-lg sm:text-xl leading-relaxed space-y-4" data-key="topology_of_learning.premise_body"></div>
-                            <p class="max-w-3xl mx-auto text-slate-100 font-medium text-lg sm:text-xl leading-relaxed mt-8" data-key="topology_of_learning.premise_conclusion"></p>
-                         </section>
-                         <div class="mt-16">
-                            <h2 style="color: var(--dende-gold);" class="font-space text-3xl font-bold text-center mb-10" data-key="codex_details.thresholds_title"></h2>
-                            <div class="space-y-8" id="topology-of-learning-thresholds-container"></div>
-                         </div>
-                         <footer class="text-center mt-20"><button data-pdf-base="codex_three" class="read-codex-pdf-btn action-btn font-space inline-block text-black font-semibold text-lg px-8 py-4 rounded-lg" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button></footer>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ORIGIN -->
-            <div id="origin-content" class="content-panel hidden p-8 sm:p-16">
+            <!-- MODIFIED: ORIGIN -> GEOMETRY --><div id="geometry-content" class="content-panel hidden p-8 sm:p-16">
                 <div class="w-full max-w-4xl mx-auto">
-                    <header class="text-center mb-12">
-                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.origin"></h1>
-                        <h2 class="font-space text-xl sm:text-2xl font-semibold mt-4 text-center max-w-2xl mx-auto" style="color: var(--dende-gold);" data-key="origin.subtitle"></h2>
+                    <!-- NEW HEADER --><header class="text-center mb-12">
+                        <!-- Title from Nav --><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.geometry"></h1>
+                        <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="geometry.subtitle"></h2>
                         
-                        <!-- START: Replaced description block with expandable card -->
-                        <div class="origin-intro-card threshold-card mt-8 text-left rounded-lg">
-                            <div class="p-6 sm:p-8">
-                                <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4" data-key="origin.description_intro">
-                                    <!-- First paragraph injected here -->
-                                </div>
-                                <div class="expandable-content">
-                                    <div class="space-y-6 text-slate-300 text-lg leading-relaxed max-w-3xl mx-auto" data-key="origin.description_full">
-                                        <!-- Full text injected here -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="toggle-bar flex justify-center items-center cursor-pointer border-t border-purple-900/50 py-4" onclick="this.parentElement.classList.toggle('expanded')">
-                                <span class="toggle-text-more font-space font-semibold" style="color: var(--deep-ocean);" data-key="origin.read_more"></span>
-                                <span class="toggle-text-less font-space font-semibold" style="color: var(--deep-ocean);" data-key="origin.read_less"></span>
-                                <div class="toggle-icon text-2xl ml-2 flex-shrink-0" style="color: var(--deep-ocean);">+</div>
+                        <!-- UPDATED: STATIC INTRO BOX FOR CONSISTENCY (Geometry) -->
+                        <div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                            <!-- Part 1: Main Introduction (First paragraph - text-slate-400/gray) -->
+                            <div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="geometry.introduction_p1">
+                                <!-- Content injected by JS --></div>
+                            <!-- Part 2: Separator and Secondary Content (Last two paragraphs - text-slate-300/white/light) -->
+                            <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="geometry.introduction_p2">
+                                <!-- Content injected by JS -->
                             </div>
                         </div>
-                        <!-- END: Replaced description block -->
-                        
                     </header>
-
-                    <section class="mb-16">
-                        <h3 class="font-space text-3xl font-bold mb-12 text-center" style="color: var(--clay-tone);" data-key="origin.mechanism_manifest.subtitle"></h3>
-                        
-                        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-12">
-                            <div class="flex-shrink-0 w-full md:w-auto flex justify-center">
-                                 <div class="codex-showcase rounded-lg flex flex-col p-8 justify-between text-center">
-                                    <h3 class="font-space text-2xl font-bold codex-showcase-title" data-key="origin.mechanism_manifest.codex_title_full"></h3>
-                                    <button data-pdf-base="codex_A" class="read-codex-pdf-btn action-btn font-space self-center text-black font-semibold text-base px-6 py-3 rounded-lg" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
+                    <!-- END UPDATED HEADER --><!-- DELETED: Old Origin Sections --><!-- NEW: Six Codices Section --><section class="mt-16">
+                        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                            
+                            <!-- Codex 1 --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="geometry.codex1_title"></h3>
+                                    <!-- MODIFIED: Changed <p> to <div> and added space-y-4 --><div class="text-slate-400 space-y-4" data-key="geometry.codex1_desc"></div>
                                 </div>
+                                <button data-pdf-base="codex_A" class="read-codex-pdf-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
                             </div>
-                            <div class="text-slate-400 text-lg leading-relaxed space-y-4" data-key="origin.mechanism_manifest.intro"></div>
-                        </div>
-            
-                        <div id="mechanism-sections-container" class="space-y-8">
-                            <!-- 7 new sections generated here -->
-                        </div>
-                    </section>
         
-                    <section class="mt-20">
-                         <header class="text-center mb-12">
-                            <h3 class="font-space text-3xl font-bold mb-6 text-center" style="color: var(--clay-tone);" data-key="origin.topology_fragility.subtitle"></h3>
-                            <div class="max-w-3xl mx-auto text-slate-400 text-lg leading-relaxed space-y-4 text-center" data-key="origin.topology_fragility.intro"></div>
-                        </header>
-            
-                        <div class="grid sm:grid-cols-2 gap-8 my-16 justify-items-center">
-                            <div class="codex-showcase rounded-lg flex flex-col p-8 justify-between text-center">
-                                <h3 class="font-space text-2xl font-bold codex-showcase-title" data-key="origin.topology_fragility.codex_topo_title_full"></h3>
-                                <button data-pdf-base="codex_B" class="read-codex-pdf-btn action-btn font-space self-center text-black font-semibold text-base px-6 py-3 rounded-lg" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
+                            <!-- Codex 2 --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="geometry.codex2_title"></h3>
+                                    <!-- MODIFIED: Changed <p> to <div> and added space-y-4 --><div class="text-slate-400 space-y-4" data-key="geometry.codex2_desc"></div>
+                                </div>
+                                <button data-pdf-base="codex_B" class="read-codex-pdf-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
                             </div>
-                            <div class="codex-showcase rounded-lg flex flex-col p-8 justify-between text-center">
-                                 <h3 class="font-space text-2xl font-bold codex-showcase-title" data-key="origin.topology_fragility.codex_frag_title_full"></h3>
-                                <button data-pdf-base="codex_C" class="read-codex-pdf-btn action-btn font-space self-center text-black font-semibold text-base px-6 py-3 rounded-lg" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
+        
+                            <!-- Codex 3 --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="geometry.codex3_title"></h3>
+                                    <!-- MODIFIED: Changed <p> to <div> and added space-y-4 --><div class="text-slate-400 space-y-4" data-key="geometry.codex3_desc"></div>
+                                </div>
+                                <button data-pdf-base="codex_C" class="read-codex-pdf-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
                             </div>
-                        </div>
-            
-                        <div id="dualism-sections-container" class="space-y-8">
-                            <!-- 5 original sections generated here -->
+        
+                            <!-- Codex 4 --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="geometry.codex4_title"></h3>
+                                    <!-- MODIFIED: Changed <p> to <div> and added space-y-4 --><div class="text-slate-400 space-y-4" data-key="geometry.codex4_desc"></div>
+                                </div>
+                                <button data-pdf-base="codex_two" class="read-codex-pdf-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
+                            </div>
+        
+                            <!-- Codex 5 --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="geometry.codex5_title"></h3>
+                                    <!-- MODIFIED: Changed <p> to <div> and added space-y-4 --><div class="text-slate-400 space-y-4" data-key="geometry.codex5_desc"></div>
+                                </div>
+                                <button data-pdf-base="codex_one" class="read-codex-pdf-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
+                            </div>
+        
+                            <!-- Codex 6 --><div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="geometry.codex6_title"></h3>
+                                    <!-- MODIFIED: Changed <p> to <div> and added space-y-4 --><div class="text-slate-400 space-y-4" data-key="geometry.codex6_desc"></div>
+                                </div>
+                                <button data-pdf-base="codex_three" class="read-codex-pdf-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="codex_details.read_button"></button>
+                            </div>
                         </div>
                     </section>
-                </div>
+                    <!-- END NEW Six Codices Section --></div>
             </div>
             
-            <!-- FOUNDER / EQUIPE -->
-            <div id="founder-content" class="content-panel hidden p-8 sm:p-16">
+            <!-- FOUNDER / EQUIPE --><div id="founder-content" class="content-panel hidden p-8 sm:p-16">
                  <div class="w-full max-w-4xl mx-auto">
                     <header class="text-center mb-12">
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.founder"></h1>
                         <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="founder.subtitle"></h2>
                         
-                        <!-- NEW EXPANDABLE INTRO CARD -->
-                        <div class="founder-intro-card threshold-card mt-8 text-left rounded-lg">
-                            <div class="p-6 sm:p-8">
-                                <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4" data-key="founder.intro_preview">
-                                    <!-- First paragraph injected here -->
-                                </div>
-                                <div class="expandable-content">
-                                    <div class="space-y-6 text-slate-300 text-lg leading-relaxed max-w-3xl mx-auto" data-key="founder.intro_full">
-                                        <!-- Full text injected here -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="toggle-bar flex justify-center items-center cursor-pointer border-t border-purple-900/50 py-4" onclick="this.parentElement.classList.toggle('expanded')">
-                                <span class="toggle-text-more font-space font-semibold" style="color: var(--deep-ocean);" data-key="founder.read_more"></span>
-                                <span class="toggle-text-less font-space font-semibold" style="color: var(--deep-ocean);" data-key="founder.read_less"></span>
-                                <div class="toggle-icon text-2xl ml-2 flex-shrink-0" style="color: var(--deep-ocean);">+</div>
-                            </div>
+                        <!-- UPDATED: STATIC INTRO BLOCK (Team/Founder) - ADDED max-w-prose -->
+                        <div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                            <!-- Intro Preview Text (First paragraph - text-slate-400 for gray) --><div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="founder.intro_preview">
+                                <!-- Preview injected here --></div>
+                            <!-- Full Intro Text (Separated by a line - text-slate-300 for white/light) --><div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="founder.intro_full">
+                                <!-- Full text injected here --></div>
                         </div>
-                        <!-- END NEW EXPANDABLE INTRO CARD -->
-
-                    </header>
+                        <!-- END STATIC INTRO BLOCK --></header>
                     <div class="space-y-12">
-                        <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
+                        <!-- UPDATED: ADDED max-w-prose TO SECTIONS -->
+                        <section class="max-w-prose mx-auto bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <h2 class="font-space text-2xl font-bold mb-1" style="color: var(--dende-gold);" data-key="founder.section1_name"></h2>
                             <p class="font-space text-lg mb-4" style="color: var(--deep-ocean);" data-key="founder.section1_role"></p>
                             
-                            <!-- MODIFIED: Removed blockquote, motto is now integrated -->
-                            <div class="text-slate-400 space-y-4" data-key="founder.section1_bio">
-                                <!-- Bio content injected here. The motto (data-key="founder.section1_motto") will be integrated via JS -->
-                            </div>
+                            <!-- MODIFIED: Removed blockquote, motto is now integrated --><div class="text-slate-400 space-y-4" data-key="founder.section1_bio">
+                                <!-- Bio content injected here. The motto (data-key="founder.section1_motto") will be integrated via JS --></div>
                             
                             <!-- REMOVED: Blockquote element
                             <blockquote class="my-4 text-xl text-slate-100 font-semibold italic" data-key="founder.section1_motto"></blockquote>
-                            -->
-                            <!-- REMOVED: Redundant bio div
+                            --><!-- REMOVED: Redundant bio div
                             <div class="text-slate-400 space-y-4 border-t border-purple-900/50 pt-4 mt-4" data-key="founder.section1_bio"></div>
-                            -->
-                        </section>
-                        <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
+                            --></section>
+                        <!-- UPDATED: ADDED max-w-prose TO SECTIONS -->
+                        <section class="max-w-prose mx-auto bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <h2 class="font-space text-2xl font-bold mb-4" style="color: var(--dende-gold);" data-key="founder.section2_title"></h2>
                             <div class="text-slate-400 space-y-4" data-key="founder.section2_body"></div>
                         </section>
                     </div>
 
                     <!-- MOVED: Footer moved from Network page to here -->
-                    <footer class="mt-20 pt-10 border-t border-purple-900/50 text-center text-slate-400 text-sm space-y-2" data-key="founder.footer">
-                        <!-- Content will be injected from content.js -->
+                    <!-- UPDATED: Styled Footer container -->
+                    <footer class="mt-20 pt-10 border-t border-purple-900/50 text-center text-slate-400 text-sm space-y-2">
+                        <div class="max-w-prose mx-auto bg-black/20 p-8 rounded-lg border border-purple-900/50 space-y-3" data-key="founder.footer">
+                            <!-- Content will be injected from content.js, which now includes the contact form container -->
+                        </div>
                     </footer>
-                    <!-- END MOVE -->
-                 </div>
+                    <!-- END MOVE --></div>
             </div>
             
-            <!-- SALVADOR -->
-            <div id="salvador-content" class="content-panel hidden p-8 sm:p-16">
+            <!-- SALVADOR (MODIFIED) --><div id="salvador-content" class="content-panel hidden p-8 sm:p-16">
                  <div class="w-full max-w-4xl mx-auto">
                     <header class="text-center mb-12">
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="salvador.title"></h1>
+                        <!-- NEW: Subtitle for Salvador --><h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="salvador.subtitle"></h2>
                     </header>
                     
-                    <section class="my-16">
-                        <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4" data-key="salvador.lab_oracle_intro">
-                            <!-- Content will be injected by JS -->
-                        </div>
-                        
-                        <!-- MODIFIED: Removed blockquote and integrating quote text into prose -->
-                        <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto space-y-4 mt-6">
-                           <p class="font-semibold italic text-slate-200" data-key="salvador.quote"></p> <!-- Integrated quote text here -->
+                    <!-- Section 1: Intro + Quote (NOW A STATIC TWO-PART BLOCK) -->
+                    <!-- Note: max-w-prose is already on the section element wrapping the box -->
+                    <section class="my-16 max-w-prose mx-auto">
+                        <!-- UPDATED: STATIC INTRO BLOCK for Salvador -->
+                        <div class="text-left bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                            <!-- Part 1: Main Introduction (lab_oracle_intro_p1 - text-slate-400 for gray) -->
+                            <div class="text-slate-400 text-lg sm:text-xl leading-relaxed space-y-4 font-semibold" data-key="salvador.lab_oracle_intro_p1">
+                                <!-- Content injected by JS --></div>
+                            <!-- Part 2: Separator and the other two paragraphs (lab_oracle_intro_p2 + territorio_pensa.preview - text-slate-300 for white/light) -->
+                            <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50">
+                                <!-- Paragraph 2 of the intro -->
+                                <div data-key="salvador.lab_oracle_intro_p2"></div>
+                                <!-- The 'Bahia Thinks' preview text (was previously a quote) -->
+                                <div data-key="salvador.territorio_pensa.preview"></div>
+                            </div>
                         </div>
                     </section>
                     
-                    <!-- REMOVED: Blockquote element
-                    <blockquote class="text-center my-16 py-6 border-y-2 border-purple-900/50">
-                        <p class="font-space text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--dende-gold);" data-key="salvador.quote"></p>
-                    </blockquote>
-                    -->
-            
-                    <div class="space-y-8">
-                        <div class="threshold-card p-6 sm:p-8 rounded-lg">
-                            <div class="flex justify-between items-start cursor-pointer" onclick="this.parentElement.classList.toggle('expanded')">
-                                <div>
-                                    <h3 class="font-space text-2xl sm:text-3xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="salvador.territorio_pensa.title"></h3>
-                                    <div class="text-slate-400 text-lg" data-key="salvador.territorio_pensa.preview"></div>
-                                </div>
-                                <div class="toggle-icon text-2xl ml-4 flex-shrink-0" style="color: var(--deep-ocean);">+</div>
-                            </div>
-                            <div class="expandable-content">
-                                <div class="space-y-6 text-slate-300 text-lg leading-relaxed border-t border-purple-900/50" data-key="salvador.territorio_pensa.essay">
-                                    <!-- Essay content from i18n will be injected here -->
-                                </div>
+                    <!-- Divider (kept for visual separation as needed) --><div class="my-16 h-px w-24 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 mx-auto"></div>
+
+                    <!-- Section 2: Bahia Pensa (Now contains only the title) -->
+                    <!-- Note: max-w-prose is already on the section element wrapping the box -->
+                    <section class="max-w-prose mx-auto">
+                        <!-- Title (The content that was here is now in the main intro block) --><h3 class="font-space text-3xl font-bold mb-6" style="color: var(--deep-ocean);" data-key="salvador.territorio_pensa.title"></h3>
+                        
+                        <!-- NEW: STATIC FULL ESSAY BLOCK (Previously expandable content) --><div class="text-left bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                            <div class="space-y-6 text-slate-300 text-lg leading-relaxed" data-key="salvador.territorio_pensa.full_essay">
+                                <!-- Full text injected here -->
                             </div>
                         </div>
-                    </div>
+                        <!-- END STATIC FULL ESSAY BLOCK -->
+                    </section>
                  </div>
             </div>
-
-            <!-- DELETED: Network (Rede) page content -->
-            <!-- 
+            <!-- END SALVADOR (MODIFIED) --><!-- DELETED: Network (Rede) page content --><!-- 
             <div id="network-content" class="content-panel hidden p-8 sm:p-16">
                  ...
             </div>
-            -->
-        </main>
+            --></main>
     </div>
 
-    <!-- Modals -->
-    <div id="simulation-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+    <!-- Modals --><div id="simulation-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
         <div class="relative w-full h-full bg-black border border-purple-900/50 rounded-lg">
             <button id="close-modal-btn" class="absolute -top-4 -right-4 text-black rounded-full w-10 h-10 flex items-center justify-center text-2xl z-10 hover:bg-dende-gold hover:text-black transition-colors" style="background-color: var(--deep-ocean);">&times;</button>
             <iframe id="simulation-iframe" class="w-full h-full rounded-lg" src="" frameborder="0"></iframe>
@@ -517,7 +390,7 @@
     </div>
     <div id="pdf-modal" class="hidden fixed inset-0 bg-black/90 z-50 p-4 sm:p-8">
         <div class="relative w-full h-full flex flex-col items-center justify-center">
-             <button id="close-pdf-modal-btn" class="absolute -top-4 -right-4 text-black rounded-full w-10 h-10 flex items-center justify-center text-2xl z-20 hover:bg-dende-gold hover:text-black transition-colors" style="background-color: var(--deep-ocean);">&times;</button>
+             <button id="close-pdf-modal-btn" class="absolute -top-4 -right-4 text-black rounded-full w-10 h-10 flex items-center justify-center text-2xl z-20 hover:bg-dende-gold hover:text-black transition-colors" style="background-color: var(--deep-ocean);">x</button>
              <div id="pdf-viewer-container" class="relative w-full h-full flex-grow overflow-y-auto flex justify-center">
                 <div id="pdf-loading" class="text-white text-xl">Loading Codex...</div>
                 <canvas id="pdf-canvas" class="hidden"></canvas>
@@ -532,7 +405,6 @@
     </div>
 
     <script src="js/content.js"></script>
-    <!-- FIX: Corrected the filename from app.js to app.js -->
-    <script src="js/app.js"></script> 
+    <!-- FIX: Corrected the filename from app.js to app.js --><script src="js/app.js"></script> 
 </body>
 </html>
