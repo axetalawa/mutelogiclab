@@ -28,7 +28,7 @@
         /* * Styles for your new undertitle: blue color, medium weight, and uppercase.
         */
         .homepage-undertitle {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Space Grootesk', sans-serif;
             font-size: 1.125rem; /* 18px */
             font-weight: 500;
             color: var(--deep-ocean, #00B5E2); /* The "blue" color */
@@ -83,52 +83,79 @@
         </aside>
 
         <!-- Main Content Area --><main class="flex-1 md:ml-64 relative z-10 h-screen overflow-y-auto">
-            <!-- HOMEPAGE --><div id="homepage-content" class="content-panel p-8 sm:p-16">
-                <div class="w-full max-w-6xl mx-auto">
-                    <div class="aspect-video">
-                        <video
-                        id="home-video"
-                        src="videos/crabs.mp4"
-                        muted loop playsinline controls preload="auto"
-                        poster="videos/crabs_static.png"
-                        class="w-full h-auto rounded-lg shadow-2xl border-2 border-purple-900/50">
-                        </video>
-                    </div>
-                    
-                    <!-- Joojit Launch Banner --><section class="mt-16 max-w-4xl mx-auto text-center scroll-reveal">
-                        <div class="relative border border-purple-900/50 rounded-lg p-8 bg-black/20 overflow-hidden">
-                            <div class="absolute inset-0 blur-3xl bg-dende-gold/10 -z-10"></div>
-                            <p class="font-space text-sm tracking-widest uppercase mb-4" style="color: var(--dende-gold);" data-key="lattice_banner.supertitle"></p>
-                            <h2 class="font-space text-4xl sm:text-5xl font-bold gradient-text">
-                                <span data-key="lattice_banner.title"></span>
-                            </h2>
-                            <p class="mt-4 text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto text-balance" data-key="lattice_banner.description"></p>
-                            <a href="https://lattice.mutelogic.com" target="_blank" rel="noopener noreferrer" class="action-btn inline-block font-space font-semibold text-lg px-8 py-3 rounded-lg mt-8 text-black" style="background-color: var(--dende-gold);" data-key="lattice_banner.cta">
-                            </a>
+            <!-- HOMEPAGE -->
+            <!-- FIX: Removed p-8 sm:p-16 py-12 padding to allow full viewport height centering -->
+            <div id="homepage-content" class="content-panel"> 
+                
+                <!-- SECTION 1: VIDEO (Full window height, centered) -->
+                <!-- FIX: Added p-8 sm:p-16 padding back to the section for content spacing -->
+                <section class="min-h-screen flex items-center justify-center p-8 sm:p-16">
+                    <div class="w-full max-w-6xl mx-auto">
+                        <div class="aspect-video">
+                            <video
+                            id="home-video"
+                            src="videos/crabs.mp4"
+                            muted loop playsinline controls preload="auto"
+                            poster="videos/crabs_static.png"
+                            class="w-full h-auto rounded-lg shadow-2xl border-2 border-purple-900/50">
+                            </video>
                         </div>
-                    </section>
-
-                    <section class="mt-12">
-                        <div class="w-full max-w-4xl mx-auto relative">
-                            <div class="relative flex flex-col items-center justify-center h-screen">
-
-                                <div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
-                                
-                                <!-- === MODIFIED THIS LINE === --><!-- Added the 'gradient-text' class to apply the effect --><p class="homepage-supertitle gradient-text" data-key="homepage.supertitle"></p>
-                                <!-- === END OF MODIFICATION === --><div class="absolute inset-0 blur-2xl bg-deep-ocean/5 rounded-2xl -z-10" style="background-color: rgba(0, 181, 226, 0.05);"></div>
-                                
-                                <p class="homepage-undertitle" data-key="homepage.undertitle"></p>
-
+                    </div>
+                </section>
+                
+                <!-- SECTION 2: Joojit Launch Banner (Full window height, centered) -->
+                <!-- FIX: Added p-8 sm:p-16 padding back to the section for content spacing -->
+                <section class="min-h-screen flex items-center justify-center p-8 sm:p-16">
+                    <div class="w-full max-w-6xl mx-auto">
+                         <div class="max-w-4xl mx-auto text-center scroll-reveal">
+                            <div class="relative border border-purple-900/50 rounded-lg p-8 bg-black/20 overflow-hidden">
+                                <div class="absolute inset-0 blur-3xl bg-dende-gold/10 -z-10"></div>
+                                <p class="font-space text-sm tracking-widest uppercase mb-4" style="color: var(--dende-gold);" data-key="lattice_banner.supertitle"></p>
+                                <h2 class="font-space text-4xl sm:text-5xl font-bold gradient-text">
+                                    <span data-key="lattice_banner.title"></span>
+                                </h2>
+                                <p class="mt-4 text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose mx-auto text-balance" data-key="lattice_banner.description"></p>
+                                <a href="https://lattice.mutelogic.com" target="_blank" rel="noopener noreferrer" class="action-btn inline-block font-space font-semibold text-lg px-8 py-3 rounded-lg mt-8 text-black" style="background-color: var(--dende-gold);" data-key="lattice_banner.cta">
+                                </a>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 3: Main Essay (Starts centered, flows down) -->
+                <!-- FIX: Added p-8 sm:p-16 padding back to the section for content spacing -->
+                <section class="mt-12 min-h-screen p-8 sm:p-16">
+                    <div class="w-full max-w-4xl mx-auto relative">
+                        <!-- Titles (Centered in the viewport on initial scroll) -->
+                        <div class="relative flex flex-col items-center justify-center pt-8">
+                            <p class="homepage-supertitle gradient-text scroll-reveal [text-wrap:balance]" data-key="homepage.supertitle"></p>
+                            <p class="homepage-undertitle scroll-reveal" data-key="homepage.undertitle" style="transition-delay: 100ms;"></p>
+                        </div>
+                        
+                        <!-- Main Title and Separator -->
+                        <div class="max-w-prose mx-auto mt-16">
+                            <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal [text-wrap:balance]"
+                                data-key="homepage.title" style="transition-delay: 200ms;"></h2> <!-- Onde o pensamento... -->
                             
-                            <!-- MODIFIED: Title --><h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-100 scroll-reveal [text-wrap:balance]"
-                                data-key="homepage.title" style="transition-delay: 100ms;"></h2> <!-- Geometria Cognitiva --><!-- MODIFIED: Subtitle (was tagline) --><p class="font-space text-xl sm:text-2xl mt-4 font-semibold scroll-reveal" style="color: var(--dende-gold); transition-delay: 200ms;" data-key="homepage.subtitle"></p> <!-- Pesquisa aplicada... --><div class="my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 300ms;"></div>
-                            
-                            <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose space-y-4 scroll-reveal" data-key="homepage.body" style="transition-delay: 400ms;"></div>
-                            
-                            <!-- **** MODIFICATION HERE **** --><!-- REMOVED style="color: var(--deep-ocean);" and added text-slate-100 --><p class="font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal text-slate-100" style="transition-delay: 500ms;" data-key="homepage.tagline"></p> <!-- Onde o pensamento... --></div>
-                    </section>
-                </div>
+                            <div class="my-6 h-px w-16 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 scroll-reveal" style="transition-delay: 400ms;"></div>
+                        </div>
+                        
+                        <!-- Essay Box (Uses max-w-prose) -->
+                        <!-- FIX: Ensure text block starts below titles -->
+                        <div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal" style="transition-delay: 500ms;">
+                            <div class="text-lg sm:text-xl leading-relaxed text-slate-300/90 max-w-prose space-y-4" data-key="homepage.body"></div>
+                        </div>
+                        
+                        <!-- FINAL POSITION FOR TAGLINE: AFTER the essay box -->
+                        <p class="max-w-prose mx-auto font-space text-xl sm:text-2xl mt-8 font-semibold scroll-reveal text-center" 
+                           style="color: var(--dende-gold); transition-delay: 300ms;" data-key="homepage.tagline">
+                           <!-- Mute Logic Lab / Concebida na Bahia... -->
+                        </p>
+
+
+                    </div>
+                </section>
+                <!-- END SECTION 3 -->
             </div>
             
             <!-- MODELS --><div id="models-content" class="content-panel hidden p-8 sm:p-16">
@@ -183,19 +210,20 @@
                     <section id="instruments" class="scroll-reveal">
                         <header class="text-center mb-16">
                             <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="instruments.section_title"></h1>
-                            <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="instruments.subtitle"></h2>
-                            
-                            <!-- UPDATED: STATIC INTRO BOX FOR CONSISTENCY (Instruments) -->
+                            <!-- MODIFIED: Applied standard subtitle styling -->
+                            <p class="font-space text-2xl sm:text-3xl font-semibold max-w-3xl mx-auto mt-4 text-balance" style="color: var(--dende-gold);" data-key="instruments.subtitle"></p>
+                        
+                            <!-- NEW: STATIC INTRO BOX for Instruments -->
                             <div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
-                                <!-- Part 1: Main Introduction (First paragraph - text-slate-400/gray) -->
-                                <div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="instruments.intro_p1">
-                                    <!-- Content injected by JS --></div>
-                                <!-- Part 2: Separator and Secondary Content (Remaining paragraphs - text-slate-300/white/light) -->
-                                <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="instruments.intro_p2">
-                                    <!-- Content injected by JS -->
-                                </div>
+                                <!-- Part 1: Main Introduction (semibold) -->
+                            <div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="instruments.intro_p1">
+                                <!-- Content injected by JS --></div>
+                            <!-- Part 2: Separator and the Quote/Context (regular) -->
+                            <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="instruments.intro_p2">
+                                <!-- Content injected by JS -->
                             </div>
-                            <!-- DELETED: Old intro paragraph that used to be here -->
+                        </div>
+                            <!-- END NEW INTRO BOX -->
                         </header>
 
                         <!-- ========== Foundational Instruments ========== --><div class="instrument-layer foundational mb-16">
@@ -223,18 +251,17 @@
                         <!-- Title from Nav --><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.geometry"></h1>
                         <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="geometry.subtitle"></h2>
                         
-                        <!-- UPDATED: STATIC INTRO BOX FOR CONSISTENCY (Geometry) -->
-                        <div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
-                            <!-- Part 1: Main Introduction (First paragraph - text-slate-400/gray) -->
+                        <!-- NEW: STATIC INTRO BOX FOR CONSISTENCY --><div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                            <!-- Primary Content (Geometry.introduction - semibold) -->
                             <div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="geometry.introduction_p1">
                                 <!-- Content injected by JS --></div>
-                            <!-- Part 2: Separator and Secondary Content (Last two paragraphs - text-slate-300/white/light) -->
+                            <!-- Separator and Secondary Content (Quote/Tagline equivalent) -->
                             <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="geometry.introduction_p2">
                                 <!-- Content injected by JS -->
                             </div>
                         </div>
                     </header>
-                    <!-- END UPDATED HEADER --><!-- DELETED: Old Origin Sections --><!-- NEW: Six Codices Section --><section class="mt-16">
+                    <!-- END NEW HEADER --><!-- DELETED: Old Origin Sections --><!-- NEW: Six Codices Section --><section class="mt-16">
                         <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                             
                             <!-- Codex 1 --><div class="manuscript-tile flex flex-col justify-between">
@@ -295,17 +322,18 @@
                         <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.founder"></h1>
                         <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="founder.subtitle"></h2>
                         
-                        <!-- UPDATED: STATIC INTRO BLOCK (Team/Founder) - ADDED max-w-prose -->
+                        <!-- NEW: STATIC INTRO BLOCK (Replaces Expandable Card) -->
                         <div class="text-left max-w-prose mx-auto mt-8 bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
-                            <!-- Intro Preview Text (First paragraph - text-slate-400 for gray) --><div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="founder.intro_preview">
+                            <!-- Primary Content (First paragraph) -->
+                            <div class="text-slate-400 text-lg sm:text-xl space-y-4 font-semibold" data-key="founder.intro_preview">
                                 <!-- Preview injected here --></div>
-                            <!-- Full Intro Text (Separated by a line - text-slate-300 for white/light) --><div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="founder.intro_full">
+                            <!-- Full Intro Text (Separated by a line for visual break) -->
+                            <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50" data-key="founder.intro_full">
                                 <!-- Full text injected here --></div>
                         </div>
                         <!-- END STATIC INTRO BLOCK --></header>
-                    <div class="space-y-12">
-                        <!-- UPDATED: ADDED max-w-prose TO SECTIONS -->
-                        <section class="max-w-prose mx-auto bg-black/20 p-8 rounded-lg border border-purple-900/50">
+                    <div class="space-y-12 max-w-prose mx-auto">
+                        <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <h2 class="font-space text-2xl font-bold mb-1" style="color: var(--dende-gold);" data-key="founder.section1_name"></h2>
                             <p class="font-space text-lg mb-4" style="color: var(--deep-ocean);" data-key="founder.section1_role"></p>
                             
@@ -317,20 +345,20 @@
                             --><!-- REMOVED: Redundant bio div
                             <div class="text-slate-400 space-y-4 border-t border-purple-900/50 pt-4 mt-4" data-key="founder.section1_bio"></div>
                             --></section>
-                        <!-- UPDATED: ADDED max-w-prose TO SECTIONS -->
-                        <section class="max-w-prose mx-auto bg-black/20 p-8 rounded-lg border border-purple-900/50">
+                        <section class="bg-black/20 p-8 rounded-lg border border-purple-900/50">
                             <h2 class="font-space text-2xl font-bold mb-4" style="color: var(--dende-gold);" data-key="founder.section2_title"></h2>
                             <div class="text-slate-400 space-y-4" data-key="founder.section2_body"></div>
                         </section>
                     </div>
 
                     <!-- MOVED: Footer moved from Network page to here -->
-                    <!-- UPDATED: Styled Footer container -->
-                    <footer class="mt-20 pt-10 border-t border-purple-900/50 text-center text-slate-400 text-sm space-y-2">
-                        <div class="max-w-prose mx-auto bg-black/20 p-8 rounded-lg border border-purple-900/50 space-y-3" data-key="founder.footer">
-                            <!-- Content will be injected from content.js, which now includes the contact form container -->
-                        </div>
-                    </footer>
+                    <div class="max-w-prose mx-auto">
+                        <footer class="mt-20 pt-10 text-center text-slate-400 text-sm space-y-2 bg-black/20 p-6 rounded-lg border border-purple-900/50">
+                            <div data-key="founder.footer">
+                                <!-- Content will be injected from content.js -->
+                            </div>
+                        </footer>
+                    </div>
                     <!-- END MOVE --></div>
             </div>
             
@@ -342,18 +370,17 @@
                     </header>
                     
                     <!-- Section 1: Intro + Quote (NOW A STATIC TWO-PART BLOCK) -->
-                    <!-- Note: max-w-prose is already on the section element wrapping the box -->
                     <section class="my-16 max-w-prose mx-auto">
-                        <!-- UPDATED: STATIC INTRO BLOCK for Salvador -->
+                        <!-- NEW: STATIC INTRO BLOCK for Salvador -->
                         <div class="text-left bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
-                            <!-- Part 1: Main Introduction (lab_oracle_intro_p1 - text-slate-400 for gray) -->
+                            <!-- Part 1: Main Introduction (semibold) -->
                             <div class="text-slate-400 text-lg sm:text-xl leading-relaxed space-y-4 font-semibold" data-key="salvador.lab_oracle_intro_p1">
                                 <!-- Content injected by JS --></div>
-                            <!-- Part 2: Separator and the other two paragraphs (lab_oracle_intro_p2 + territorio_pensa.preview - text-slate-300 for white/light) -->
+                            <!-- Part 2: Separator and the Quote/Context (regular) -->
                             <div class="space-y-6 text-slate-300 text-lg leading-relaxed pt-6 mt-6 border-t border-purple-900/50">
                                 <!-- Paragraph 2 of the intro -->
                                 <div data-key="salvador.lab_oracle_intro_p2"></div>
-                                <!-- The 'Bahia Thinks' preview text (was previously a quote) -->
+                                <!-- The 'Bahia Thinks' preview text -->
                                 <div data-key="salvador.territorio_pensa.preview"></div>
                             </div>
                         </div>
@@ -361,12 +388,13 @@
                     
                     <!-- Divider (kept for visual separation as needed) --><div class="my-16 h-px w-24 bg-gradient-to-r from-deep-ocean/70 to-dende-gold/70 mx-auto"></div>
 
-                    <!-- Section 2: Bahia Pensa (Now contains only the title) -->
-                    <!-- Note: max-w-prose is already on the section element wrapping the box -->
+                    <!-- Section 2: Bahia Pensa (Now contains the title AND the full essay block inside) -->
                     <section class="max-w-prose mx-auto">
-                        <!-- Title (The content that was here is now in the main intro block) --><h3 class="font-space text-3xl font-bold mb-6" style="color: var(--deep-ocean);" data-key="salvador.territorio_pensa.title"></h3>
-                        
-                        <!-- NEW: STATIC FULL ESSAY BLOCK (Previously expandable content) --><div class="text-left bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                        <div class="text-left bg-black/20 p-6 sm:p-8 rounded-lg border border-purple-900/50 scroll-reveal">
+                            <!-- Title moved INSIDE the box -->
+                            <h3 class="font-space text-3xl font-bold mb-4" style="color: var(--deep-ocean);" data-key="salvador.territorio_pensa.title"></h3>
+                            
+                            <!-- NEW: STATIC FULL ESSAY BLOCK (Previously expandable content) -->
                             <div class="space-y-6 text-slate-300 text-lg leading-relaxed" data-key="salvador.territorio_pensa.full_essay">
                                 <!-- Full text injected here -->
                             </div>
