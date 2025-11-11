@@ -158,28 +158,40 @@
                 <!-- END SECTION 3 -->
             </div>
             
-            <!-- MODELS --><div id="models-content" class="content-panel hidden p-8 sm:p-16">
+<!-- MODELS -->
+            <div id="models-content" class="content-panel hidden p-8 sm:p-16">
                  <div class="container mx-auto max-w-5xl">
                     <header class="text-center mb-16">
-                        <!-- This part remains the same --><h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.models"></h1>
-                        <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4" style="color: var(--dende-gold);" data-key="models.subtitle"></h2>
+                        <!-- This part remains the same -->
+                        <h1 class="font-space text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 gradient-text" data-key="nav.models"></h1>
+                        <h2 class="font-space text-2xl sm:text-3xl font-semibold mt-4 max-w-3xl mx-auto text-balance" style="color: var(--dende-gold);" data-key="models.subtitle"></h2>
                         <div class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto space-y-4 mt-8" data-key="models.body"></div>
                     </header>
                     
-                    <!-- This div is now a dynamic container for principles --><div id="models-principles-container" class="grid md:grid-cols-2 gap-8 text-left pt-8 max-w-4xl mx-auto">
-                        <!-- Principles will be injected here by js/app.js --></div>
+                    <!-- This div is now a dynamic container for principles -->
+                    <div id="models-principles-container" class="grid md:grid-cols-2 gap-8 text-left pt-8 max-w-3xl mx-auto">
+                        <!-- Principles will be injected here by js/app.js -->
+                    </div>
 
-                    <!-- This div is now a dynamic container for models/simulations --><div id="models-simulations-container" class="space-y-20 mt-20">
-                        <!-- Models (like "The Onion") will be injected here by js/app.js --></div>
+                    <!-- This div is now a dynamic container for models/simulations -->
+                    <div id="models-simulations-container" class="space-y-20 mt-20">
+                        <!-- Models (like "The Onion") will be injected here by js/app.js -->
+                    </div>
 
-                    <!-- DELETED: Old Lattice Paper Section --><!-- MODIFIED: Papers Section -> Cognitive Architectures --><section id="papers-container" class="mt-20 pt-16 border-t border-purple-900/50">
+                    <!-- MODIFIED: Papers Section -> Cognitive Architectures -->
+                    <section id="papers-container" class="mt-20 pt-16 border-t border-purple-900/50">
                         <header class="text-center mb-16">
-                            <!-- MODIFIED: Title data-key --><h2 class="font-space text-3xl sm:text-4xl font-bold" style="color: var(--dende-gold);" data-key="models.papers_title"></h2>
-                            <!-- NEW: Description paragraph --><p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto text-balance mt-6" data-key="models.papers_desc"></p>
+                            <!-- MODIFIED: Title data-key -->
+                            <h2 class="font-space text-3xl sm:text-4xl font-bold" style="color: var(--dende-gold);" data-key="models.papers_title"></h2>
+                            <!-- NEW: Description paragraph -->
+                            <p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto text-balance mt-6" data-key="models.papers_desc"></p>
                         </header>
                         
-                        <!-- Paper Cards --><div id="papers-card-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                            <!-- Paper 1: Lattice AI --><div class="manuscript-tile flex flex-col justify-between">
+                        <!-- Paper Cards -->
+                        <div id="papers-card-container" class="grid grid-cols-1 gap-12 max-w-3xl mx-auto">
+
+                            <!-- Paper 1: Lattice AI -->
+                            <div class="manuscript-tile flex flex-col justify-between">
                                 <div>
                                     <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="models.papers.0.title"></h3>
                                     <p class="font-space text-lg font-semibold mb-4" style="color: var(--dende-gold);" data-key="models.papers.0.subtitle"></p>
@@ -188,7 +200,8 @@
                                 <button data-src="lattice.html" class="paper-select-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="models.read_paper_btn"></button>
                             </div>
         
-                            <!-- Paper 2: Semantic Proprioception --><div class="manuscript-tile flex flex-col justify-between">
+                            <!-- Paper 2: Semantic Proprioception -->
+                            <div class="manuscript-tile flex flex-col justify-between">
                                 <div>
                                     <h3 class="font-space text-2xl font-bold mt-1 mb-3" style="color: var(--deep-ocean);" data-key="models.papers.1.title"></h3>
                                     <p class="font-space text-lg font-semibold mb-4" style="color: var(--dende-gold);" data-key="models.papers.1.subtitle"></p>
@@ -196,13 +209,32 @@
                                 </div>
                                 <button data-src="proprioception.html" class="paper-select-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="models.read_paper_btn"></button>
                             </div>
-                        </div>
 
-                        <!-- Paper Iframe Viewer --><div id="paper-viewer-container" class="hidden w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20 mt-12" style="height: 100vh;">
+                            <!-- Paper 3: Semiotic Engineering -->
+                            <div class="manuscript-tile flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-space text-2xl font-bold mt-1 mb-3"
+                                        style="color: var(--deep-ocean);"
+                                        data-key="models.papers.2.title"></h3>
+                                    <p class="font-space text-lg font-semibold mb-4"
+                                        style="color: var(--dende-gold);"
+                                        data-key="models.papers.2.subtitle"></p>
+                                    <div class="text-slate-400 space-y-4"
+                                        data-key="models.papers.2.desc"></div>
+                                </div>
+                                <!-- Set this to match your document filename -->
+                                <button data-src="semiotics.html" class="paper-select-btn action-btn font-space self-start text-black font-semibold text-base px-5 py-2 rounded-lg mt-6" style="background-color: var(--deep-ocean);" data-key="models.read_paper_btn"></button>
+                            </div>
+                            
+                        </div> <!-- End of papers-card-container -->
+
+                        <!-- Paper Iframe Viewer -->
+                        <div id="paper-viewer-container" class="hidden w-full rounded-lg shadow-2xl border-2 border-purple-900/50 overflow-hidden bg-black/20 mt-12" style="height: 100vh;">
                             <iframe id="paper-iframe" class="w-full h-full" src="" frameborder="0" title="Visualizador de Artigo"></iframe>
                         </div>
                     </section>
-                    <!-- END NEW Papers Section --></div>
+                    <!-- END NEW Papers Section -->
+                </div>
             </div>
 
             <!-- PROTOTYPES (INSTRUMENTOS) --><div id="prototypes-content" class="content-panel hidden p-8 sm:p-16">
@@ -230,7 +262,7 @@
                             <h3 class="font-space text-3xl font-bold mb-4 text-center" style="color: var(--clay-tone);" data-key="instruments.foundational_heading"></h3>
                             <p class="layer-intro text-slate-400 text-lg max-w-3xl mx-auto text-center text-balance mb-12" data-key="instruments.foundational_intro"></p>
                             
-                            <div id="foundational-instruments-container" class="space-y-12">
+                            <div id="foundational-instruments-container" class="space-y-12 max-w-3xl mx-auto">
                                 <!-- Foundational instruments will be injected here by js/app.js --></div>
                         </div>
 
@@ -238,7 +270,7 @@
                             <h3 class="font-space text-3xl font-bold mb-4 text-center" style="color: var(--deep-ocean);" data-key="instruments.applied_heading"></h3>
                             <p class="layer-intro text-slate-400 text-lg max-w-3xl mx-auto text-center text-balance mb-12" data-key="instruments.applied_intro"></p>
 
-                            <div id="applied-instruments-container" class="space-y-12">
+                            <div id="applied-instruments-container" class="space-y-12 max-w-3xl mx-auto">
                                 <!-- Applied systems will be injected here by js/app.js --></div>
                         </div>
                     </section>
@@ -262,7 +294,7 @@
                         </div>
                     </header>
                     <!-- END NEW HEADER --><!-- DELETED: Old Origin Sections --><!-- NEW: Six Codices Section --><section class="mt-16">
-                        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div class="grid grid-cols-1 gap-12 max-w-3xl mx-auto">
                             
                             <!-- Codex 1 --><div class="manuscript-tile flex flex-col justify-between">
                                 <div>

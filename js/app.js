@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!foundationalContainer || !appliedContainer) return;
 
-        const createInstrumentCard = (instrument) => {
+        const createInstrumentCard = (instrument, isApplied = false) => {
             const details = instrument.details;
             const isExternal = instrument.demo_link && instrument.demo_link.startsWith('http');
             const linkTarget = isExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
@@ -222,19 +222,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 demoButtonText = isExternal ? '→ Acessar' : '→ Ver Demo';
             }
 
-            // Get the keys for the detail labels
-            // Using a fallback text in case keys are not in content.js (though they should be)
-            const purposeLabel = i18nData[lang].instruments?.details_purpose || "Purpose";
-            const whatLabel = i18nData[lang].instruments?.details_what || "What it is";
-            // --- FIX: Changed i18nData[lang].prototypes to i18nData[lang].instruments ---
-            const whyLabel = i18nData[lang].instruments?.details_why || "Why it matters";
-            const useLabel = i18nData[lang].instruments?.details_use_case || "Use Case";
-            // --- END FIX ---
+            // --- THIS IS THE CORRECTED CODE ---
+
+            // 1. Get the single object containing all labels for the current language
+            const labels = i18nData[lang].instruments.detail_labels;
+
+            // 2. Use the keys from that object
+            const purposeLabel = labels.purpose;
+            const whatLabel = labels.what;
+            const whyLabel = labels.why;
+            const useLabel = labels.use;
+
+            // --- END OF FIX ---
 
 
-            const demoButton = instrument.demo_link
-                ? `<a href="${instrument.demo_link}" class="action-btn inline-block font-space font-semibold px-5 py-2 rounded-lg mt-6" ${linkTarget} style="background-color: var(--deep-ocean); color: #050505;">${demoButtonText}</a>`
-                : '';
+            let demoButton = '';
+            if (instrument.demo_link) {
+                if (isApplied) {
+                    // --- BOTÃO DESATIVADO PARA SISTEMAS APLICADOS ---
+                    // Renderiza um <button> desativado com estilo
+                    demoButton = `<button disabled class="action-btn inline-block font-space font-semibold px-5 py-2 rounded-lg mt-6" style="background-color: #555; color: #999; cursor: not-allowed; opacity: 0.7;">${demoButtonText}</button>`;
+                } else {
+                    // --- BOTÃO ATIVO PARA INSTRUMENTOS FUNDACIONAIS ---
+                    // Renderiza o link <a> normal
+                    demoButton = `<a href="${instrument.demo_link}" class="action-btn inline-block font-space font-semibold px-5 py-2 rounded-lg mt-6" ${linkTarget} style="background-color: var(--deep-ocean); color: #050505;">${demoButtonText}</a>`;
+                }
+            }
 
             return `
             <article class="instrument-card p-6 rounded-r-lg scroll-reveal">
@@ -258,8 +271,11 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         };
 
-        foundationalContainer.innerHTML = instrumentsData.foundational.map(createInstrumentCard).join('');
-        appliedContainer.innerHTML = instrumentsData.applied.map(createInstrumentCard).join('');
+        // Passamos 'false' para instrumentos fundacionais (botão ativo)
+        foundationalContainer.innerHTML = instrumentsData.foundational.map(instrument => createInstrumentCard(instrument, false)).join('');
+        
+        // Passamos 'true' para sistemas aplicados (botão desativado)
+        appliedContainer.innerHTML = instrumentsData.applied.map(instrument => createInstrumentCard(instrument, true)).join('');
 
         const newRevealElements = document.querySelectorAll('#prototypes-content .scroll-reveal');
         newRevealElements.forEach(el => {
